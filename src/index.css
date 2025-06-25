@@ -1,0 +1,291 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+
+  --primary: 142 50% 20%;
+  --primary-foreground: 210 40% 98%;
+
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  
+  /* Custom section heading style */
+  .section-heading {
+    @apply text-2xl md:text-3xl lg:text-4xl font-bold text-center text-ndti-800 relative pb-3 md:pb-4 mb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-16 md:after:w-20 after:h-1 after:bg-gradient-to-r after:from-ifnmg-green after:to-ndti-500 after:rounded-full after:transition-all after:duration-300 hover:after:w-20 md:hover:after:w-24 hover:after:bg-ndti-600;
+  }
+  
+  .dark .section-heading {
+    @apply text-ndti-300;
+  }
+  
+  /* Interactive card hover effect */
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-ndti-500/10 hover:border-ndti-500/50 border border-transparent;
+  }
+  
+  /* Improve button component */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  
+  .btn-primary {
+    @apply btn bg-ifnmg-green text-white hover:bg-ifnmg-green/90 focus:ring-ifnmg-green;
+  }
+  
+  /* Course-style content section */
+  .content-section {
+    @apply py-6 sm:py-8 md:py-12 lg:py-16;
+  }
+  
+  .content-heading {
+    @apply text-xl sm:text-2xl md:text-3xl font-semibold text-ndti-800 mb-3 md:mb-4;
+  }
+  
+  .dark .content-heading {
+    @apply text-ndti-300;
+  }
+  
+  .content-paragraph {
+    @apply text-gray-600 leading-relaxed mb-3 md:mb-4 max-w-prose text-sm md:text-base;
+  }
+  
+  .dark .content-paragraph {
+    @apply text-gray-300;
+  }
+  
+  /* New green to yellow gradient text effect */
+  .text-gradient-green-yellow {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-ifnmg-green via-ndti-400 to-yellow-400 transition-all duration-300;
+  }
+  
+  /* Add hover effect for text gradient */
+  .hover\:text-gradient-green-yellow:hover {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-ifnmg-green via-ndti-400 to-yellow-400;
+  }
+}
+
+/* Custom Animations */
+@keyframes floatingUp {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes floatingDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(15px);
+  }
+}
+
+.animate-float-up {
+  animation: floatingUp 5s ease-in-out infinite;
+}
+
+.animate-float-down {
+  animation: floatingDown 5s ease-in-out infinite;
+}
+
+/* Interactive icon animation */
+.icon-interactive {
+  @apply transition-all duration-300 hover:scale-110 hover:text-ifnmg-blue cursor-pointer;
+}
+
+/* Pulsing glow effect */
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px rgba(0, 74, 147, 0.5));
+  }
+  50% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 15px rgba(0, 74, 147, 0.8));
+  }
+}
+
+/* Gradient text effect */
+.text-gradient {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-ndti-500 to-ifnmg-blue;
+}
+
+.dark .text-gradient {
+  @apply from-ndti-300 to-ifnmg-blue;
+}
+
+/* Smooth transition for section links */
+a[href^="#"] {
+  @apply transition-all duration-300;
+}
+
+/* Create a staggered animation for list items */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease-out;
+}
+
+.stagger-item.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Course-like UI components */
+.feature-card {
+  @apply bg-white rounded-lg p-4 sm:p-6 md:p-8 shadow-lg border border-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-ifnmg-blue/20;
+}
+
+.dark .feature-card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.feature-icon {
+  @apply h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-ifnmg-blue mb-3 md:mb-4 transition-all duration-300 group-hover:scale-110;
+}
+
+.feature-title {
+  @apply text-lg sm:text-xl font-semibold mb-2 md:mb-3 text-ndti-800 group-hover:text-ifnmg-blue transition-all duration-300;
+}
+
+.dark .feature-title {
+  @apply text-ndti-300;
+}
+
+.feature-description {
+  @apply text-gray-600 text-sm md:text-base;
+}
+
+.dark .feature-description {
+  @apply text-gray-300;
+}
+
+/* Progress indicator */
+.progress-indicator {
+  @apply fixed z-50 top-0 left-0 h-1 bg-ifnmg-blue;
+  width: 0%;
+  transition: width 0.3s ease-out;
+}
+
+/* Improve image loading */
+img {
+  @apply transition-opacity duration-300;
+}
+
+img.lazy-load {
+  @apply opacity-0;
+}
+
+img.lazy-loaded {
+  @apply opacity-100;
+}
+
+/* Course-style notification */
+.course-notification {
+  @apply fixed bottom-4 right-4 bg-white p-3 sm:p-4 rounded-lg shadow-xl border border-ndti-300 z-40 transform transition-all duration-300 translate-y-0 opacity-100;
+}
+
+.dark .course-notification {
+  @apply bg-gray-800 border-ndti-600;
+}
+
+.course-notification.hidden {
+  @apply translate-y-10 opacity-0;
+}
+
+/* Responsive text adjustments */
+@media (max-width: 640px) {
+  .section-heading {
+    font-size: 1.75rem;
+  }
+  
+  .content-heading {
+    font-size: 1.5rem;
+  }
+}
+
+/* Extra small screen (xs) utility */
+@media (min-width: 475px) {
+  .xs\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
