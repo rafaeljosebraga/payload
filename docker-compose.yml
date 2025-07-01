@@ -1,0 +1,28 @@
+services:
+  frontend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - '8080:80'
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend/site-ndti
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./backend/site-ndti/.env
+    volumes:
+      - ./backend/site-ndti/Payload.db:/app/Payload.db
+      - ./backend/site-ndti/.env:/app/.env
+      - ./backend/site-ndti/media:/app/media
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
