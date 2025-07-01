@@ -20,13 +20,16 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/src ./src
 
+# Copy script de inicialização diretamente (não da build stage)
+COPY init.sh ./
+
 # Copy database and env files
 COPY Payload.db* ./
 COPY .env* ./
-COPY init.sh ./
 
-# Tornar o script executável
-RUN chmod +x init.sh
+# Tornar o script executável e corrigir line endings
+RUN chmod +x ./init.sh && \
+    sed -i 's/\r$//' ./init.sh
 
 EXPOSE 3000
-CMD ["./init.sh"]
+CMD ["sh", "./init.sh"]

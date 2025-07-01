@@ -17,12 +17,16 @@ services:
     env_file:
       - ./backend/site-ndti/.env
     volumes:
-      - ./backend/site-ndti/Payload.db:/app/Payload.db
-      - ./backend/site-ndti/.env:/app/.env
+      - db_data:/app
       - ./backend/site-ndti/media:/app/media
     networks:
       - app-network
+    environment:
+      - NODE_ENV=production
 
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  db_data:
