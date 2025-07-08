@@ -113,7 +113,12 @@ docker info
 
 ### **3. Executando a Aplicação**
 
-**🎯 Comando Principal (Build + Run):**
+**🎯 Comando Recomendado (Build + Run + Background):**
+```bash
+docker-compose up --build -d
+```
+
+**🔄 Primeira Execução ou com Mudanças no Código:**
 ```bash
 docker-compose up --build
 ```
@@ -129,9 +134,11 @@ docker-compose up -d
 ```
 
 **💡 Observação Importante:**
+- Use `docker-compose up --build -d` quando quiser reconstruir e executar em background
 - Se os containers já estiverem rodando, o comando `docker-compose up` apenas se anexará aos logs existentes
 - Isso pode parecer "lento" mas na verdade está apenas mostrando os logs em tempo real
 - Para verificar se está funcionando, acesse http://localhost:8080 e http://localhost:3000
+- O `-d` (detached) executa em background, liberando o terminal para outros comandos
 
 ### **4. Verificando se está Funcionando**
 
@@ -185,7 +192,10 @@ docker-compose down -v
 # Rebuild sem cache
 docker-compose build --no-cache
 
-# Up com rebuild forçado
+# Up com rebuild forçado em background (recomendado)
+docker-compose up --build --force-recreate -d
+
+# Up com rebuild forçado (com logs visíveis)
 docker-compose up --build --force-recreate
 ```
 
@@ -286,16 +296,19 @@ payload/
 ## 🎯 **Resumo dos Comandos Essenciais**
 
 ```bash
-# 1. PRIMEIRA EXECUÇÃO
+# 1. COMANDO RECOMENDADO (Build + Background)
+docker-compose up --build -d
+
+# 2. PRIMEIRA EXECUÇÃO OU MUDANÇAS (com logs visíveis)
 docker-compose up --build
 
-# 2. EXECUÇÕES SUBSEQUENTES  
+# 3. EXECUÇÕES SUBSEQUENTES  
 docker-compose up
 
-# 3. PARAR APLICAÇÃO
+# 4. PARAR APLICAÇÃO
 docker-compose down
 
-# 4. VER STATUS
+# 5. VER STATUS
 docker-compose ps
 
 # 5. VER LOGS
@@ -336,9 +349,10 @@ Quando a aplicação estiver funcionando corretamente, você verá:
 Para contribuir com o projeto:
 
 1. Faça as alterações necessárias
-2. Teste localmente com `docker-compose up --build`
-3. Verifique se ambos os serviços estão funcionando
-4. Faça commit das alterações
+2. Teste localmente com `docker-compose up --build -d`
+3. Verifique se ambos os serviços estão funcionando (`docker-compose ps`)
+4. Verifique os logs se necessário (`docker-compose logs`)
+5. Faça commit das alterações
 
 ---
 
@@ -353,4 +367,4 @@ Se encontrar problemas:
 
 ---
 
-*Última atualização: 27 de junho de 2025*
+*Última atualização: 8 de julho de 2025*
