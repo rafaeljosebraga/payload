@@ -1,0 +1,32 @@
+services:
+  frontend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - '8080:80'
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend/site-ndti
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./backend/site-ndti/.env
+    volumes:
+      - db_data:/app
+      - ./backend/site-ndti/media:/app/media
+    networks:
+      - app-network
+    environment:
+      - NODE_ENV=production
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:

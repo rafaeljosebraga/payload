@@ -71,9 +71,10 @@ export default buildConfig({
   },
   db: sqliteAdapter({
     client: {
-      url: process.env.DATABASE_URL || 'file:./site-ndti.db',
+      url: process.env.DATABASE_URL || 'file:./Payload.db',
     },
   }),
+  // Email desabilitado - emails serão exibidos no console
   cors: [
     'http://localhost:8080',
     'http://localhost:3000',
