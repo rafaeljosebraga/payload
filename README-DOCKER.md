@@ -115,7 +115,8 @@ docker info
 
 **🎯 Comando Recomendado (Build + Run + Background):**
 ```bash
-docker-compose up --build -d
+docker-compose up --build -d (macOS)
+docker compose up --build -d (linux)
 ```
 
 **🔄 Primeira Execução ou com Mudanças no Código:**

@@ -65,3 +65,5 @@ next-env.d.ts
 .env
 
 /media
+node_modules
+backend/site-ndti/.pnpm-store
