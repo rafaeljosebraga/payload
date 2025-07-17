@@ -1,29 +1,23 @@
-# Frontend Dockerfile for Vite + React project
-FROM node:18-alpine AS build
+# Dockerfile para desenvolvimento com hot reload
+FROM node:18-alpine
+
+# Instalar dependências do sistema
+RUN apk add --no-cache git
+
+# Definir diretório de trabalho
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package.json package-lock.json* ./
+# Copiar package.json e package-lock.json
+COPY package*.json ./
+
+# Instalar dependências
 RUN npm install
 
-# Copy source and build
+# Copiar o código fonte
 COPY . .
-RUN npm run build
 
-# Serve built assets with Nginx
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+# Expor a porta
+EXPOSE 8080
 
-# Create a startup script
-RUN echo '#!/bin/sh' > /start.sh && \
-    echo 'echo "   ⚡ Frontend (Vite + React)"' >> /start.sh && \
-    echo 'echo "   - Local:        http://localhost:8080"' >> /start.sh && \
-    echo 'echo "   - Network:      http://0.0.0.0:80"' >> /start.sh && \
-    echo 'echo ""' >> /start.sh && \
-    echo 'echo " ✓ Frontend ready and serving on port 80"' >> /start.sh && \
-    echo 'echo ""' >> /start.sh && \
-    echo 'nginx -g "daemon off;"' >> /start.sh && \
-    chmod +x /start.sh
-
-EXPOSE 80
-CMD ["/start.sh"]
+# Comando para desenvolvimento com hot reload
+CMD ["npm", "run", "dev"]

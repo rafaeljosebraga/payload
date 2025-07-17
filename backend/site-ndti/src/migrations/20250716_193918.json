@@ -1,60 +1,74 @@
 {
-  "version": "6",
-  "dialect": "sqlite",
+  "id": "6723442d-4bb7-4b32-93b4-b9aba6bf06b6",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "users_sessions": {
+    "public.users_sessions": {
       "name": "users_sessions",
+      "schema": "",
       "columns": {
         "_order": {
           "name": "_order",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "_parent_id": {
           "name": "_parent_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "expires_at": {
           "name": "expires_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         }
       },
       "indexes": {
         "users_sessions_order_idx": {
           "name": "users_sessions_order_idx",
           "columns": [
-            "_order"
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "users_sessions_parent_id_idx": {
           "name": "users_sessions_parent_id_idx",
           "columns": [
-            "_parent_id"
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -74,431 +88,483 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "users": {
+    "public.users": {
       "name": "users",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         },
         "created_at": {
           "name": "created_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         },
         "email": {
           "name": "email",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "reset_password_token": {
           "name": "reset_password_token",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "reset_password_expiration": {
           "name": "reset_password_expiration",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "salt": {
           "name": "salt",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "hash": {
           "name": "hash",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "login_attempts": {
           "name": "login_attempts",
           "type": "numeric",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
           "default": 0
         },
         "lock_until": {
           "name": "lock_until",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {
         "users_updated_at_idx": {
           "name": "users_updated_at_idx",
           "columns": [
-            "updated_at"
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "users_created_at_idx": {
           "name": "users_created_at_idx",
           "columns": [
-            "created_at"
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "users_email_idx": {
           "name": "users_email_idx",
           "columns": [
-            "email"
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": true
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "media": {
+    "public.media": {
       "name": "media",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "alt": {
           "name": "alt",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         },
         "created_at": {
           "name": "created_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         },
         "url": {
           "name": "url",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "thumbnail_u_r_l": {
           "name": "thumbnail_u_r_l",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "filename": {
           "name": "filename",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "mime_type": {
           "name": "mime_type",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "filesize": {
           "name": "filesize",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "width": {
           "name": "width",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "height": {
           "name": "height",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "focal_x": {
           "name": "focal_x",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "focal_y": {
           "name": "focal_y",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_thumbnail_url": {
           "name": "sizes_thumbnail_url",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_thumbnail_width": {
           "name": "sizes_thumbnail_width",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_thumbnail_height": {
           "name": "sizes_thumbnail_height",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_thumbnail_mime_type": {
           "name": "sizes_thumbnail_mime_type",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_thumbnail_filesize": {
           "name": "sizes_thumbnail_filesize",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_thumbnail_filename": {
           "name": "sizes_thumbnail_filename",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_card_url": {
           "name": "sizes_card_url",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_card_width": {
           "name": "sizes_card_width",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_card_height": {
           "name": "sizes_card_height",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_card_mime_type": {
           "name": "sizes_card_mime_type",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_card_filesize": {
           "name": "sizes_card_filesize",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_card_filename": {
           "name": "sizes_card_filename",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_tablet_url": {
           "name": "sizes_tablet_url",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_tablet_width": {
           "name": "sizes_tablet_width",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_tablet_height": {
           "name": "sizes_tablet_height",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_tablet_mime_type": {
           "name": "sizes_tablet_mime_type",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_tablet_filesize": {
           "name": "sizes_tablet_filesize",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sizes_tablet_filename": {
           "name": "sizes_tablet_filename",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {
         "media_updated_at_idx": {
           "name": "media_updated_at_idx",
           "columns": [
-            "updated_at"
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "media_created_at_idx": {
           "name": "media_created_at_idx",
           "columns": [
-            "created_at"
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "media_filename_idx": {
           "name": "media_filename_idx",
           "columns": [
-            "filename"
+            {
+              "expression": "filename",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": true
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "media_sizes_thumbnail_sizes_thumbnail_filename_idx": {
           "name": "media_sizes_thumbnail_sizes_thumbnail_filename_idx",
           "columns": [
-            "sizes_thumbnail_filename"
+            {
+              "expression": "sizes_thumbnail_filename",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "media_sizes_card_sizes_card_filename_idx": {
           "name": "media_sizes_card_sizes_card_filename_idx",
           "columns": [
-            "sizes_card_filename"
+            {
+              "expression": "sizes_card_filename",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "media_sizes_tablet_sizes_tablet_filename_idx": {
           "name": "media_sizes_tablet_sizes_tablet_filename_idx",
           "columns": [
-            "sizes_tablet_filename"
+            {
+              "expression": "sizes_tablet_filename",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "news_content": {
+    "public.news_content": {
       "name": "news_content",
+      "schema": "",
       "columns": {
         "_order": {
           "name": "_order",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "_parent_id": {
           "name": "_parent_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "paragraph": {
           "name": "paragraph",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {
         "news_content_order_idx": {
           "name": "news_content_order_idx",
           "columns": [
-            "_order"
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "news_content_parent_id_idx": {
           "name": "news_content_parent_id_idx",
           "columns": [
-            "_parent_id"
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -518,91 +584,111 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "news": {
+    "public.news": {
       "name": "news",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "title": {
           "name": "title",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "description": {
           "name": "description",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "image_id": {
           "name": "image_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "type": {
           "name": "type",
-          "type": "text",
+          "type": "enum_news_type",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "date": {
           "name": "date",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         },
         "created_at": {
           "name": "created_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         }
       },
       "indexes": {
         "news_image_idx": {
           "name": "news_image_idx",
           "columns": [
-            "image_id"
+            {
+              "expression": "image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "news_updated_at_idx": {
           "name": "news_updated_at_idx",
           "columns": [
-            "updated_at"
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "news_created_at_idx": {
           "name": "news_created_at_idx",
           "columns": [
-            "created_at"
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -622,54 +708,69 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "projects_technologies": {
+    "public.projects_technologies": {
       "name": "projects_technologies",
+      "schema": "",
       "columns": {
         "_order": {
           "name": "_order",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "_parent_id": {
           "name": "_parent_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "technology": {
           "name": "technology",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {
         "projects_technologies_order_idx": {
           "name": "projects_technologies_order_idx",
           "columns": [
-            "_order"
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "projects_technologies_parent_id_idx": {
           "name": "projects_technologies_parent_id_idx",
           "columns": [
-            "_parent_id"
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -689,54 +790,69 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "projects_long_description": {
+    "public.projects_long_description": {
       "name": "projects_long_description",
+      "schema": "",
       "columns": {
         "_order": {
           "name": "_order",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "_parent_id": {
           "name": "_parent_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "paragraph": {
           "name": "paragraph",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {
         "projects_long_description_order_idx": {
           "name": "projects_long_description_order_idx",
           "columns": [
-            "_order"
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "projects_long_description_parent_id_idx": {
           "name": "projects_long_description_parent_id_idx",
           "columns": [
-            "_parent_id"
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -756,54 +872,69 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "projects_features": {
+    "public.projects_features": {
       "name": "projects_features",
+      "schema": "",
       "columns": {
         "_order": {
           "name": "_order",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "_parent_id": {
           "name": "_parent_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "feature": {
           "name": "feature",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {
         "projects_features_order_idx": {
           "name": "projects_features_order_idx",
           "columns": [
-            "_order"
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "projects_features_parent_id_idx": {
           "name": "projects_features_parent_id_idx",
           "columns": [
-            "_parent_id"
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -823,54 +954,69 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "projects_team": {
+    "public.projects_team": {
       "name": "projects_team",
+      "schema": "",
       "columns": {
         "_order": {
           "name": "_order",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "_parent_id": {
           "name": "_parent_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "member": {
           "name": "member",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {
         "projects_team_order_idx": {
           "name": "projects_team_order_idx",
           "columns": [
-            "_order"
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "projects_team_parent_id_idx": {
           "name": "projects_team_parent_id_idx",
           "columns": [
-            "_parent_id"
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -890,105 +1036,123 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "projects": {
+    "public.projects": {
       "name": "projects",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "title": {
           "name": "title",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "category": {
           "name": "category",
-          "type": "text",
+          "type": "enum_projects_category",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "image_id": {
           "name": "image_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "description": {
           "name": "description",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "start_date": {
           "name": "start_date",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "status": {
           "name": "status",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "repository": {
           "name": "repository",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         },
         "created_at": {
           "name": "created_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         }
       },
       "indexes": {
         "projects_image_idx": {
           "name": "projects_image_idx",
           "columns": [
-            "image_id"
+            {
+              "expression": "image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "projects_updated_at_idx": {
           "name": "projects_updated_at_idx",
           "columns": [
-            "updated_at"
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "projects_created_at_idx": {
           "name": "projects_created_at_idx",
           "columns": [
-            "created_at"
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -1008,54 +1172,69 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "team_skills": {
+    "public.team_skills": {
       "name": "team_skills",
+      "schema": "",
       "columns": {
         "_order": {
           "name": "_order",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "_parent_id": {
           "name": "_parent_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "skill": {
           "name": "skill",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {
         "team_skills_order_idx": {
           "name": "team_skills_order_idx",
           "columns": [
-            "_order"
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "team_skills_parent_id_idx": {
           "name": "team_skills_parent_id_idx",
           "columns": [
-            "_parent_id"
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -1075,80 +1254,73 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "team": {
+    "public.team": {
       "name": "team",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "name": {
           "name": "name",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "role": {
           "name": "role",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "description": {
           "name": "description",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "image_id": {
           "name": "image_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "email": {
           "name": "email",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "linkedin": {
           "name": "linkedin",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "github": {
           "name": "github",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "lattes": {
           "name": "lattes",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "is_active": {
           "name": "is_active",
-          "type": "integer",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
           "default": true
         },
         "order": {
@@ -1156,47 +1328,68 @@
           "type": "numeric",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
           "default": 0
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         },
         "created_at": {
           "name": "created_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         }
       },
       "indexes": {
         "team_image_idx": {
           "name": "team_image_idx",
           "columns": [
-            "image_id"
+            {
+              "expression": "image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "team_updated_at_idx": {
           "name": "team_updated_at_idx",
           "columns": [
-            "updated_at"
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "team_created_at_idx": {
           "name": "team_created_at_idx",
           "columns": [
-            "created_at"
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -1216,193 +1409,274 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "payload_locked_documents": {
+    "public.payload_locked_documents": {
       "name": "payload_locked_documents",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "global_slug": {
           "name": "global_slug",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         },
         "created_at": {
           "name": "created_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         }
       },
       "indexes": {
         "payload_locked_documents_global_slug_idx": {
           "name": "payload_locked_documents_global_slug_idx",
           "columns": [
-            "global_slug"
+            {
+              "expression": "global_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_locked_documents_updated_at_idx": {
           "name": "payload_locked_documents_updated_at_idx",
           "columns": [
-            "updated_at"
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_locked_documents_created_at_idx": {
           "name": "payload_locked_documents_created_at_idx",
           "columns": [
-            "created_at"
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "payload_locked_documents_rels": {
+    "public.payload_locked_documents_rels": {
       "name": "payload_locked_documents_rels",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "order": {
           "name": "order",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "parent_id": {
           "name": "parent_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "path": {
           "name": "path",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "users_id": {
           "name": "users_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "media_id": {
           "name": "media_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "news_id": {
           "name": "news_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "projects_id": {
           "name": "projects_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "team_id": {
           "name": "team_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {
         "payload_locked_documents_rels_order_idx": {
           "name": "payload_locked_documents_rels_order_idx",
           "columns": [
-            "order"
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_locked_documents_rels_parent_idx": {
           "name": "payload_locked_documents_rels_parent_idx",
           "columns": [
-            "parent_id"
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_locked_documents_rels_path_idx": {
           "name": "payload_locked_documents_rels_path_idx",
           "columns": [
-            "path"
+            {
+              "expression": "path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_locked_documents_rels_users_id_idx": {
           "name": "payload_locked_documents_rels_users_id_idx",
           "columns": [
-            "users_id"
+            {
+              "expression": "users_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_locked_documents_rels_media_id_idx": {
           "name": "payload_locked_documents_rels_media_id_idx",
           "columns": [
-            "media_id"
+            {
+              "expression": "media_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_locked_documents_rels_news_id_idx": {
           "name": "payload_locked_documents_rels_news_id_idx",
           "columns": [
-            "news_id"
+            {
+              "expression": "news_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_locked_documents_rels_projects_id_idx": {
           "name": "payload_locked_documents_rels_projects_id_idx",
           "columns": [
-            "projects_id"
+            {
+              "expression": "projects_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_locked_documents_rels_team_id_idx": {
           "name": "payload_locked_documents_rels_team_id_idx",
           "columns": [
-            "team_id"
+            {
+              "expression": "team_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -1487,144 +1761,196 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "payload_preferences": {
+    "public.payload_preferences": {
       "name": "payload_preferences",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "key": {
           "name": "key",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "value": {
           "name": "value",
-          "type": "text",
+          "type": "jsonb",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         },
         "created_at": {
           "name": "created_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         }
       },
       "indexes": {
         "payload_preferences_key_idx": {
           "name": "payload_preferences_key_idx",
           "columns": [
-            "key"
+            {
+              "expression": "key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_preferences_updated_at_idx": {
           "name": "payload_preferences_updated_at_idx",
           "columns": [
-            "updated_at"
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_preferences_created_at_idx": {
           "name": "payload_preferences_created_at_idx",
           "columns": [
-            "created_at"
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "payload_preferences_rels": {
+    "public.payload_preferences_rels": {
       "name": "payload_preferences_rels",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "order": {
           "name": "order",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "parent_id": {
           "name": "parent_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "path": {
           "name": "path",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "users_id": {
           "name": "users_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {
         "payload_preferences_rels_order_idx": {
           "name": "payload_preferences_rels_order_idx",
           "columns": [
-            "order"
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_preferences_rels_parent_idx": {
           "name": "payload_preferences_rels_parent_idx",
           "columns": [
-            "parent_id"
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_preferences_rels_path_idx": {
           "name": "payload_preferences_rels_path_idx",
           "columns": [
-            "path"
+            {
+              "expression": "path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_preferences_rels_users_id_idx": {
           "name": "payload_preferences_rels_users_id_idx",
           "columns": [
-            "users_id"
+            {
+              "expression": "users_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -1657,80 +1983,116 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "payload_migrations": {
+    "public.payload_migrations": {
       "name": "payload_migrations",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "name": {
           "name": "name",
-          "type": "text",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "batch": {
           "name": "batch",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         },
         "created_at": {
           "name": "created_at",
-          "type": "text",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+          "default": "now()"
         }
       },
       "indexes": {
         "payload_migrations_updated_at_idx": {
           "name": "payload_migrations_updated_at_idx",
           "columns": [
-            "updated_at"
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "payload_migrations_created_at_idx": {
           "name": "payload_migrations_created_at_idx",
           "columns": [
-            "created_at"
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     }
   },
+  "enums": {
+    "public.enum_news_type": {
+      "name": "enum_news_type",
+      "schema": "public",
+      "values": [
+        "edital",
+        "evento",
+        "projeto"
+      ]
+    },
+    "public.enum_projects_category": {
+      "name": "enum_projects_category",
+      "schema": "public",
+      "values": [
+        "Desenvolvimento Web",
+        "Aplicativo Móvel",
+        "Plataforma Web",
+        "IoT & Software"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
   "views": {},
-  "enums": {},
   "_meta": {
+    "schemas": {},
     "tables": {},
     "columns": {}
-  },
-  "internal": {
-    "indexes": {}
-  },
-  "id": "b8a0dfdc-16e9-47da-b322-f6f29937d99d",
-  "prevId": "00000000-0000-0000-0000-000000000000"
+  }
 }

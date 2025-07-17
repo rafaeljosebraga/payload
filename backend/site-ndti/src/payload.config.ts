@@ -38,7 +38,7 @@
 //   ],
 // })
 import { buildConfig } from 'payload'
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { Users } from './collections/Users'
@@ -69,9 +69,9 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URL || 'file:./Payload.db',
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URI || 'postgresql://payload:payload123@postgres:5432/payload',
     },
   }),
   // Email desabilitado - emails serão exibidos no console
