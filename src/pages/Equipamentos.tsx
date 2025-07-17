@@ -13,7 +13,7 @@ const Equipamentos: React.FC = () => {
   const equipments = [
     {
       id: "EQ001",
-      name: "Monitor Dell P2419H",
+      name: "Monitor Dell P2419Hmillhios",
       category: "Monitores",
       description: "Monitor LED IPS 24 polegadas Full HD"
     },

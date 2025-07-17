@@ -1,18 +1,25 @@
 #!/bin/sh
 
-# Script de inicialização para garantir que o banco esteja sincronizado
-echo "Verificando banco de dados..."
+# Script de inicialização para PostgreSQL
+echo "Verificando conexão com PostgreSQL..."
 
-# Se o banco não existir ou estiver vazio, executa as migrações
-if [ ! -f "Payload.db" ] || [ ! -s "Payload.db" ]; then
-    echo "Banco não encontrado ou vazio, executando migrações..."
-    npx payload migrate
-fi
+# Aguardar PostgreSQL estar disponível
+echo "Aguardando PostgreSQL estar disponível..."
+until nc -z postgres 5432; do
+  echo "PostgreSQL não está pronto - aguardando..."
+  sleep 2
+done
 
-# Gera os tipos sempre para garantir sincronia
+echo "PostgreSQL está disponível!"
+
+# Executar migrações
+echo "Executando migrações do Payload..."
+npx payload migrate
+
+# Gerar tipos
 echo "Gerando tipos do Payload..."
 npm run generate:types
 
-# Inicia a aplicação
+# Iniciar aplicação
 echo "Iniciando aplicação..."
 npm start
