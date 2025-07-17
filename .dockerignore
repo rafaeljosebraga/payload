@@ -1,112 +1,12 @@
-# Dependencies
 node_modules
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-bun-debug.log*
-
-# Build outputs
-dist
-build
-out
-
-# Environment files (manter .env para build se necessário)
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# OS files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Editor files
-.vscode
-.idea
-*.swp
-*.swo
-*~
-.vim
-.emacs*
-
-# Version control
 .git
 .gitignore
-.gitattributes
-
-# Documentation
 README.md
-README-*.md
-CHANGELOG.md
-LICENSE
-*.md
-
-# Test and coverage
-coverage
+.env
 .nyc_output
-.jest
-test-results
-tests
-__tests__
-*.test.*
-*.spec.*
-
-# Logs
+coverage
+.DS_Store
 *.log
-logs
-
-# Temporary files
-*.tmp
-*.temp
-.cache
-.parcel-cache
-
-# Archives
-*.tgz
-*.tar.gz
-*.zip
-*.rar
-
-# Docker files (não precisam ir para dentro da imagem)
-Dockerfile
-.dockerignore
-docker-compose.yml
-docker-compose.*.yml
-
-# CI/CD
-.github
-.gitlab-ci.yml
-.travis.yml
-.circleci
-
-# Package manager lock files 
-# package-lock.json - MANTER (necessário para builds consistentes)
-yarn.lock
-pnpm-lock.yaml
-bun.lockb
-
-# TypeScript
-*.tsbuildinfo
-
-# ESLint
-.eslintcache
-
-# Backend directory (tem seu próprio .dockerignore)
-backend/
-
-# Vite specific
-.vite
-
-# React specific
-.react
-
-# Excluir arquivos de desenvolvimento/configuração não essenciais
-eslint.config.js
-components.json
-CORRECOES-REALIZADAS.md
+dist
+.next
+.vscode
