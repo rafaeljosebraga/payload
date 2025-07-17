@@ -1,32 +1,63 @@
 services:
-  frontend:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: payload
+      POSTGRES_USER: payload
+      POSTGRES_PASSWORD: payload123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U payload -d payload"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Site Frontend (Vite + React)
+  site:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
     ports:
-      - '8080:80'
-    networks:
-      - app-network
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    stdin_open: true
+    tty: true
 
-  backend:
+  # Payload CMS Backend
+  payload:
     build:
       context: ./backend/site-ndti
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
-    env_file:
-      - ./backend/site-ndti/.env
+      - "3000:3000"
     volumes:
-      - db_data:/app
-      - ./backend/site-ndti/media:/app/media
-    networks:
-      - app-network
+      - ./backend/site-ndti:/app
+      - payload_node_modules:/app/node_modules
     environment:
-      - NODE_ENV=production
-
-networks:
-  app-network:
-    driver: bridge
+      - NODE_ENV=development
+    command: npm run dev
+    stdin_open: true
+    tty: true
+    depends_on:
+      postgres:
+        condition: service_healthy
+      site:
+        condition: service_started
 
 volumes:
-  db_data:
+  payload_node_modules:
+  postgres_data:
+
+networks:
+  default:
+    driver: bridge
