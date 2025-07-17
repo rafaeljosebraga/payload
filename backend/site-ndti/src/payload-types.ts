@@ -72,6 +72,7 @@ export interface Config {
     news: News;
     projects: Project;
     team: Team;
+    equipment: Equipment;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -83,6 +84,7 @@ export interface Config {
     news: NewsSelect<false> | NewsSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     team: TeamSelect<false> | TeamSelect<true>;
+    equipment: EquipmentSelect<false> | EquipmentSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -284,6 +286,41 @@ export interface Team {
   createdAt: string;
 }
 /**
+ * Gerencie os equipamentos do NDTI
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "equipment".
+ */
+export interface Equipment {
+  id: number;
+  /**
+   * Nome do equipamento
+   */
+  name: string;
+  /**
+   * Marca do equipamento
+   */
+  brand: string;
+  /**
+   * Modelo do equipamento
+   */
+  model: string;
+  /**
+   * Ano em que o equipamento foi adquirido
+   */
+  acquisitionYear: number;
+  /**
+   * Código único de identificação do equipamento
+   */
+  code: string;
+  /**
+   * Status atual do equipamento
+   */
+  status: 'available' | 'maintenance' | 'unavailable' | 'out_of_order';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
@@ -309,6 +346,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'team';
         value: number | Team;
+      } | null)
+    | ({
+        relationTo: 'equipment';
+        value: number | Equipment;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -505,6 +546,20 @@ export interface TeamSelect<T extends boolean = true> {
       };
   isActive?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "equipment_select".
+ */
+export interface EquipmentSelect<T extends boolean = true> {
+  name?: T;
+  brand?: T;
+  model?: T;
+  acquisitionYear?: T;
+  code?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
