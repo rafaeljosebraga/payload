@@ -49,6 +49,19 @@ export interface TeamMember {
   order: number
 }
 
+export type Equipment = {
+  id: string
+  name: string
+  brand: string
+  model: string
+  acquisitionYear: number
+  code: string
+  status: 'available' | 'maintenance' | 'unavailable' | 'out_of_order'
+  createdAt: string
+  updatedAt: string
+}
+
+
 export async function getNews(): Promise<NewsItem[]> {
   try {
     const response = await fetch(`${PAYLOAD_API_URL}/news`)
@@ -179,5 +192,19 @@ export async function getTeamMemberById(id: string): Promise<TeamMember | null> 
   } catch (error) {
     console.error('Erro ao buscar membro da equipe:', error)
     return null
+  }
+}
+
+export async function getEquipments(): Promise<Equipment[]> {
+  try {
+    const response = await fetch(`${PAYLOAD_API_URL}/equipment?limit=100`)
+
+    if (!response.ok) return []
+
+    const data = await response.json()
+    return data.docs as Equipment[]
+  } catch (error) {
+    console.error('Erro ao buscar equipamentos:', error)
+    return []
   }
 }
