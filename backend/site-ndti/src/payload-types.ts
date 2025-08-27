@@ -73,6 +73,7 @@ export interface Config {
     projects: Project;
     team: Team;
     equipment: Equipment;
+    'site-images': SiteImage;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -85,6 +86,7 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     team: TeamSelect<false> | TeamSelect<true>;
     equipment: EquipmentSelect<false> | EquipmentSelect<true>;
+    'site-images': SiteImagesSelect<false> | SiteImagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -322,6 +324,18 @@ export interface Equipment {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-images".
+ */
+export interface SiteImage {
+  id: number;
+  slug: string;
+  description?: string | null;
+  image: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -350,6 +364,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'equipment';
         value: number | Equipment;
+      } | null)
+    | ({
+        relationTo: 'site-images';
+        value: number | SiteImage;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -560,6 +578,17 @@ export interface EquipmentSelect<T extends boolean = true> {
   acquisitionYear?: T;
   code?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-images_select".
+ */
+export interface SiteImagesSelect<T extends boolean = true> {
+  slug?: T;
+  description?: T;
+  image?: T;
   updatedAt?: T;
   createdAt?: T;
 }

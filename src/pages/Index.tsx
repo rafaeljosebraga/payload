@@ -9,6 +9,7 @@ import ProjectsSection from '@/components/ProjectsSection';
 import TeamSection from '@/components/TeamSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
+import { getSiteImage } from '@/lib/payload';
 
 const Index = () => {
   // Controlar o progresso de rolagem para o indicador de progresso
@@ -21,6 +22,14 @@ const Index = () => {
   const [projectsRef, projectsInView] = useInView({ threshold: 0.3, rootMargin: "-100px 0px" });
   const [teamRef, teamInView] = useInView({ threshold: 0.3, rootMargin: "-100px 0px" });
   const [contactRef, contactInView] = useInView({ threshold: 0.3, rootMargin: "-100px 0px" });
+
+  // Constante de imagem para o HeroSection
+
+  const [headerImage, setHeaderImage] = useState<{ url: string; alt: string } | null>(null)
+
+  useEffect(() => {
+    getSiteImage("demonstraCao").then(setHeaderImage)
+  }, [])
 
   // Atualizar seção ativa com base em qual seção está em visualização
   useEffect(() => {
@@ -90,7 +99,7 @@ const Index = () => {
       <NavBar />
       <main>
         <div ref={heroRef}>
-          <HeroSection />
+          <HeroSection imgSrc = {headerImage.url}/>
         </div>
         <div ref={newsRef}>
           <NewsCarouselSection />
