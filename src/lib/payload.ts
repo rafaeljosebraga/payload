@@ -179,7 +179,6 @@ export async function getTeamMemberById(id: string): Promise<TeamMember | null> 
     if (!response.ok) return null
     
     const teamMember = await response.json()
-    
     // Transformar URL relativa em absoluta
     if (teamMember.image?.url?.startsWith('/')) {
       teamMember.image = {
@@ -198,59 +197,12 @@ export async function getTeamMemberById(id: string): Promise<TeamMember | null> 
 export async function getEquipments(): Promise<Equipment[]> {
   try {
     const response = await fetch(`${PAYLOAD_API_URL}/equipment?limit=100`)
-
     if (!response.ok) return []
-
     const data = await response.json()
     return data.docs as Equipment[]
   } catch (error) {
     console.error('Erro ao buscar equipamentos:', error)
     return []
-  }
-}
-
-export async function getHeaderImage(): Promise<{ url: string; alt: string } | null> {
-  try {
-    const response = await fetch(`${PAYLOAD_API_URL}/header?limit=1`)
-    if (!response.ok) return null
-
-    const data = await response.json()
-    const headerImage = data.docs?.[0]?.image
-
-    if (!headerImage) return null
-
-    return {
-      url: headerImage.url?.startsWith('/')
-        ? `http://localhost:3000${headerImage.url}`
-        : headerImage.url,
-      alt: headerImage.alt || 'Header image'
-    }
-  } catch (error) {
-    console.error('Erro ao buscar imagem de header:', error)
-    return null
-  }
-}
-
-export async function getHeaderImageBySlug(
-  slug = "home-header"
-): Promise<{ url: string; alt: string } | null> {
-  try {
-    const response = await fetch(`${PAYLOAD_API_URL}/header?where[slug][equals]=${slug}`)
-    if (!response.ok) return null
-
-    const data = await response.json()
-    const headerImage = data.docs?.[0]?.image
-if (!headerImage) return null
-
-    return {
-      url: headerImage.url?.startsWith('/')
-        ? `http://localhost:3000${headerImage.url}`
-        : headerImage.url,
-      alt: headerImage.alt || "Header image"
-    }
-  } catch (error) {
-    console.error("Erro ao buscar imagem de header:", error)
-    return null
   }
 }
 
