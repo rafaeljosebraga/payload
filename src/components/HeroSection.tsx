@@ -52,7 +52,7 @@ const HeroSection: React.FC = (imgSrc) => {
               <div className="relative bg-ndti-900/50 backdrop-blur-sm p-2 sm:p-4 rounded-lg shadow-2xl border border-white/10">
                 <AspectRatio ratio={16/10} className="overflow-hidden rounded-lg">
                   <img 
-                    src={imgSrc}
+                    src={imgSrc.imgSrc}
                     alt="Inovação Tecnológica" 
                     className="rounded-lg w-full h-full object-cover transform transition-transform hover:scale-105 duration-500 ease-in-out"
                     loading="lazy"

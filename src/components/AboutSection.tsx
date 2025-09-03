@@ -4,7 +4,7 @@ import { Lightbulb, BookOpen, Users, Library } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import { cn } from '@/lib/utils';
 
-const AboutSection: React.FC = () => {
+const AboutSection: React.FC = (imgSrc) => {
   // Usando useInView para animações baseadas na visualização do usuário
   const { ref: textRef, inView: textInView } = useInView({
     threshold: 0.3,
@@ -71,7 +71,7 @@ const AboutSection: React.FC = () => {
                 <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-ndti-700 to-ifnmg-blue opacity-75 blur"></div>
                 <div className="relative bg-white p-2 sm:p-4 rounded-lg shadow-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
+                    src={imgSrc.imgSrc}
                     alt="Equipe NDTI trabalhando" 
                     className="rounded-lg"
                     loading="lazy"
