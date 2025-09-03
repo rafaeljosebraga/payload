@@ -9,6 +9,9 @@ export const SiteImages: CollectionConfig = {
   admin: {
     useAsTitle: "slug", // mostra o slug como título na UI
   },
+  access: {
+    read: () => true,
+  },
   fields: [
     {
       name: "slug",
