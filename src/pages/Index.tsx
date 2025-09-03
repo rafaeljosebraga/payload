@@ -22,14 +22,20 @@ const Index = () => {
   const [projectsRef, projectsInView] = useInView({ threshold: 0.3, rootMargin: "-100px 0px" });
   const [teamRef, teamInView] = useInView({ threshold: 0.3, rootMargin: "-100px 0px" });
   const [contactRef, contactInView] = useInView({ threshold: 0.3, rootMargin: "-100px 0px" });
-
+  const [carregado, setCarregado] = useState(false);
   // Constante de imagem para o HeroSection
 
   const [headerImage, setHeaderImage] = useState<{ url: string; alt: string } | null>(null)
-
+  const [PeopleImage, setPeopleImage] = useState<{ url: string; alt: string } | null>(null)
   useEffect(() => {
-    getSiteImage("demonstraCao").then(setHeaderImage)
-  }, [])
+    getSiteImage("demonstraCao").then(img => {
+      setHeaderImage(img);
+    });
+    getSiteImage("jerico").then(img => {
+      setPeopleImage(img);
+      setCarregado(true);
+    });
+  }, []);
 
   // Atualizar seção ativa com base em qual seção está em visualização
   useEffect(() => {
@@ -87,7 +93,15 @@ const Index = () => {
       });
     }
   }, []);
-
+  useEffect(() => {
+      if (headerImage?.url) {
+        const img = new Image();
+        img.src = headerImage.url;
+        img.onload = () => {
+          setCarregado(true);
+        };
+      }
+    }, [headerImage]);
   return (
     <div className="min-h-screen flex flex-col">
       {/* Indicador de progresso */}
@@ -99,13 +113,17 @@ const Index = () => {
       <NavBar />
       <main>
         <div ref={heroRef}>
-          <HeroSection imgSrc = {headerImage.url}/>
+          {carregado && ( 
+          <HeroSection imgSrc = {headerImage?.url}/>
+          )}
         </div>
         <div ref={newsRef}>
           <NewsCarouselSection />
         </div>
         <div ref={aboutRef}>
-          <AboutSection />
+          {carregado && ( 
+          <AboutSection imgSrc = {PeopleImage?.url}/>
+          )}
         </div>
         <div ref={projectsRef}>
           <ProjectsSection />
