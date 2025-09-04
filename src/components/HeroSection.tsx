@@ -3,7 +3,11 @@ import React from 'react';
 import { ArrowRight, Sparkles, Zap, Globe } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 
-const HeroSection: React.FC = (imgSrc) => {
+interface HeroSectionProps {
+  imgSrc?: string;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ imgSrc }) => {
   return (
     <section id="hero" className="relative pt-20 sm:pt-24 md:pt-32 lg:pt-40 pb-40 md:pb-56 overflow-hidden bg-gradient-to-br from-ndti-950 via-ndti-900 to-ndti-800">
       {/* Elementos decorativos */}
@@ -52,7 +56,7 @@ const HeroSection: React.FC = (imgSrc) => {
               <div className="relative bg-ndti-900/50 backdrop-blur-sm p-2 sm:p-4 rounded-lg shadow-2xl border border-white/10">
                 <AspectRatio ratio={16/10} className="overflow-hidden rounded-lg">
                   <img 
-                    src={imgSrc.imgSrc}
+                    src={imgSrc}
                     alt="Inovação Tecnológica" 
                     className="rounded-lg w-full h-full object-cover transform transition-transform hover:scale-105 duration-500 ease-in-out"
                     loading="lazy"
