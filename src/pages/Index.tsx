@@ -28,10 +28,10 @@ const Index = () => {
   const [headerImage, setHeaderImage] = useState<{ url: string; alt: string } | null>(null)
   const [PeopleImage, setPeopleImage] = useState<{ url: string; alt: string } | null>(null)
   useEffect(() => {
-    getSiteImage("demonstraCao").then(img => {
+    getSiteImage("capa").then(img => {
       setHeaderImage(img);
     });
-    getSiteImage("jerico").then(img => {
+    getSiteImage("contra-capa").then(img => {
       setPeopleImage(img);
       setCarregado(true);
     });

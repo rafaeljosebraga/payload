@@ -15,10 +15,20 @@ export const SiteImages: CollectionConfig = {
   fields: [
     {
       name: "slug",
-      type: "text",
+      type: "select",
       required: true,
       unique: true,
       label: "Identificador",
+      options: [
+        {
+          label: "Capa",
+          value: "capa",
+        },
+        {
+          label: "Contra Capa",
+          value: "contra-capa",
+        },
+      ],
     },
     {
       name: "description",

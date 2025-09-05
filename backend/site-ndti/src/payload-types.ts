@@ -328,7 +328,7 @@ export interface Equipment {
  */
 export interface SiteImage {
   id: number;
-  slug: string;
+  slug: 'capa' | 'contra-capa';
   description?: string | null;
   image: number | Media;
   updatedAt: string;
