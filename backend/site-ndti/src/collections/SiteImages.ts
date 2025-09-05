@@ -1,10 +1,10 @@
-import { CollectionConfig } from "payload"
+import { CollectionConfig } from "payload/types"
 
 export const SiteImages: CollectionConfig = {
   slug: "site-images",
   labels: {
-    singular: "Site Image",
-    plural: "Site Images",
+    singular: "Imagem do Site",
+    plural: "Imagens do Site",
   },
   admin: {
     useAsTitle: "slug", // mostra o slug como título na UI
@@ -18,16 +18,19 @@ export const SiteImages: CollectionConfig = {
       type: "text",
       required: true,
       unique: true,
+      label: "Identificador",
     },
     {
       name: "description",
       type: "textarea",
+      label: "Descrição",
     },
     {
       name: "image",
       type: "upload",
       relationTo: "media",
       required: true,
+      label: "Imagem",
     },
   ],
 }
