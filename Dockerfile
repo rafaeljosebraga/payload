@@ -1,5 +1,5 @@
 # Dockerfile para desenvolvimento com hot reload
-FROM node:18-alpine
+FROM node:22-alpine
 
 # Instalar dependências do sistema
 RUN apk add --no-cache git
@@ -7,10 +7,10 @@ RUN apk add --no-cache git
 # Definir diretório de trabalho
 WORKDIR /app
 
-# Copiar package.json e package-lock.json
-COPY package*.json ./
+# Copiar package.json
+COPY package.json ./
 
-# Instalar dependências
+# Instalar dependências com npm (vai gerar package-lock.json)
 RUN npm install
 
 # Copiar o código fonte
