@@ -10,6 +10,13 @@ export const News: CollectionConfig = {
     defaultColumns: ['title', 'type', 'date', 'updatedAt'],
     description: 'Gerencie as notícias e comunicados do NDTI',
     useAsTitle: 'title',
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          '/components/BackButton#BackButton'
+        ]
+      }
+    }
   },
   access: {
     read: () => true,

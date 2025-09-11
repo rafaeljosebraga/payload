@@ -10,6 +10,13 @@ export const Equipment: CollectionConfig = {
     defaultColumns: ['name', 'brand', 'model', 'status', 'updatedAt'],
     description: 'Gerencie os equipamentos do NDTI',
     useAsTitle: 'name',
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          '/components/BackButton#BackButton'
+        ]
+      }
+    }
   },
   access: {
     read: () => true,

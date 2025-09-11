@@ -12,6 +12,13 @@ export const Team: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     description: 'Gerencie os membros da equipe do NDTI',
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          '/components/BackButton#BackButton'
+        ]
+      }
+    }
   },
   fields: [
     {

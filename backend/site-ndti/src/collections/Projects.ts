@@ -10,6 +10,13 @@ export const Projects: CollectionConfig = {
     defaultColumns: ['title', 'category', 'status', 'updatedAt'],
     description: 'Gerencie os projetos desenvolvidos pelo NDTI',
     useAsTitle: 'title',
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          '/components/BackButton#BackButton'
+        ]
+      }
+    }
   },
   access: {
     read: () => true,

@@ -8,6 +8,13 @@ export const SiteImages: CollectionConfig = {
   },
   admin: {
     useAsTitle: "slug", // mostra o slug como título na UI
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          '/components/BackButton#BackButton'
+        ]
+      }
+    }
   },
   access: {
     read: () => true,

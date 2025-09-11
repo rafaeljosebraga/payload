@@ -9,6 +9,13 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
     description: 'Gerencie os usuários do sistema',
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          '/components/BackButton#BackButton'
+        ]
+      }
+    }
   },
   auth: true,
   fields: [

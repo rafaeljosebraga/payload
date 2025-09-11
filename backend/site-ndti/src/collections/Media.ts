@@ -13,6 +13,13 @@ export const Media: CollectionConfig = {
   },
   admin: {
     description: 'Gerencie arquivos de mídia (imagens, documentos, etc.)',
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          '/components/BackButton#BackButton'
+        ]
+      }
+    }
   },
   access: {
     read: () => true,
