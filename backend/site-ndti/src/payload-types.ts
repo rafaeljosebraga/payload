@@ -205,30 +205,15 @@ export interface Media {
 export interface News {
   id: number;
   title: string;
-  /**
-   * Resumo que aparecerá na listagem de notícias
-   */
   description: string;
-  /**
-   * Adicione parágrafos de conteúdo para a notícia
-   */
   content?:
     | {
         paragraph?: string | null;
         id?: string | null;
       }[]
     | null;
-  /**
-   * Imagem principal da notícia
-   */
   image: number | Media;
-  /**
-   * Categoria da notícia
-   */
   type: 'edital' | 'evento' | 'projeto';
-  /**
-   * Data de publicação da notícia
-   */
   date: string;
   updatedAt: string;
   createdAt: string;
