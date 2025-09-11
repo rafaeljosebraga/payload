@@ -46,7 +46,9 @@ services:
       - payload_node_modules:/app/node_modules
     environment:
       - NODE_ENV=development
-    command: npm run dev
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: npm run dev:docker
     stdin_open: true
     tty: true
     depends_on:
