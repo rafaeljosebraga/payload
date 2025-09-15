@@ -7,7 +7,7 @@ export const Projects: CollectionConfig = {
     plural: 'Projetos',
   },
   admin: {
-    defaultColumns: ['title', 'category', 'status', 'updatedAt'],
+    defaultColumns: ['title', 'category', 'status', 'startDate', 'updatedAt'],
     description: 'Gerencie os projetos desenvolvidos pelo NDTI',
     useAsTitle: 'title',
     components: {
@@ -91,7 +91,7 @@ export const Projects: CollectionConfig = {
     },
     {
       name: 'startDate',
-      type: 'text',
+      type: 'date',
       required: true,
       label: 'Data de Início',
     },

@@ -29,6 +29,13 @@ export const enum_projects_category = pgEnum('enum_projects_category', [
   'Plataforma Web',
   'IoT & Software',
 ])
+export const enum_equipment_status = pgEnum('enum_equipment_status', [
+  'available',
+  'maintenance',
+  'unavailable',
+  'out_of_order',
+])
+export const enum_site_images_slug = pgEnum('enum_site_images_slug', ['capa', 'contra-capa'])
 
 export const users_sessions = pgTable(
   'users_sessions',
@@ -272,7 +279,11 @@ export const projects = pgTable(
         onDelete: 'set null',
       }),
     description: varchar('description').notNull(),
-    startDate: varchar('start_date').notNull(),
+    startDate: timestamp('start_date', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }).notNull(),
     status: varchar('status').notNull(),
     repository: varchar('repository'),
     updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
@@ -340,6 +351,56 @@ export const team = pgTable(
   }),
 )
 
+export const equipment = pgTable(
+  'equipment',
+  {
+    id: serial('id').primaryKey(),
+    name: varchar('name').notNull(),
+    brand: varchar('brand').notNull(),
+    model: varchar('model').notNull(),
+    acquisitionYear: numeric('acquisition_year').notNull(),
+    code: varchar('code').notNull(),
+    status: enum_equipment_status('status').notNull().default('available'),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+  },
+  (columns) => ({
+    equipment_code_idx: uniqueIndex('equipment_code_idx').on(columns.code),
+    equipment_updated_at_idx: index('equipment_updated_at_idx').on(columns.updatedAt),
+    equipment_created_at_idx: index('equipment_created_at_idx').on(columns.createdAt),
+  }),
+)
+
+export const site_images = pgTable(
+  'site_images',
+  {
+    id: serial('id').primaryKey(),
+    slug: enum_site_images_slug('slug').notNull(),
+    description: varchar('description'),
+    image: integer('image_id')
+      .notNull()
+      .references(() => media.id, {
+        onDelete: 'set null',
+      }),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+  },
+  (columns) => ({
+    site_images_slug_idx: uniqueIndex('site_images_slug_idx').on(columns.slug),
+    site_images_image_idx: index('site_images_image_idx').on(columns.image),
+    site_images_updated_at_idx: index('site_images_updated_at_idx').on(columns.updatedAt),
+    site_images_created_at_idx: index('site_images_created_at_idx').on(columns.createdAt),
+  }),
+)
+
 export const payload_locked_documents = pgTable(
   'payload_locked_documents',
   {
@@ -377,6 +438,8 @@ export const payload_locked_documents_rels = pgTable(
     newsID: integer('news_id'),
     projectsID: integer('projects_id'),
     teamID: integer('team_id'),
+    equipmentID: integer('equipment_id'),
+    'site-imagesID': integer('site_images_id'),
   },
   (columns) => ({
     order: index('payload_locked_documents_rels_order_idx').on(columns.order),
@@ -397,6 +460,12 @@ export const payload_locked_documents_rels = pgTable(
     payload_locked_documents_rels_team_id_idx: index(
       'payload_locked_documents_rels_team_id_idx',
     ).on(columns.teamID),
+    payload_locked_documents_rels_equipment_id_idx: index(
+      'payload_locked_documents_rels_equipment_id_idx',
+    ).on(columns.equipmentID),
+    payload_locked_documents_rels_site_images_id_idx: index(
+      'payload_locked_documents_rels_site_images_id_idx',
+    ).on(columns['site-imagesID']),
     parentFk: foreignKey({
       columns: [columns['parent']],
       foreignColumns: [payload_locked_documents.id],
@@ -426,6 +495,16 @@ export const payload_locked_documents_rels = pgTable(
       columns: [columns['teamID']],
       foreignColumns: [team.id],
       name: 'payload_locked_documents_rels_team_fk',
+    }).onDelete('cascade'),
+    equipmentIdFk: foreignKey({
+      columns: [columns['equipmentID']],
+      foreignColumns: [equipment.id],
+      name: 'payload_locked_documents_rels_equipment_fk',
+    }).onDelete('cascade'),
+    'site-imagesIdFk': foreignKey({
+      columns: [columns['site-imagesID']],
+      foreignColumns: [site_images.id],
+      name: 'payload_locked_documents_rels_site_images_fk',
     }).onDelete('cascade'),
   }),
 )
@@ -603,6 +682,14 @@ export const relations_team = relations(team, ({ one, many }) => ({
     relationName: 'skills',
   }),
 }))
+export const relations_equipment = relations(equipment, () => ({}))
+export const relations_site_images = relations(site_images, ({ one }) => ({
+  image: one(media, {
+    fields: [site_images.image],
+    references: [media.id],
+    relationName: 'image',
+  }),
+}))
 export const relations_payload_locked_documents_rels = relations(
   payload_locked_documents_rels,
   ({ one }) => ({
@@ -635,6 +722,16 @@ export const relations_payload_locked_documents_rels = relations(
       fields: [payload_locked_documents_rels.teamID],
       references: [team.id],
       relationName: 'team',
+    }),
+    equipmentID: one(equipment, {
+      fields: [payload_locked_documents_rels.equipmentID],
+      references: [equipment.id],
+      relationName: 'equipment',
+    }),
+    'site-imagesID': one(site_images, {
+      fields: [payload_locked_documents_rels['site-imagesID']],
+      references: [site_images.id],
+      relationName: 'site-images',
     }),
   }),
 )
@@ -671,6 +768,8 @@ export const relations_payload_migrations = relations(payload_migrations, () => 
 type DatabaseSchema = {
   enum_news_type: typeof enum_news_type
   enum_projects_category: typeof enum_projects_category
+  enum_equipment_status: typeof enum_equipment_status
+  enum_site_images_slug: typeof enum_site_images_slug
   users_sessions: typeof users_sessions
   users: typeof users
   media: typeof media
@@ -683,6 +782,8 @@ type DatabaseSchema = {
   projects: typeof projects
   team_skills: typeof team_skills
   team: typeof team
+  equipment: typeof equipment
+  site_images: typeof site_images
   payload_locked_documents: typeof payload_locked_documents
   payload_locked_documents_rels: typeof payload_locked_documents_rels
   payload_preferences: typeof payload_preferences
@@ -700,6 +801,8 @@ type DatabaseSchema = {
   relations_projects: typeof relations_projects
   relations_team_skills: typeof relations_team_skills
   relations_team: typeof relations_team
+  relations_equipment: typeof relations_equipment
+  relations_site_images: typeof relations_site_images
   relations_payload_locked_documents_rels: typeof relations_payload_locked_documents_rels
   relations_payload_locked_documents: typeof relations_payload_locked_documents
   relations_payload_preferences_rels: typeof relations_payload_preferences_rels
