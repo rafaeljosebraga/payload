@@ -192,7 +192,7 @@ VALUES(
   1, 
   'bruno.mendes@ndti.com.br', 
   'https://linkedin.com/in/brunomendesficticio', 
-  'https://github.com/brumendes', 
+  'https://github.com/essapessoanaoexistemesmonavidareal', 
   '', 
   true, 
   2, 
@@ -237,4 +237,23 @@ VALUES(
 );
 
 -- Confirma a transação.
+COMMIT;
+
+
+BEGIN;
+
+-- Inserção para Capa (ID 1)
+INSERT INTO public.site_images (
+  id, slug, description, image_id, updated_at, created_at
+) VALUES (
+  nextval('site_images_id_seq'::regclass), 'capa', 'Imagem de capa do site', 1, now(), now()
+);
+
+-- Inserção para Contra-Capa (ID 2)
+INSERT INTO public.site_images (
+  id, slug, description, image_id, updated_at, created_at
+) VALUES (
+  nextval('site_images_id_seq'::regclass), 'contra-capa', 'Imagem de contra-capa do site', 2, now(), now()
+);
+
 COMMIT;
