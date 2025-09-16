@@ -279,11 +279,7 @@ export const projects = pgTable(
         onDelete: 'set null',
       }),
     description: varchar('description').notNull(),
-    startDate: timestamp('start_date', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3,
-    }).notNull(),
+    startDate: timestamp('start_date', { mode: 'string', withTimezone: true, precision: 3 }).notNull(),
     status: varchar('status').notNull(),
     repository: varchar('repository'),
     updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })

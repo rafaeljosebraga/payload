@@ -93,7 +93,12 @@ export const Projects: CollectionConfig = {
       name: 'startDate',
       type: 'date',
       required: true,
-      label: 'Data de Início',
+      label: 'Data de Início ',
+      admin: {
+        components: {
+          Field: '/components/DateInputWithMask#DateInputWithMask',
+        },
+      },
     },
     {
       name: 'status',

@@ -113,7 +113,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"category" "enum_projects_category" NOT NULL,
   	"image_id" integer NOT NULL,
   	"description" varchar NOT NULL,
-  	"start_date" varchar NOT NULL,
+  	"start_date" timestamp(3) with time zone NOT NULL,
   	"status" varchar NOT NULL,
   	"repository" varchar,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
