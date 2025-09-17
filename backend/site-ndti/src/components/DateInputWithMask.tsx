@@ -223,6 +223,118 @@ const dateInputStyles = `
   .calendar-month-year {
     font-weight: 500;
     font-size: 11px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .month-year-selector {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .month-year-button {
+    background: none;
+    border: none;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 3px;
+    color: inherit;
+    transition: background-color 0.2s ease;
+    text-transform: capitalize;
+  }
+  
+  .month-year-button:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Tema escuro para botões de mês/ano */
+  @media (prefers-color-scheme: dark) {
+    .month-year-button:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+  
+  .dark .month-year-button:hover,
+  [data-theme="dark"] .month-year-button:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .light .month-year-button:hover,
+  [data-theme="light"] .month-year-button:hover {
+    background: rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .selector-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 20;
+    max-height: 150px;
+    overflow-y: auto;
+    min-width: 80px;
+  }
+  
+  /* Tema escuro para dropdown */
+  @media (prefers-color-scheme: dark) {
+    .selector-dropdown {
+      background: #333333 !important;
+      border-color: #555555 !important;
+      color: #ffffff !important;
+    }
+  }
+  
+  .dark .selector-dropdown,
+  [data-theme="dark"] .selector-dropdown {
+    background: #333333 !important;
+    border-color: #555555 !important;
+    color: #ffffff !important;
+  }
+  
+  .light .selector-dropdown,
+  [data-theme="light"] .selector-dropdown {
+    background: #ffffff !important;
+    border-color: #e0e0e0 !important;
+    color: #000000 !important;
+  }
+  
+  .selector-item {
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 10px;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    color: inherit;
+    transition: background-color 0.2s ease;
+  }
+  
+  .selector-item:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Tema escuro para dropdown items */
+  @media (prefers-color-scheme: dark) {
+    .selector-item:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+  
+  .dark .selector-item:hover,
+  [data-theme="dark"] .selector-item:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .light .selector-item:hover,
+  [data-theme="light"] .selector-item:hover {
+    background: rgba(0, 0, 0, 0.1) !important;
   }
   
   .calendar-grid {
@@ -628,6 +740,8 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
   })
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [stylesLoaded, setStylesLoaded] = useState(false)
+  const [showMonthSelector, setShowMonthSelector] = useState(false)
+  const [showYearSelector, setShowYearSelector] = useState(false)
   const calendarRef = useRef<HTMLDivElement>(null)
 
   // Sincroniza o input value quando o value do field muda
@@ -665,11 +779,25 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
     setShowCalendar(true)
   }
 
+  // Função para selecionar mês
+  const handleMonthSelect = (monthIndex: number) => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), monthIndex, 1))
+    setShowMonthSelector(false)
+  }
+
+  // Função para selecionar ano
+  const handleYearSelect = (year: number) => {
+    setCurrentMonth(new Date(year, currentMonth.getMonth(), 1))
+    setShowYearSelector(false)
+  }
+
   // UseEffect para fechar calendário quando clicar fora ou focar em outros campos
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
         setShowCalendar(false)
+        setShowMonthSelector(false)
+        setShowYearSelector(false)
       }
     }
 
@@ -677,6 +805,8 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
       // Fecha o calendário se focar em outro elemento que não seja parte do nosso componente
       if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
         setShowCalendar(false)
+        setShowMonthSelector(false)
+        setShowYearSelector(false)
       }
     }
 
@@ -933,7 +1063,58 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
                     ‹
                   </button>
                   <div className="calendar-month-year">
-                    {currentMonth.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' })}
+                    <div className="month-year-selector">
+                      <button
+                        type="button"
+                        className="month-year-button"
+                        onClick={() => setShowMonthSelector(!showMonthSelector)}
+                      >
+                        {currentMonth.toLocaleDateString('pt-BR', { month: 'short' })}
+                      </button>
+                      {showMonthSelector && (
+                        <div className="selector-dropdown">
+                          {[
+                            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                          ].map((month, index) => (
+                            <button
+                              key={index}
+                              type="button"
+                              className="selector-item"
+                              onClick={() => handleMonthSelect(index)}
+                            >
+                              {month}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <div className="month-year-selector">
+                      <button
+                        type="button"
+                        className="month-year-button"
+                        onClick={() => setShowYearSelector(!showYearSelector)}
+                      >
+                        {currentMonth.getFullYear()}
+                      </button>
+                      {showYearSelector && (
+                        <div className="selector-dropdown">
+                          {Array.from({ length: 21 }, (_, i) => {
+                            const year = new Date().getFullYear() - 10 + i
+                            return (
+                              <button
+                                key={year}
+                                type="button"
+                                className="selector-item"
+                                onClick={() => handleYearSelect(year)}
+                              >
+                                {year}
+                              </button>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <button
                     type="button"
