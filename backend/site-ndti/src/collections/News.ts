@@ -35,6 +35,17 @@ export const News: CollectionConfig = {
       label: 'Descrição',
     },
     {
+      name: 'date',
+      type: 'date',
+      required: true,
+      label: 'Data ',
+      admin: {
+        components: {
+          Field: '/components/DateInputWithMask#DateInputWithMask',
+        },
+      },
+    },
+    {
       name: 'content',
       type: 'array',
       label: 'Conteúdo',
@@ -63,17 +74,6 @@ export const News: CollectionConfig = {
         { label: 'Projeto', value: 'projeto' },
       ],
       required: true,
-    },
-    {
-      name: 'date',
-      type: 'date',
-      required: true,
-      label: 'Data ',
-      admin: {
-        components: {
-          Field: '/components/DateInputWithMask#DateInputWithMask',
-        },
-      },
     },
   ],
 }

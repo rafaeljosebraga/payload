@@ -30,6 +30,10 @@ const dateInputStyles = `
     outline: none !important;
   }
   
+  .date-input-themed:hover {
+    border-color: #999999 !important;
+  }
+  
   /* Calendário personalizado */
   .calendar-wrapper {
     position: relative;
@@ -39,9 +43,9 @@ const dateInputStyles = `
   
   .calendar-inline {
     position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
+    left: 0;
+    top: 100%;
+    margin-top: 2px;
     z-index: 10;
     background: #ffffff;
     border: 1px solid #e0e0e0;
@@ -252,6 +256,29 @@ const dateInputStyles = `
     color: #666666 !important;
   }
   
+  /* Domingo vermelho (primeira coluna) */
+  .calendar-day-header:first-child {
+    color: #e74c3c !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Tema escuro - domingo vermelho mais claro */
+  @media (prefers-color-scheme: dark) {
+    .calendar-day-header:first-child {
+      color: #ff6b6b !important;
+    }
+  }
+  
+  .dark .calendar-day-header:first-child,
+  [data-theme="dark"] .calendar-day-header:first-child {
+    color: #ff6b6b !important;
+  }
+  
+  .light .calendar-day-header:first-child,
+  [data-theme="light"] .calendar-day-header:first-child {
+    color: #e74c3c !important;
+  }
+  
   .calendar-day {
     text-align: center;
     padding: 4px 2px;
@@ -303,6 +330,37 @@ const dateInputStyles = `
   .calendar-day.selected {
     background: #0066cc;
     color: white;
+  }
+  
+  .calendar-day.typed-day {
+    background: #e6f3ff !important;
+    border: 2px solid #0066cc !important;
+    color: #0066cc !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Tema escuro para dia digitado */
+  @media (prefers-color-scheme: dark) {
+    .calendar-day.typed-day {
+      background: rgba(0, 102, 204, 0.2) !important;
+      border: 2px solid #4da6ff !important;
+      color: #4da6ff !important;
+    }
+  }
+  
+  .dark .calendar-day.typed-day,
+  [data-theme="dark"] .calendar-day.typed-day {
+    background: rgba(0, 102, 204, 0.2) !important;
+    border: 2px solid #4da6ff !important;
+    color: #4da6ff !important;
+  }
+  
+  .light .calendar-day.typed-day,
+  [data-theme="light"] .calendar-day.typed-day {
+    background: #e6f3ff !important;
+    border: 2px solid #0066cc !important;
+    color: #0066cc !important;
+    font-weight: 600 !important;
   }
   
   .calendar-day.selected:hover {
@@ -423,6 +481,10 @@ const dateInputStyles = `
       border: 1px solid #444444 !important;
     }
     
+    .date-input-themed:hover {
+      border-color: #666666 !important;
+    }
+    
     .date-input-themed:focus {
       border: 1px solid #ffffff !important;
       box-shadow: none !important;
@@ -440,6 +502,11 @@ const dateInputStyles = `
     background-color: #222222 !important;
     color: #ffffff !important;
     border: 1px solid #444444 !important;
+  }
+  
+  .dark .date-input-themed:hover,
+  [data-theme="dark"] .date-input-themed:hover {
+    border-color: #666666 !important;
   }
   
   .dark .date-input-themed:focus,
@@ -523,14 +590,20 @@ const convertFromISODate = (value: string): string => {
   if (!value) return ''
   
   try {
-    const date = new Date(value)
-    if (isNaN(date.getTime())) return ''
+    // Evita problemas de fuso horário criando a data de forma explícita
+    const [year, month, day] = value.split('-')
+    if (year && month && day) {
+      const numYear = parseInt(year)
+      const numMonth = parseInt(month)
+      const numDay = parseInt(day)
+      
+      // Valida se os valores são válidos
+      if (numYear > 0 && numMonth >= 1 && numMonth <= 12 && numDay >= 1 && numDay <= 31) {
+        return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`
+      }
+    }
     
-    const day = date.getDate().toString().padStart(2, '0')
-    const month = (date.getMonth() + 1).toString().padStart(2, '0')
-    const year = date.getFullYear()
-    
-    return `${day}/${month}/${year}`
+    return ''
   } catch {
     return ''
   }
@@ -544,9 +617,15 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
     value ? convertFromISODate(value as string) : ''
   )
   const [showCalendar, setShowCalendar] = useState(false)
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    value ? new Date(value as string) : null
-  )
+  const [selectedDate, setSelectedDate] = useState<Date | null>(() => {
+    if (value) {
+      const [year, month, day] = (value as string).split('-')
+      if (year && month && day) {
+        return new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+      }
+    }
+    return null
+  })
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [stylesLoaded, setStylesLoaded] = useState(false)
   const calendarRef = useRef<HTMLDivElement>(null)
@@ -554,6 +633,21 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
   // Sincroniza o input value quando o value do field muda
   useEffect(() => {
     setInputValue(value ? convertFromISODate(value as string) : '')
+    
+    // Atualiza selectedDate também
+    if (value) {
+      const [year, month, day] = (value as string).split('-')
+      if (year && month && day) {
+        setSelectedDate(new Date(parseInt(year), parseInt(month) - 1, parseInt(day)))
+        // Atualiza o calendário para o mês da data
+        setCurrentMonth(new Date(parseInt(year), parseInt(month) - 1, 1))
+      }
+    } else {
+      setSelectedDate(null)
+      // Volta para o mês atual quando não há valor
+      const today = new Date()
+      setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
+    }
   }, [value])
 
   // Ensure styles are loaded before showing the icon
@@ -566,7 +660,12 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
     return () => clearTimeout(timer)
   }, [])
 
-  // UseEffect para fechar calendário quando clicar fora
+  // Função para lidar com o clique no campo de input
+  const handleInputClick = () => {
+    setShowCalendar(true)
+  }
+
+  // UseEffect para fechar calendário quando clicar fora ou focar em outros campos
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
@@ -574,12 +673,21 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
       }
     }
 
+    const handleFocusChange = (event: FocusEvent) => {
+      // Fecha o calendário se focar em outro elemento que não seja parte do nosso componente
+      if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
+        setShowCalendar(false)
+      }
+    }
+
     if (showCalendar) {
       document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener('focusin', handleFocusChange)
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('focusin', handleFocusChange)
     }
   }, [showCalendar])
 
@@ -595,6 +703,10 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
     const days = []
     const today = new Date()
     
+    // Extrai o dia digitado do input para destacar
+    const numbers = inputValue.replace(/\D/g, '')
+    const typedDay = numbers.length >= 2 ? parseInt(numbers.slice(0, 2)) : null
+    
     for (let i = 0; i < 42; i++) { // 6 semanas
       const date = new Date(startDate)
       date.setDate(startDate.getDate() + i)
@@ -608,13 +720,17 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
         date.getDate() === today.getDate() &&
         date.getMonth() === today.getMonth() &&
         date.getFullYear() === today.getFullYear()
+      
+      // Destaca o dia que foi digitado (mesmo que a data não esteja completa)
+      const isTypedDay = isCurrentMonth && typedDay && date.getDate() === typedDay
 
       days.push({
         date,
         day: date.getDate(),
         isCurrentMonth,
         isSelected,
-        isToday
+        isToday,
+        isTypedDay
       })
     }
 
@@ -624,9 +740,17 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
   // Função para lidar com seleção de data no calendário
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date)
-    const formattedDate = convertFromISODate(date.toISOString().split('T')[0])
+    
+    // Converte a data para formato ISO sem problemas de fuso horário
+    const year = date.getFullYear()
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const day = date.getDate().toString().padStart(2, '0')
+    
+    const isoDate = `${year}-${month}-${day}`
+    const formattedDate = `${day}/${month}/${year}`
+    
     setInputValue(formattedDate)
-    setValue(date.toISOString().split('T')[0])
+    setValue(isoDate)
     setShowCalendar(false)
   }
   useEffect(() => {
@@ -666,9 +790,69 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
     return () => clearTimeout(timer)
   }, [path])
 
+  // Função para sincronizar calendário com input parcial
+  const syncCalendarWithInput = useCallback((inputValue: string) => {
+    const numbers = inputValue.replace(/\D/g, '')
+    
+    if (numbers.length === 0) {
+      // Se não há números, volta para o mês atual
+      const today = new Date()
+      setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
+      return
+    }
+    
+    if (numbers.length >= 2) {
+      // Se temos pelo menos o dia
+      const day = parseInt(numbers.slice(0, 2))
+      let month = currentMonth.getMonth()
+      let year = currentMonth.getFullYear()
+      
+      if (numbers.length >= 4) {
+        // Se temos dia e mês
+        month = parseInt(numbers.slice(2, 4)) - 1 // mês é 0-indexado
+        
+        if (numbers.length >= 6) {
+          // Se temos dia, mês e pelo menos parte do ano
+          const yearStr = numbers.slice(4, 8)
+          if (yearStr.length === 4) {
+            year = parseInt(yearStr)
+          } else if (yearStr.length >= 2) {
+            // Para anos com 2 dígitos, assume 20xx
+            year = 2000 + parseInt(yearStr.slice(0, 2))
+          }
+        }
+      }
+      
+      // Valida se o mês é válido (1-12)
+      if (month >= 0 && month <= 11) {
+        // Valida se o dia é válido para o mês/ano
+        const daysInMonth = new Date(year, month + 1, 0).getDate()
+        if (day >= 1 && day <= daysInMonth) {
+          const newDate = new Date(year, month, day)
+          setCurrentMonth(new Date(year, month, 1))
+          
+          // Se a data estiver completa, seleciona também
+          if (numbers.length >= 8) {
+            setSelectedDate(newDate)
+          }
+        } else {
+          // Se o dia não é válido, pelo menos atualiza o mês/ano
+          setCurrentMonth(new Date(year, month, 1))
+        }
+      }
+    } else {
+      // Se temos menos de 2 dígitos, volta para o mês atual
+      const today = new Date()
+      setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
+    }
+  }, [currentMonth])
+
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const maskedValue = applyDateMask(e.target.value)
     setInputValue(maskedValue)
+
+    // Sincroniza o calendário com o input (mesmo que incompleto)
+    syncCalendarWithInput(maskedValue)
 
     // Se a data estiver completa e válida, atualiza o valor do campo
     if (isValidDateFormat(maskedValue)) {
@@ -682,17 +866,24 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
         setCurrentMonth(new Date(newDate.getFullYear(), newDate.getMonth(), 1))
       }
     } else if (maskedValue === '') {
-      // Se o campo estiver vazio, limpa o valor
+      // Se o campo estiver vazio, limpa o valor e volta para o mês atual
       setValue(null)
       setSelectedDate(null)
+      // Volta para o mês atual
+      const today = new Date()
+      setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
     }
-  }, [setValue])
+  }, [setValue, syncCalendarWithInput])
 
   const handleBlur = useCallback(() => {
     // Valida a data ao sair do campo
     if (inputValue && !isValidDateFormat(inputValue)) {
       setInputValue('')
       setValue(null)
+      setSelectedDate(null)
+      // Volta para o mês atual quando apaga uma data inválida
+      const today = new Date()
+      setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
     }
   }, [inputValue, setValue])
 
@@ -718,14 +909,14 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
               type="text"
               value={inputValue}
               onChange={handleInputChange}
-              onBlur={handleBlur}
+              onClick={handleInputClick}
               placeholder=" dd/mm/aaaa"
               maxLength={10}
               className="date-input date-input-themed"
               style={{
                 width: '100%',
                 padding: '10px',
-                fontSize: '13px',
+                fontSize: '14px',
                 fontFamily: 'inherit',
                 borderRadius: '3px'
               }}
@@ -768,7 +959,7 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
                         !dayInfo.isCurrentMonth ? 'other-month' : ''
                       } ${dayInfo.isSelected ? 'selected' : ''} ${
                         dayInfo.isToday ? 'today' : ''
-                      }`}
+                      } ${dayInfo.isTypedDay ? 'typed-day' : ''}`}
                       onClick={() => handleDateSelect(dayInfo.date)}
                     >
                       {dayInfo.day}
