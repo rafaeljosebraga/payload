@@ -1070,9 +1070,13 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
           <div className="input-wrapper input-with-calendar">
             <input
               type="text"
+              id={`date-input-${path}`}
+              name={`date-input-${path}`}
+              aria-label={typeof field.label === 'string' ? field.label : 'Data'}
               value={inputValue}
               onChange={handleInputChange}
               onClick={handleInputClick}
+              onBlur={handleBlur}
               placeholder=" dd/mm/aaaa"
               maxLength={10}
               className="date-input date-input-themed"

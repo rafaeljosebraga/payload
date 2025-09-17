@@ -62,13 +62,17 @@ const Footer: React.FC = () => {
             </p>
             <form className="flex">
               <input
+                id="newsletter-email"
+                name="newsletter-email"
                 type="email"
                 placeholder="Seu email"
                 className="px-3 md:px-4 py-2 w-full bg-ndti-900 border border-ndti-800 rounded-l-md focus:outline-none focus:ring-1 focus:ring-ndti-300 text-white text-sm"
+                aria-label="Email para newsletter"
               />
               <button
                 type="submit"
                 className="bg-ifnmg-blue hover:bg-ndti-700 px-3 md:px-4 py-2 rounded-r-md transition-colors"
+                aria-label="Inscrever-se na newsletter"
               >
                 <Mail className="h-4 w-4 md:h-5 md:w-5" />
               </button>
