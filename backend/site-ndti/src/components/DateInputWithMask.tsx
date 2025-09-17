@@ -697,13 +697,21 @@ const convertToISODate = (value: string): string => {
   return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
 }
 
-// Função para converter yyyy-mm-dd para dd/mm/aaaa
+// Função para converter yyyy-mm-dd ou timestamp para dd/mm/aaaa
 const convertFromISODate = (value: string): string => {
   if (!value) return ''
   
   try {
-    // Evita problemas de fuso horário criando a data de forma explícita
-    const [year, month, day] = value.split('-')
+    let dateString = value
+    
+    // Se o valor contém timestamp (formato: 2025-09-17 00:00:00+00 ou 2025-09-17T00:00:00.000Z)
+    if (value.includes(' ') || value.includes('T')) {
+      // Extrai apenas a parte da data (YYYY-MM-DD)
+      dateString = value.split('T')[0].split(' ')[0]
+    }
+    
+    // Processa a data no formato YYYY-MM-DD
+    const [year, month, day] = dateString.split('-')
     if (year && month && day) {
       const numYear = parseInt(year)
       const numMonth = parseInt(month)
@@ -731,9 +739,20 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
   const [showCalendar, setShowCalendar] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date | null>(() => {
     if (value) {
-      const [year, month, day] = (value as string).split('-')
-      if (year && month && day) {
-        return new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+      try {
+        let dateString = value as string
+        
+        // Se o valor contém timestamp, extrai apenas a parte da data
+        if (dateString.includes(' ') || dateString.includes('T')) {
+          dateString = dateString.split('T')[0].split(' ')[0]
+        }
+        
+        const [year, month, day] = dateString.split('-')
+        if (year && month && day) {
+          return new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+        }
+      } catch {
+        // Se houver erro na conversão, retorna null
       }
     }
     return null
@@ -750,11 +769,25 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
     
     // Atualiza selectedDate também
     if (value) {
-      const [year, month, day] = (value as string).split('-')
-      if (year && month && day) {
-        setSelectedDate(new Date(parseInt(year), parseInt(month) - 1, parseInt(day)))
-        // Atualiza o calendário para o mês da data
-        setCurrentMonth(new Date(parseInt(year), parseInt(month) - 1, 1))
+      try {
+        let dateString = value as string
+        
+        // Se o valor contém timestamp, extrai apenas a parte da data
+        if (dateString.includes(' ') || dateString.includes('T')) {
+          dateString = dateString.split('T')[0].split(' ')[0]
+        }
+        
+        const [year, month, day] = dateString.split('-')
+        if (year && month && day) {
+          setSelectedDate(new Date(parseInt(year), parseInt(month) - 1, parseInt(day)))
+          // Atualiza o calendário para o mês da data
+          setCurrentMonth(new Date(parseInt(year), parseInt(month) - 1, 1))
+        }
+      } catch {
+        setSelectedDate(null)
+        // Volta para o mês atual quando há erro
+        const today = new Date()
+        setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
       }
     } else {
       setSelectedDate(null)
