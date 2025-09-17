@@ -68,7 +68,12 @@ export const News: CollectionConfig = {
       name: 'date',
       type: 'date',
       required: true,
-      label: 'Data',
+      label: 'Data ',
+      admin: {
+        components: {
+          Field: '/components/DateInputWithMask#DateInputWithMask',
+        },
+      },
     },
   ],
 }
