@@ -56,6 +56,9 @@ export const Equipment: CollectionConfig = {
       label: 'Ano de Aquisição',
       admin: {
         description: 'Ano em que o equipamento foi adquirido',
+        components: {
+          Field: '/components/DateInputWithMask#DateInputWithMask',
+        },
         date: {
           pickerAppearance: 'default',
           displayFormat: 'yyyy',

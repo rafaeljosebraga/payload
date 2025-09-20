@@ -658,6 +658,187 @@ const dateInputStyles = `
     border: 1px solid #9A9A9A !important;
     box-shadow: none !important;
   }
+
+  /* Estilos para o seletor de anos */
+  .year-picker-container {
+    padding: 16px;
+    width: 300px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .year-picker-header {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .year-picker-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+  }
+
+  .year-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .year-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #ffffff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333;
+    transition: all 0.2s ease;
+    min-height: 36px;
+  }
+
+  .year-item:hover {
+    background: #e8e8e8;
+    border-color: #999999;
+    color: #222222;
+  }
+
+  .year-item.selected {
+    background: #0066cc;
+    border-color: #0066cc;
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .year-item.current {
+    border: 2px solid #4da6ff;
+    color: #4da6ff;
+    font-weight: 600;
+  }
+
+  .year-item.selected.current {
+    background: #0066cc;
+    border-color: #0066cc;
+    color: #ffffff;
+  }
+
+  /* Tema escuro para seletor de anos */
+  @media (prefers-color-scheme: dark) {
+    .year-picker-container {
+      background: #2a2a2a !important;
+      color: #ffffff !important;
+    }
+
+    .year-picker-header h3 {
+      color: #ffffff !important;
+    }
+
+    .year-item {
+      background: #3a3a3a !important;
+      border-color: #555555 !important;
+      color: #ffffff !important;
+    }
+
+    .year-item:hover {
+      background: #44403c !important;
+      border-color: #a8a29e !important;
+      color: #fafaf9 !important;
+    }
+
+    .year-item.selected {
+      background: #0066cc !important;
+      border-color: #0066cc !important;
+      color: #ffffff !important;
+    }
+
+    .year-item.current {
+      border-color: #4da6ff !important;
+      color: #4da6ff !important;
+    }
+  }
+
+  .dark .year-picker-container,
+  [data-theme="dark"] .year-picker-container {
+    background: #2a2a2a !important;
+    color: #ffffff !important;
+  }
+
+  .dark .year-picker-header h3,
+  [data-theme="dark"] .year-picker-header h3 {
+    color: #ffffff !important;
+  }
+
+  .dark .year-item,
+  [data-theme="dark"] .year-item {
+    background: #3a3a3a !important;
+    border-color: #555555 !important;
+    color: #ffffff !important;
+  }
+
+  .dark .year-item:hover,
+  [data-theme="dark"] .year-item:hover {
+    background: #4a4a4a !important;
+    border-color: #666666 !important;
+    color: #ffffff !important;
+  }
+
+  .dark .year-item.selected,
+  [data-theme="dark"] .year-item.selected {
+    background: #0066cc !important;
+    border-color: #0066cc !important;
+    color: #ffffff !important;
+  }
+
+  .dark .year-item.current,
+  [data-theme="dark"] .year-item.current {
+    border-color: #4da6ff !important;
+    color: #4da6ff !important;
+  }
+
+  .light .year-picker-container,
+  [data-theme="light"] .year-picker-container {
+    background: #ffffff !important;
+    color: #333333 !important;
+  }
+
+  .light .year-picker-header h3,
+  [data-theme="light"] .year-picker-header h3 {
+    color: #333333 !important;
+  }
+
+  .light .year-item,
+  [data-theme="light"] .year-item {
+    background: #ffffff !important;
+    border-color: #e0e0e0 !important;
+    color: #333333 !important;
+  }
+
+  .light .year-item:hover,
+  [data-theme="light"] .year-item:hover {
+    background: #fafaf9 !important;
+    border-color: #78716c !important;
+    color: #44403c !important;
+  }
+
+  .light .year-item.selected,
+  [data-theme="light"] .year-item.selected {
+    background: #0066cc !important;
+    border-color: #0066cc !important;
+    color: #ffffff !important;
+  }
+
+  .light .year-item.current,
+  [data-theme="light"] .year-item.current {
+    border-color: #4da6ff !important;
+    color: #4da6ff !important;
+  }
 `
 
 // Adiciona os estilos ao documento se ainda não existirem
@@ -668,7 +849,7 @@ if (typeof window !== 'undefined' && !document.getElementById('date-input-theme-
   document.head.appendChild(styleElement)
 }
 
-// Função para aplicar máscara de data (dd/mm/aaaa)
+// Função para aplicar máscara de data (DD/MM/AAAA)
 const applyDateMask = (value: string): string => {
   // Remove tudo que não é número
   const numbers = value.replace(/\D/g, '')
@@ -689,7 +870,7 @@ const isValidDateFormat = (value: string): boolean => {
   return dateRegex.test(value)
 }
 
-// Função para converter dd/mm/aaaa para yyyy-mm-dd (formato ISO)
+// Função para converter DD/MM/AAAA para aaaa-mm-dd (formato ISO)
 const convertToISODate = (value: string): string => {
   if (!isValidDateFormat(value)) return ''
   
@@ -697,7 +878,7 @@ const convertToISODate = (value: string): string => {
   return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
 }
 
-// Função para converter yyyy-mm-dd ou timestamp para dd/mm/aaaa
+// Função para converter aaaa-mm-dd ou timestamp para DD/MM/AAAA
 const convertFromISODate = (value: string): string => {
   if (!value) return ''
   
@@ -729,12 +910,45 @@ const convertFromISODate = (value: string): string => {
   }
 }
 
+// Função para converter timestamp para apenas o ano (AAAA)
+const convertFromISOYear = (value: string): string => {
+  if (!value) return ''
+  
+  try {
+    let dateString = value
+    
+    // Se o valor contém timestamp (formato: 2025-09-17 00:00:00+00 ou 2025-09-17T00:00:00.000Z)
+    if (value.includes(' ') || value.includes('T')) {
+      // Extrai apenas a parte da data (YYYY-MM-DD)
+      dateString = value.split('T')[0].split(' ')[0]
+    }
+    
+    // Processa a data no formato YYYY-MM-DD
+    const [year] = dateString.split('-')
+    if (year) {
+      const numYear = parseInt(year)
+      
+      // Valida se o ano é válido
+      if (numYear > 0) {
+        return year
+      }
+    }
+    
+    return ''
+  } catch {
+    return ''
+  }
+}
+
 export const DateInputWithMask: DateFieldClientComponent = (props) => {
   const { field, path } = props
   const { value, setValue } = useField({ path })
   
+  // Detecta se é o campo acquisitionYear para comportamento especial
+  const isYearOnlyField = path === 'acquisitionYear'
+  
   const [inputValue, setInputValue] = useState(
-    value ? convertFromISODate(value as string) : ''
+    value ? (isYearOnlyField ? convertFromISOYear(value as string) : convertFromISODate(value as string)) : ''
   )
   const [showCalendar, setShowCalendar] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date | null>(() => {
@@ -765,7 +979,7 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
 
   // Sincroniza o input value quando o value do field muda
   useEffect(() => {
-    setInputValue(value ? convertFromISODate(value as string) : '')
+    setInputValue(value ? (isYearOnlyField ? convertFromISOYear(value as string) : convertFromISODate(value as string)) : '')
     
     // Atualiza selectedDate também
     if (value) {
@@ -820,8 +1034,22 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
 
   // Função para selecionar ano
   const handleYearSelect = (year: number) => {
-    setCurrentMonth(new Date(year, currentMonth.getMonth(), 1))
-    setShowYearSelector(false)
+    if (isYearOnlyField) {
+      // Para campos de ano, seleciona o ano e fecha o calendário
+      const isoDate = `${year}-01-01T00:00:00.000Z`
+      const newDate = new Date(year, 0, 1)
+      
+      setSelectedDate(newDate)
+      setInputValue(year.toString())
+      setValue(isoDate)
+      setCurrentMonth(new Date(year, 0, 1))
+      setShowCalendar(false)
+      setShowYearSelector(false)
+    } else {
+      // Comportamento original para campos de data completa
+      setCurrentMonth(new Date(year, currentMonth.getMonth(), 1))
+      setShowYearSelector(false)
+    }
   }
 
   // UseEffect para fechar calendário quando clicar fora ou focar em outros campos
@@ -904,17 +1132,28 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date)
     
-    // Converte a data para formato ISO sem problemas de fuso horário
-    const year = date.getFullYear()
-    const month = (date.getMonth() + 1).toString().padStart(2, '0')
-    const day = date.getDate().toString().padStart(2, '0')
-    
-    const isoDate = `${year}-${month}-${day}`
-    const formattedDate = `${day}/${month}/${year}`
-    
-    setInputValue(formattedDate)
-    setValue(isoDate)
-    setShowCalendar(false)
+    if (isYearOnlyField) {
+      // Para campos de ano, seleciona apenas o ano
+      const year = date.getFullYear()
+      const isoDate = `${year}-01-01T00:00:00.000Z`
+      
+      setInputValue(year.toString())
+      setValue(isoDate)
+      setShowCalendar(false)
+    } else {
+      // Comportamento original para campos de data completa
+      // Converte a data para formato ISO sem problemas de fuso horário
+      const year = date.getFullYear()
+      const month = (date.getMonth() + 1).toString().padStart(2, '0')
+      const day = date.getDate().toString().padStart(2, '0')
+      
+      const isoDate = `${year}-${month}-${day}`
+      const formattedDate = `${day}/${month}/${year}`
+      
+      setInputValue(formattedDate)
+      setValue(isoDate)
+      setShowCalendar(false)
+    }
   }
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -1011,44 +1250,83 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
   }, [currentMonth])
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const maskedValue = applyDateMask(e.target.value)
-    setInputValue(maskedValue)
+    if (isYearOnlyField) {
+      // Para campos de ano, permite apenas números e limita a 4 dígitos
+      const value = e.target.value.replace(/\D/g, '').slice(0, 4)
+      setInputValue(value)
 
-    // Sincroniza o calendário com o input (mesmo que incompleto)
-    syncCalendarWithInput(maskedValue)
-
-    // Se a data estiver completa e válida, atualiza o valor do campo
-    if (isValidDateFormat(maskedValue)) {
-      const isoDate = convertToISODate(maskedValue)
-      setValue(isoDate)
-      
-      // Atualiza o calendário para refletir a data digitada
-      const newDate = new Date(isoDate)
-      if (!isNaN(newDate.getTime())) {
-        setSelectedDate(newDate)
-        setCurrentMonth(new Date(newDate.getFullYear(), newDate.getMonth(), 1))
+      // Se o ano estiver completo (4 dígitos), valida e atualiza
+      if (value.length === 4) {
+        const year = parseInt(value)
+        if (year >= 1900 && year <= 2100) {
+          // Cria uma data com o primeiro dia do ano para manter compatibilidade
+          const isoDate = `${year}-01-01T00:00:00.000Z`
+          setValue(isoDate)
+          
+          // Atualiza o calendário para refletir o ano selecionado
+          const newDate = new Date(year, 0, 1)
+          setSelectedDate(newDate)
+          setCurrentMonth(new Date(year, 0, 1))
+        }
+      } else if (value === '') {
+        // Se o campo estiver vazio, limpa o valor
+        setValue(null)
+        setSelectedDate(null)
+        const today = new Date()
+        setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
       }
-    } else if (maskedValue === '') {
-      // Se o campo estiver vazio, limpa o valor e volta para o mês atual
-      setValue(null)
-      setSelectedDate(null)
-      // Volta para o mês atual
-      const today = new Date()
-      setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
+    } else {
+      // Comportamento original para campos de data completa
+      const maskedValue = applyDateMask(e.target.value)
+      setInputValue(maskedValue)
+
+      // Sincroniza o calendário com o input (mesmo que incompleto)
+      syncCalendarWithInput(maskedValue)
+
+      // Se a data estiver completa e válida, atualiza o valor do campo
+      if (isValidDateFormat(maskedValue)) {
+        const isoDate = convertToISODate(maskedValue)
+        setValue(isoDate)
+        
+        // Atualiza o calendário para refletir a data digitada
+        const newDate = new Date(isoDate)
+        if (!isNaN(newDate.getTime())) {
+          setSelectedDate(newDate)
+          setCurrentMonth(new Date(newDate.getFullYear(), newDate.getMonth(), 1))
+        }
+      } else if (maskedValue === '') {
+        // Se o campo estiver vazio, limpa o valor e volta para o mês atual
+        setValue(null)
+        setSelectedDate(null)
+        // Volta para o mês atual
+        const today = new Date()
+        setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
+      }
     }
-  }, [setValue, syncCalendarWithInput])
+  }, [setValue, syncCalendarWithInput, isYearOnlyField])
 
   const handleBlur = useCallback(() => {
-    // Valida a data ao sair do campo
-    if (inputValue && !isValidDateFormat(inputValue)) {
-      setInputValue('')
-      setValue(null)
-      setSelectedDate(null)
-      // Volta para o mês atual quando apaga uma data inválida
-      const today = new Date()
-      setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
+    if (isYearOnlyField) {
+      // Para campos de ano, valida se é um ano válido
+      if (inputValue && inputValue.length < 4) {
+        setInputValue('')
+        setValue(null)
+        setSelectedDate(null)
+        const today = new Date()
+        setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
+      }
+    } else {
+      // Valida a data ao sair do campo para campos de data completa
+      if (inputValue && !isValidDateFormat(inputValue)) {
+        setInputValue('')
+        setValue(null)
+        setSelectedDate(null)
+        // Volta para o mês atual quando apaga uma data inválida
+        const today = new Date()
+        setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
+      }
     }
-  }, [inputValue, setValue])
+  }, [inputValue, setValue, isYearOnlyField])
 
   // Renderiza o campo customizado
   return (
@@ -1077,8 +1355,8 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
               onChange={handleInputChange}
               onClick={handleInputClick}
               onBlur={handleBlur}
-              placeholder=" dd/mm/aaaa"
-              maxLength={10}
+              placeholder={isYearOnlyField ? " YYYY" : " DD/MM/AAAA"}
+              maxLength={isYearOnlyField ? 4 : 10}
               className="date-input date-input-themed"
               style={{
                 width: '100%',
@@ -1091,99 +1369,128 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
             
             {showCalendar && (
               <div className="calendar-inline simple-calendar">
-                <div className="calendar-header">
-                  <button
-                    type="button"
-                    className="calendar-nav-button"
-                    onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
-                  >
-                    ‹
-                  </button>
-                  <div className="calendar-month-year">
-                    <div className="month-year-selector">
-                      <button
-                        type="button"
-                        className="month-year-button"
-                        onClick={() => setShowMonthSelector(!showMonthSelector)}
-                      >
-                        {currentMonth.toLocaleDateString('pt-BR', { month: 'short' })}
-                      </button>
-                      {showMonthSelector && (
-                        <div className="selector-dropdown">
-                          {[
-                            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-                          ].map((month, index) => (
-                            <button
-                              key={index}
-                              type="button"
-                              className="selector-item"
-                              onClick={() => handleMonthSelect(index)}
-                            >
-                              {month}
-                            </button>
-                          ))}
-                        </div>
-                      )}
+                {isYearOnlyField ? (
+                  // Seletor de anos simplificado
+                  <div className="year-picker-container">
+                    <div className="year-picker-header">
+                      <h3>Selecione o Ano</h3>
                     </div>
-                    <div className="month-year-selector">
-                      <button
-                        type="button"
-                        className="month-year-button"
-                        onClick={() => setShowYearSelector(!showYearSelector)}
-                      >
-                        {currentMonth.getFullYear()}
-                      </button>
-                      {showYearSelector && (
-                        <div className="selector-dropdown">
-                          {Array.from({ length: 21 }, (_, i) => {
-                            const year = new Date().getFullYear() - 10 + i
-                            return (
-                              <button
-                                key={year}
-                                type="button"
-                                className="selector-item"
-                                onClick={() => handleYearSelect(year)}
-                              >
-                                {year}
-                              </button>
-                            )
-                          })}
-                        </div>
-                      )}
+                    <div className="year-grid">
+                      {Array.from({ length: 25 }, (_, i) => {
+                        const year = new Date().getFullYear() - 12 + i
+                        const isSelected = selectedDate?.getFullYear() === year
+                        const isCurrent = new Date().getFullYear() === year
+                        return (
+                          <button
+                            key={year}
+                            type="button"
+                            className={`year-item ${isSelected ? 'selected' : ''} ${isCurrent ? 'current' : ''}`}
+                            onClick={() => handleYearSelect(year)}
+                          >
+                            {year}
+                          </button>
+                        )
+                      })}
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    className="calendar-nav-button"
-                    onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
-                  >
-                    ›
-                  </button>
-                </div>
-
-                <div className="calendar-grid">
-                  {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((day, index) => (
-                    <div key={index} className="calendar-day-header">
-                      {day}
+                ) : (
+                  // Calendário normal para outros campos
+                  <>
+                    <div className="calendar-header">
+                      <button
+                        type="button"
+                        className="calendar-nav-button"
+                        onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
+                      >
+                        ‹
+                      </button>
+                      <div className="calendar-month-year">
+                        <div className="month-year-selector">
+                          <button
+                            type="button"
+                            className="month-year-button"
+                            onClick={() => setShowMonthSelector(!showMonthSelector)}
+                          >
+                            {currentMonth.toLocaleDateString('pt-BR', { month: 'short' })}
+                          </button>
+                          {showMonthSelector && (
+                            <div className="selector-dropdown">
+                              {[
+                                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                              ].map((month, index) => (
+                                <button
+                                  key={index}
+                                  type="button"
+                                  className="selector-item"
+                                  onClick={() => handleMonthSelect(index)}
+                                >
+                                  {month}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <div className="month-year-selector">
+                          <button
+                            type="button"
+                            className="month-year-button"
+                            onClick={() => setShowYearSelector(!showYearSelector)}
+                          >
+                            {currentMonth.getFullYear()}
+                          </button>
+                          {showYearSelector && (
+                            <div className="selector-dropdown">
+                              {Array.from({ length: 21 }, (_, i) => {
+                                const year = new Date().getFullYear() - 10 + i
+                                return (
+                                  <button
+                                    key={year}
+                                    type="button"
+                                    className="selector-item"
+                                    onClick={() => handleYearSelect(year)}
+                                  >
+                                    {year}
+                                  </button>
+                                )
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        className="calendar-nav-button"
+                        onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
+                      >
+                        ›
+                      </button>
                     </div>
-                  ))}
-                  
-                  {generateCalendar().map((dayInfo, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      className={`calendar-day ${
-                        !dayInfo.isCurrentMonth ? 'other-month' : ''
-                      } ${dayInfo.isSelected ? 'selected' : ''} ${
-                        dayInfo.isToday ? 'today' : ''
-                      } ${dayInfo.isTypedDay ? 'typed-day' : ''}`}
-                      onClick={() => handleDateSelect(dayInfo.date)}
-                    >
-                      {dayInfo.day}
-                    </button>
-                  ))}
-                </div>
+
+                    <div className="calendar-grid">
+                      {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((day, index) => (
+                        <div key={index} className="calendar-day-header">
+                          {day}
+                        </div>
+                      ))}
+                      
+                      {generateCalendar().map((dayInfo, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          className={`calendar-day ${
+                            !dayInfo.isCurrentMonth ? 'other-month' : ''
+                          } ${dayInfo.isSelected ? 'selected' : ''} ${
+                            dayInfo.isToday ? 'today' : ''
+                          } ${dayInfo.isTypedDay ? 'typed-day' : ''}`}
+                          onClick={() => handleDateSelect(dayInfo.date)}
+                        >
+                          {dayInfo.day}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             )}
 
