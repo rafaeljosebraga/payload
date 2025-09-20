@@ -22,7 +22,6 @@ import {
   pgEnum,
 } from '@payloadcms/db-postgres/drizzle/pg-core'
 import { sql, relations } from '@payloadcms/db-postgres/drizzle'
-export const enum_news_type = pgEnum('enum_news_type', ['edital', 'evento', 'projeto'])
 export const enum_projects_category = pgEnum('enum_projects_category', [
   'Desenvolvimento Web',
   'Aplicativo Móvel',
@@ -170,13 +169,17 @@ export const news = pgTable(
     id: serial('id').primaryKey(),
     title: varchar('title').notNull(),
     description: varchar('description').notNull(),
+    date: timestamp('date', { mode: 'string', withTimezone: true, precision: 3 }).notNull(),
     image: integer('image_id')
       .notNull()
       .references(() => media.id, {
         onDelete: 'set null',
       }),
-    type: enum_news_type('type').notNull(),
-    date: timestamp('date', { mode: 'string', withTimezone: true, precision: 3 }).notNull(),
+    type: integer('type_id')
+      .notNull()
+      .references(() => tipo_noticia.id, {
+        onDelete: 'set null',
+      }),
     updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
       .defaultNow()
       .notNull(),
@@ -186,6 +189,7 @@ export const news = pgTable(
   },
   (columns) => ({
     news_image_idx: index('news_image_idx').on(columns.image),
+    news_type_idx: index('news_type_idx').on(columns.type),
     news_updated_at_idx: index('news_updated_at_idx').on(columns.updatedAt),
     news_created_at_idx: index('news_created_at_idx').on(columns.createdAt),
   }),
@@ -279,7 +283,11 @@ export const projects = pgTable(
         onDelete: 'set null',
       }),
     description: varchar('description').notNull(),
-    startDate: timestamp('start_date', { mode: 'string', withTimezone: true, precision: 3 }).notNull(),
+    startDate: timestamp('start_date', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }).notNull(),
     status: varchar('status').notNull(),
     repository: varchar('repository'),
     updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
@@ -397,6 +405,26 @@ export const site_images = pgTable(
   }),
 )
 
+export const tipo_noticia = pgTable(
+  'tipo_noticia',
+  {
+    id: serial('id').primaryKey(),
+    nome: varchar('nome').notNull(),
+    descricao: varchar('descricao'),
+    ativo: boolean('ativo').default(true),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+  },
+  (columns) => ({
+    tipo_noticia_updated_at_idx: index('tipo_noticia_updated_at_idx').on(columns.updatedAt),
+    tipo_noticia_created_at_idx: index('tipo_noticia_created_at_idx').on(columns.createdAt),
+  }),
+)
+
 export const payload_locked_documents = pgTable(
   'payload_locked_documents',
   {
@@ -436,6 +464,7 @@ export const payload_locked_documents_rels = pgTable(
     teamID: integer('team_id'),
     equipmentID: integer('equipment_id'),
     'site-imagesID': integer('site_images_id'),
+    'tipo-noticiaID': integer('tipo_noticia_id'),
   },
   (columns) => ({
     order: index('payload_locked_documents_rels_order_idx').on(columns.order),
@@ -462,6 +491,9 @@ export const payload_locked_documents_rels = pgTable(
     payload_locked_documents_rels_site_images_id_idx: index(
       'payload_locked_documents_rels_site_images_id_idx',
     ).on(columns['site-imagesID']),
+    payload_locked_documents_rels_tipo_noticia_id_idx: index(
+      'payload_locked_documents_rels_tipo_noticia_id_idx',
+    ).on(columns['tipo-noticiaID']),
     parentFk: foreignKey({
       columns: [columns['parent']],
       foreignColumns: [payload_locked_documents.id],
@@ -501,6 +533,11 @@ export const payload_locked_documents_rels = pgTable(
       columns: [columns['site-imagesID']],
       foreignColumns: [site_images.id],
       name: 'payload_locked_documents_rels_site_images_fk',
+    }).onDelete('cascade'),
+    'tipo-noticiaIdFk': foreignKey({
+      columns: [columns['tipo-noticiaID']],
+      foreignColumns: [tipo_noticia.id],
+      name: 'payload_locked_documents_rels_tipo_noticia_fk',
     }).onDelete('cascade'),
   }),
 )
@@ -610,6 +647,11 @@ export const relations_news = relations(news, ({ one, many }) => ({
     references: [media.id],
     relationName: 'image',
   }),
+  type: one(tipo_noticia, {
+    fields: [news.type],
+    references: [tipo_noticia.id],
+    relationName: 'type',
+  }),
 }))
 export const relations_projects_technologies = relations(projects_technologies, ({ one }) => ({
   _parentID: one(projects, {
@@ -686,6 +728,7 @@ export const relations_site_images = relations(site_images, ({ one }) => ({
     relationName: 'image',
   }),
 }))
+export const relations_tipo_noticia = relations(tipo_noticia, () => ({}))
 export const relations_payload_locked_documents_rels = relations(
   payload_locked_documents_rels,
   ({ one }) => ({
@@ -729,6 +772,11 @@ export const relations_payload_locked_documents_rels = relations(
       references: [site_images.id],
       relationName: 'site-images',
     }),
+    'tipo-noticiaID': one(tipo_noticia, {
+      fields: [payload_locked_documents_rels['tipo-noticiaID']],
+      references: [tipo_noticia.id],
+      relationName: 'tipo-noticia',
+    }),
   }),
 )
 export const relations_payload_locked_documents = relations(
@@ -762,7 +810,6 @@ export const relations_payload_preferences = relations(payload_preferences, ({ m
 export const relations_payload_migrations = relations(payload_migrations, () => ({}))
 
 type DatabaseSchema = {
-  enum_news_type: typeof enum_news_type
   enum_projects_category: typeof enum_projects_category
   enum_equipment_status: typeof enum_equipment_status
   enum_site_images_slug: typeof enum_site_images_slug
@@ -780,6 +827,7 @@ type DatabaseSchema = {
   team: typeof team
   equipment: typeof equipment
   site_images: typeof site_images
+  tipo_noticia: typeof tipo_noticia
   payload_locked_documents: typeof payload_locked_documents
   payload_locked_documents_rels: typeof payload_locked_documents_rels
   payload_preferences: typeof payload_preferences
@@ -799,6 +847,7 @@ type DatabaseSchema = {
   relations_team: typeof relations_team
   relations_equipment: typeof relations_equipment
   relations_site_images: typeof relations_site_images
+  relations_tipo_noticia: typeof relations_tipo_noticia
   relations_payload_locked_documents_rels: typeof relations_payload_locked_documents_rels
   relations_payload_locked_documents: typeof relations_payload_locked_documents
   relations_payload_preferences_rels: typeof relations_payload_preferences_rels

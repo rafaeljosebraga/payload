@@ -147,13 +147,8 @@ const NewsCarouselSection: React.FC = () => {
                     </div>
                     
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4 md:p-6">
-                      <span className={`text-xs font-semibold px-2 py-1 rounded-full mb-2 inline-block w-fit ${
-                        item.type === 'edital' ? 'bg-ndti-500 text-white' : 
-                        item.type === 'projeto' ? 'bg-ifnmg-blue text-white' : 
-                        'bg-white text-ndti-800'
-                      }`}>
-                        {item.type === 'edital' ? 'Edital' : 
-                         item.type === 'projeto' ? 'Projeto' : 'Evento'}
+                      <span className="text-xs font-semibold px-2 py-1 rounded-full mb-2 inline-block w-fit bg-white text-ndti-800">
+                        {item.type.nome}
                       </span>
                       <h3 className="text-xl text-white font-bold mb-2">{item.title}</h3>
                       <p className="text-gray-200 text-sm line-clamp-2">{item.description}</p>

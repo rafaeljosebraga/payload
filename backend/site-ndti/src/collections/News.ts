@@ -66,14 +66,18 @@ export const News: CollectionConfig = {
     },
     {
       name: 'type',
-      type: 'select',
+      type: 'relationship',
+      relationTo: 'tipo-noticia',
       label: 'Tipo',
-      options: [
-        { label: 'Edital', value: 'edital' },
-        { label: 'Evento', value: 'evento' },
-        { label: 'Projeto', value: 'projeto' },
-      ],
       required: true,
+      admin: {
+        description: 'Selecione o tipo de notícia',
+      },
+      filterOptions: {
+        ativo: {
+          equals: true,
+        },
+      },
     },
   ],
 }

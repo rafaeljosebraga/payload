@@ -9,6 +9,7 @@ import { Projects } from './collections/Projects'
 import { Team } from './collections/Team'
 import { Equipment } from './collections/Equipment'
 import { SiteImages } from './collections/SiteImages'
+import { TipoNoticia } from './collections/TipoNoticia'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import sharp from 'sharp'
 import { pt } from '@payloadcms/translations/languages/pt'
@@ -26,7 +27,7 @@ export default buildConfig({
   i18n: {
     supportedLanguages: { pt },
   },
-  collections: [Users, Media, News, Projects, Team, Equipment,SiteImages],
+  collections: [Users, Media, News, Projects, Team, Equipment, SiteImages, TipoNoticia],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

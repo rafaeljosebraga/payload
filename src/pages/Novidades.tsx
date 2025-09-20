@@ -4,34 +4,39 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import { getNews, NewsItem } from '@/lib/payload';
+import { getNews, getTiposNoticia, NewsItem, TipoNoticia } from '@/lib/payload';
 
 const Novidades: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<string>("todos");
   const [news, setNews] = useState<NewsItem[]>([]);
+  const [tiposNoticia, setTiposNoticia] = useState<TipoNoticia[]>([]);
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     window.scrollTo(0, 0);
     
-    // Buscar notícias do CMS
-    const fetchNews = async () => {
+    // Buscar notícias e tipos do CMS
+    const fetchData = async () => {
       try {
-        const newsData = await getNews();
+        const [newsData, tiposData] = await Promise.all([
+          getNews(),
+          getTiposNoticia()
+        ]);
         setNews(newsData);
+        setTiposNoticia(tiposData);
       } catch (error) {
-        console.error('Erro ao carregar notícias:', error);
+        console.error('Erro ao carregar dados:', error);
       } finally {
         setLoading(false);
       }
     };
     
-    fetchNews();
+    fetchData();
   }, []);
 
   const filteredNews = activeFilter === "todos" 
     ? news 
-    : news.filter(item => item.type === activeFilter);
+    : news.filter(item => item.type.id.toString() === activeFilter);
 
   if (loading) {
     return (
@@ -66,19 +71,28 @@ const Novidades: React.FC = () => {
 
           <div className="mb-10">
             <div className="flex flex-wrap gap-3 mb-6">
-              {["todos", "edital", "evento", "projeto"].map((filter) => (
+              <button
+                key="todos"
+                onClick={() => setActiveFilter("todos")}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  activeFilter === "todos"
+                    ? "bg-ifnmg-blue text-white"
+                    : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                }`}
+              >
+                Todos
+              </button>
+              {tiposNoticia.map((tipo) => (
                 <button
-                  key={filter}
-                  onClick={() => setActiveFilter(filter)}
+                  key={tipo.id}
+                  onClick={() => setActiveFilter(tipo.id.toString())}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    activeFilter === filter
+                    activeFilter === tipo.id.toString()
                       ? "bg-ifnmg-blue text-white"
                       : "bg-gray-100 text-gray-800 hover:bg-gray-200"
                   }`}
                 >
-                  {filter === "todos" ? "Todos" : 
-                   filter === "edital" ? "Editais" : 
-                   filter === "projeto" ? "Projetos" : "Eventos"}
+                  {tipo.nome}
                 </button>
               ))}
             </div>
@@ -97,13 +111,8 @@ const Novidades: React.FC = () => {
                   
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-3">
-                      <span className={`text-xs font-semibold px-2 py-1 rounded-full inline-block ${
-                        item.type === 'edital' ? 'bg-ndti-500 text-white' : 
-                        item.type === 'projeto' ? 'bg-ifnmg-blue text-white' :
-                        'bg-gray-100 text-ndti-800'
-                      }`}>
-                        {item.type === 'edital' ? 'Edital' : 
-                         item.type === 'projeto' ? 'Projeto' : 'Evento'}
+                      <span className="text-xs font-semibold px-2 py-1 rounded-full inline-block bg-ifnmg-blue text-white">
+                        {item.type.nome}
                       </span>
                       <span className="text-sm text-gray-500">
                         {new Date(item.date).toLocaleDateString('pt-BR')}

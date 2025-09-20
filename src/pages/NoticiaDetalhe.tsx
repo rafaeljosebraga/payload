@@ -70,13 +70,8 @@ const NoticiaDetalhe: React.FC = () => {
             
             <div>
               <div className="mb-6 flex items-center">
-                <span className={`text-xs font-semibold px-3 py-1 rounded-full mr-4 ${
-                  news.type === 'edital' ? 'bg-ndti-500 text-white' : 
-                  news.type === 'projeto' ? 'bg-ifnmg-blue text-white' :
-                  'bg-gray-100 text-ndti-800'
-                }`}>
-                  {news.type === 'edital' ? 'Edital' : 
-                   news.type === 'projeto' ? 'Projeto' : 'Evento'}
+                <span className="text-xs font-semibold px-3 py-1 rounded-full mr-4 bg-ifnmg-blue text-white">
+                  {news.type.nome}
                 </span>
                 <span className="text-sm text-gray-500">
                   {new Date(news.date).toLocaleDateString('pt-BR')}

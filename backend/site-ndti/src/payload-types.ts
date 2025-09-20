@@ -74,6 +74,7 @@ export interface Config {
     team: Team;
     equipment: Equipment;
     'site-images': SiteImage;
+    'tipo-noticia': TipoNoticia;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -87,6 +88,7 @@ export interface Config {
     team: TeamSelect<false> | TeamSelect<true>;
     equipment: EquipmentSelect<false> | EquipmentSelect<true>;
     'site-images': SiteImagesSelect<false> | SiteImagesSelect<true>;
+    'tipo-noticia': TipoNoticiaSelect<false> | TipoNoticiaSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -214,7 +216,33 @@ export interface News {
       }[]
     | null;
   image: number | Media;
-  type: 'edital' | 'evento' | 'projeto';
+  /**
+   * Selecione o tipo de notícia
+   */
+  type: number | TipoNoticia;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Gerencie os tipos de notícias disponíveis
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tipo-noticia".
+ */
+export interface TipoNoticia {
+  id: number;
+  /**
+   * Nome do tipo de notícia (ex: Edital, Evento, Projeto)
+   */
+  nome: string;
+  /**
+   * Descrição opcional do tipo de notícia
+   */
+  descricao?: string | null;
+  /**
+   * Define se este tipo está ativo para uso
+   */
+  ativo?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -368,6 +396,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'site-images';
         value: number | SiteImage;
+      } | null)
+    | ({
+        relationTo: 'tipo-noticia';
+        value: number | TipoNoticia;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -589,6 +621,17 @@ export interface SiteImagesSelect<T extends boolean = true> {
   slug?: T;
   description?: T;
   image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tipo-noticia_select".
+ */
+export interface TipoNoticiaSelect<T extends boolean = true> {
+  nome?: T;
+  descricao?: T;
+  ativo?: T;
   updatedAt?: T;
   createdAt?: T;
 }

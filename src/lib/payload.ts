@@ -1,5 +1,12 @@
 const PAYLOAD_API_URL = 'http://localhost:3000/api'
 
+export interface TipoNoticia {
+  id: string | number
+  nome: string
+  descricao?: string
+  ativo: boolean
+}
+
 export interface NewsItem {
   id: string | number
   title: string
@@ -9,7 +16,7 @@ export interface NewsItem {
     url: string
     alt: string
   }
-  type: 'edital' | 'evento' | 'projeto'
+  type: TipoNoticia
   date: string
 }
 
@@ -64,7 +71,7 @@ export type Equipment = {
 
 export async function getNews(): Promise<NewsItem[]> {
   try {
-    const response = await fetch(`${PAYLOAD_API_URL}/news`)
+    const response = await fetch(`${PAYLOAD_API_URL}/news?populate=type`)
     const data = await response.json()
     
     // Transformar URLs relativas em absolutas
@@ -101,6 +108,17 @@ export async function getNewsById(id: string): Promise<NewsItem | null> {
   } catch (error) {
     console.error('Erro ao buscar notícia:', error)
     return null
+  }
+}
+
+export async function getTiposNoticia(): Promise<TipoNoticia[]> {
+  try {
+    const response = await fetch(`${PAYLOAD_API_URL}/tipo-noticia?where[ativo][equals]=true`)
+    const data = await response.json()
+    return data.docs || []
+  } catch (error) {
+    console.error('Erro ao buscar tipos de notícia:', error)
+    return []
   }
 }
 

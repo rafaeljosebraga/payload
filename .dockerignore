@@ -10,3 +10,11 @@ coverage
 dist
 .next
 .vscode
+backend/site-ndti/media/*
+backend/site-ndti/Payload.db*
+backend/site-ndti/.env*
+*.md
+*.txt
+.dockerignore
+Dockerfile
+docker-compose.yml
