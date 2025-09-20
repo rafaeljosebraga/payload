@@ -4,36 +4,40 @@ import { ArrowRight, Calendar, Users, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import { getProjects, Project } from '@/lib/payload';
+import { getProjects, getCategoriasProjeto, Project, CategoriaProjeto } from '@/lib/payload';
+import { formatDate } from '@/lib/utils';
 
 const Projetos: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [categorias, setCategorias] = useState<CategoriaProjeto[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<string>("todos");
 
   useEffect(() => {
     window.scrollTo(0, 0);
     
-    const fetchProjects = async () => {
+    const fetchData = async () => {
       try {
-        const projectsData = await getProjects();
+        const [projectsData, categoriasData] = await Promise.all([
+          getProjects(),
+          getCategoriasProjeto()
+        ]);
         console.log('Dados dos projetos recebidos:', projectsData);
         setProjects(projectsData);
+        setCategorias(categoriasData);
       } catch (error) {
-        console.error('Erro ao carregar projetos:', error);
+        console.error('Erro ao carregar dados:', error);
       } finally {
         setLoading(false);
       }
     };
     
-    fetchProjects();
+    fetchData();
   }, []);
 
-  const categories = ["todos", "Desenvolvimento Web", "Aplicativo Móvel", "Plataforma Web", "IoT & Software"];
-  
   const filteredProjects = activeFilter === "todos" 
     ? projects 
-    : projects.filter(project => project.category === activeFilter);
+    : projects.filter(project => project.category.id.toString() === activeFilter);
 
   console.log('Projetos filtrados:', filteredProjects);
   console.log('Filtro ativo:', activeFilter);
@@ -70,17 +74,28 @@ const Projetos: React.FC = () => {
 
           <div className="mb-10">
             <div className="flex flex-wrap gap-3 mb-8">
-              {categories.map((category) => (
+              <button
+                key="todos"
+                onClick={() => setActiveFilter("todos")}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  activeFilter === "todos"
+                    ? "bg-ifnmg-blue text-white"
+                    : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                }`}
+              >
+                Todos
+              </button>
+              {categorias.map((categoria) => (
                 <button
-                  key={category}
-                  onClick={() => setActiveFilter(category)}
+                  key={categoria.id}
+                  onClick={() => setActiveFilter(categoria.id.toString())}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    activeFilter === category
+                    activeFilter === categoria.id.toString()
                       ? "bg-ifnmg-blue text-white"
                       : "bg-gray-100 text-gray-800 hover:bg-gray-200"
                   }`}
                 >
-                  {category === "todos" ? "Todos" : category}
+                  {categoria.nome}
                 </button>
               ))}
             </div>
@@ -100,11 +115,11 @@ const Projetos: React.FC = () => {
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-3">
                       <span className="text-xs font-semibold bg-ifnmg-blue text-white px-2 py-1 rounded-full">
-                        {project.category}
+                        {project.category.nome}
                       </span>
                       <span className="text-xs text-gray-500 flex items-center">
                         <Calendar className="h-3 w-3 mr-1" />
-                        {project.startDate}
+                        {formatDate(project.startDate)}
                       </span>
                     </div>
                     

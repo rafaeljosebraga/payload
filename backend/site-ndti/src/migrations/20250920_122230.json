@@ -1,5 +1,5 @@
 {
-  "id": "617b06af-cafd-40b3-a85a-e6ac04d42c97",
+  "id": "f56c40d2-0d7e-4438-8bee-33a38da37def",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -1083,10 +1083,9 @@
           "primaryKey": false,
           "notNull": true
         },
-        "category": {
-          "name": "category",
-          "type": "enum_projects_category",
-          "typeSchema": "public",
+        "category_id": {
+          "name": "category_id",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
@@ -1136,6 +1135,21 @@
         }
       },
       "indexes": {
+        "projects_category_idx": {
+          "name": "projects_category_idx",
+          "columns": [
+            {
+              "expression": "category_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "projects_image_idx": {
           "name": "projects_image_idx",
           "columns": [
@@ -1183,6 +1197,19 @@
         }
       },
       "foreignKeys": {
+        "projects_category_id_categoria_projeto_id_fk": {
+          "name": "projects_category_id_categoria_projeto_id_fk",
+          "tableFrom": "projects",
+          "tableTo": "categoria_projeto",
+          "columnsFrom": [
+            "category_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
         "projects_image_id_media_id_fk": {
           "name": "projects_image_id_media_id_fk",
           "tableFrom": "projects",
@@ -1767,6 +1794,89 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.categoria_projeto": {
+      "name": "categoria_projeto",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "descricao": {
+          "name": "descricao",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "categoria_projeto_updated_at_idx": {
+          "name": "categoria_projeto_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "categoria_projeto_created_at_idx": {
+          "name": "categoria_projeto_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.payload_locked_documents": {
       "name": "payload_locked_documents",
       "schema": "",
@@ -1924,6 +2034,12 @@
         },
         "tipo_noticia_id": {
           "name": "tipo_noticia_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "categoria_projeto_id": {
+          "name": "categoria_projeto_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
@@ -2094,6 +2210,21 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "payload_locked_documents_rels_categoria_projeto_id_idx": {
+          "name": "payload_locked_documents_rels_categoria_projeto_id_idx",
+          "columns": [
+            {
+              "expression": "categoria_projeto_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -2207,6 +2338,19 @@
           "tableTo": "tipo_noticia",
           "columnsFrom": [
             "tipo_noticia_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_categoria_projeto_fk": {
+          "name": "payload_locked_documents_rels_categoria_projeto_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "categoria_projeto",
+          "columnsFrom": [
+            "categoria_projeto_id"
           ],
           "columnsTo": [
             "id"
@@ -2521,16 +2665,6 @@
     }
   },
   "enums": {
-    "public.enum_projects_category": {
-      "name": "enum_projects_category",
-      "schema": "public",
-      "values": [
-        "Desenvolvimento Web",
-        "Aplicativo Móvel",
-        "Plataforma Web",
-        "IoT & Software"
-      ]
-    },
     "public.enum_equipment_status": {
       "name": "enum_equipment_status",
       "schema": "public",

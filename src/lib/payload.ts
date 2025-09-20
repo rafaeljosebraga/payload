@@ -1,5 +1,12 @@
 const PAYLOAD_API_URL = 'http://localhost:3000/api'
 
+export interface CategoriaProjeto {
+  id: string | number
+  nome: string
+  descricao?: string
+  ativo: boolean
+}
+
 export interface TipoNoticia {
   id: string | number
   nome: string
@@ -23,7 +30,7 @@ export interface NewsItem {
 export interface Project {
   id: string | number
   title: string
-  category: string
+  category: CategoriaProjeto
   image: {
     url: string
     alt: string
@@ -122,9 +129,20 @@ export async function getTiposNoticia(): Promise<TipoNoticia[]> {
   }
 }
 
+export async function getCategoriasProjeto(): Promise<CategoriaProjeto[]> {
+  try {
+    const response = await fetch(`${PAYLOAD_API_URL}/categoria-projeto?where[ativo][equals]=true`)
+    const data = await response.json()
+    return data.docs || []
+  } catch (error) {
+    console.error('Erro ao buscar categorias de projeto:', error)
+    return []
+  }
+}
+
 export async function getProjects(): Promise<Project[]> {
   try {
-    const response = await fetch(`${PAYLOAD_API_URL}/projects`)
+    const response = await fetch(`${PAYLOAD_API_URL}/projects?depth=1`)
     const data = await response.json()
     
     // Transformar URLs relativas em absolutas
@@ -147,7 +165,7 @@ export async function getProjects(): Promise<Project[]> {
 
 export async function getProjectById(id: string): Promise<Project | null> {
   try {
-    const response = await fetch(`${PAYLOAD_API_URL}/projects/${id}`)
+    const response = await fetch(`${PAYLOAD_API_URL}/projects/${id}?depth=1`)
     if (!response.ok) return null
     
     const project = await response.json()

@@ -30,15 +30,15 @@ export const Projects: CollectionConfig = {
     },
     {
       name: 'category',
-      type: 'select',
+      type: 'relationship',
+      relationTo: 'categoria-projeto',
       label: 'Categoria',
-      options: [
-        { label: 'Desenvolvimento Web', value: 'Desenvolvimento Web' },
-        { label: 'Aplicativo Móvel', value: 'Aplicativo Móvel' },
-        { label: 'Plataforma Web', value: 'Plataforma Web' },
-        { label: 'IoT & Software', value: 'IoT & Software' },
-      ],
       required: true,
+      filterOptions: {
+        ativo: {
+          equals: true,
+        },
+      },
     },
     {
       name: 'image',

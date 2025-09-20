@@ -5,6 +5,7 @@ import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { getProjectById, Project } from '@/lib/payload';
+import { formatDate } from '@/lib/utils';
 
 const ProjetoDetalhe: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -98,7 +99,7 @@ const ProjetoDetalhe: React.FC = () => {
             />
             <div className="absolute inset-0 z-20 flex flex-col justify-center p-8">
               <span className="inline-block bg-white text-ifnmg-blue px-3 py-1 rounded-full text-sm font-medium mb-4">
-                {project.category}
+                {project.category.nome}
               </span>
               <h1 className="text-4xl font-bold text-white mb-2">{project.title}</h1>
               <p className="text-lg text-gray-200 max-w-2xl">{project.description}</p>
@@ -132,7 +133,7 @@ const ProjetoDetalhe: React.FC = () => {
                 <div className="space-y-3">
                   <div>
                     <p className="text-sm text-gray-500">Início do Projeto</p>
-                    <p className="text-gray-800">{project.startDate}</p>
+                    <p className="text-gray-800">{formatDate(project.startDate)}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Status</p>

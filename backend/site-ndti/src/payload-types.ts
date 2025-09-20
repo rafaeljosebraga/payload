@@ -75,6 +75,7 @@ export interface Config {
     equipment: Equipment;
     'site-images': SiteImage;
     'tipo-noticia': TipoNoticia;
+    'categoria-projeto': CategoriaProjeto;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -89,6 +90,7 @@ export interface Config {
     equipment: EquipmentSelect<false> | EquipmentSelect<true>;
     'site-images': SiteImagesSelect<false> | SiteImagesSelect<true>;
     'tipo-noticia': TipoNoticiaSelect<false> | TipoNoticiaSelect<true>;
+    'categoria-projeto': CategoriaProjetoSelect<false> | CategoriaProjetoSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -255,7 +257,7 @@ export interface TipoNoticia {
 export interface Project {
   id: number;
   title: string;
-  category: 'Desenvolvimento Web' | 'Aplicativo Móvel' | 'Plataforma Web' | 'IoT & Software';
+  category: number | CategoriaProjeto;
   image: number | Media;
   description: string;
   technologies?:
@@ -285,6 +287,29 @@ export interface Project {
       }[]
     | null;
   repository?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Gerencie as categorias de projetos disponíveis no sistema
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categoria-projeto".
+ */
+export interface CategoriaProjeto {
+  id: number;
+  /**
+   * Nome da categoria de projeto (ex: Desenvolvimento Web, IoT & Software)
+   */
+  nome: string;
+  /**
+   * Descrição opcional da categoria
+   */
+  descricao?: string | null;
+  /**
+   * Marque para exibir esta categoria no sistema
+   */
+  ativo?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -400,6 +425,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tipo-noticia';
         value: number | TipoNoticia;
+      } | null)
+    | ({
+        relationTo: 'categoria-projeto';
+        value: number | CategoriaProjeto;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -629,6 +658,17 @@ export interface SiteImagesSelect<T extends boolean = true> {
  * via the `definition` "tipo-noticia_select".
  */
 export interface TipoNoticiaSelect<T extends boolean = true> {
+  nome?: T;
+  descricao?: T;
+  ativo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categoria-projeto_select".
+ */
+export interface CategoriaProjetoSelect<T extends boolean = true> {
   nome?: T;
   descricao?: T;
   ativo?: T;

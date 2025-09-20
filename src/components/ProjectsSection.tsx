@@ -80,7 +80,7 @@ const ProjectsSection: React.FC = () => {
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-2xl font-bold text-ndti-800">{projects[activeProject].title}</h3>
                 <span className="px-3 py-1 bg-ndti-100 text-ndti-800 rounded-full text-sm">
-                  {projects[activeProject].category}
+                  {projects[activeProject].category.nome}
                 </span>
               </div>
               <p className="text-gray-700 mb-6">{projects[activeProject].description}</p>
@@ -122,7 +122,7 @@ const ProjectsSection: React.FC = () => {
                         <h4 className={`font-semibold ${activeProject === index ? 'text-ndti-800' : 'text-gray-800'}`}>
                           {project.title}
                         </h4>
-                        <p className="text-sm text-gray-500 mt-1">{project.category}</p>
+                        <p className="text-sm text-gray-500 mt-1">{project.category.nome}</p>
                       </div>
                       <div className={`h-3 w-3 rounded-full ${activeProject === index ? 'bg-ndti-700' : 'bg-gray-200'}`}></div>
                     </div>
