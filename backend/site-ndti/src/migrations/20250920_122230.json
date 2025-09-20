@@ -1497,7 +1497,7 @@
         },
         "acquisition_year": {
           "name": "acquisition_year",
-          "type": "numeric",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": true
         },

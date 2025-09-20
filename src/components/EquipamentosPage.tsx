@@ -4,6 +4,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { ArrowRight, Search } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
+// Função para extrair apenas o ano da data
+const getYearFromDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.getFullYear();
+};
+
 const EquipamentosPage: React.FC = () => {
   const [equipments, setEquipments] = useState<Equipment[]>([])
   const [loading, setLoading] = useState(true)
@@ -96,7 +102,7 @@ const EquipamentosPage: React.FC = () => {
                     <TableCell>{eq.name}</TableCell>
                     <TableCell>{eq.brand}</TableCell>
                     <TableCell>{eq.model}</TableCell>
-                    <TableCell>{eq.acquisitionYear}</TableCell>
+                    <TableCell>{getYearFromDate(eq.acquisitionYear)}</TableCell>
                     <TableCell>
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-medium ${

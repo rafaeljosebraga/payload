@@ -51,15 +51,16 @@ export const Equipment: CollectionConfig = {
     },
     {
       name: 'acquisitionYear',
-      type: 'number',
+      type: 'date',
       required: true,
       label: 'Ano de Aquisição',
       admin: {
         description: 'Ano em que o equipamento foi adquirido',
-        step: 1,
+        date: {
+          pickerAppearance: 'default',
+          displayFormat: 'yyyy',
+        },
       },
-      min: 1900,
-      max: new Date().getFullYear() + 1,
     },
     {
       name: 'code',

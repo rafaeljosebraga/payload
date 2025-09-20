@@ -363,7 +363,7 @@ export interface Equipment {
   /**
    * Ano em que o equipamento foi adquirido
    */
-  acquisitionYear: number;
+  acquisitionYear: string;
   /**
    * Código único de identificação do equipamento
    */

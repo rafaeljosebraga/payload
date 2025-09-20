@@ -68,7 +68,7 @@ export type Equipment = {
   name: string
   brand: string
   model: string
-  acquisitionYear: number
+  acquisitionYear: string
   code: string
   status: 'available' | 'maintenance' | 'unavailable' | 'out_of_order'
   createdAt: string

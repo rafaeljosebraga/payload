@@ -361,7 +361,11 @@ export const equipment = pgTable(
     name: varchar('name').notNull(),
     brand: varchar('brand').notNull(),
     model: varchar('model').notNull(),
-    acquisitionYear: numeric('acquisition_year').notNull(),
+    acquisitionYear: timestamp('acquisition_year', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }).notNull(),
     code: varchar('code').notNull(),
     status: enum_equipment_status('status').notNull().default('available'),
     updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
