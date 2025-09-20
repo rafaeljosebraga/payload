@@ -1,256 +1,433 @@
-# Site NDTI - Sistema de Gestão de Conteúdo
+# 📋 **Guia de Instalação e Execução - Aplicação Docker**
 
-Este repositório contém o site institucional do NDTI (Núcleo de Desenvolvimento de Tecnologia da Informação), desenvolvido com uma arquitetura moderna de frontend/backend usando React, Vite, PayloadCMS e Next.js.
+Este documento contém instruções completas para executar a aplicação usando Docker em Windows, macOS e Linux.
 
-## 🏗️ Arquitetura do Projeto
+## 🏗️ **Arquitetura da Aplicação**
 
-O projeto é estruturado em duas aplicações principais:
+A aplicação é composta por dois serviços:
 
-### Frontend (React + Vite + TypeScript)
-- **Localização**: Pasta raiz (`/`)
-- **Framework**: React 18 com Vite
-- **UI**: Tailwind CSS + shadcn/ui components
-- **Roteamento**: React Router DOM
-- **Estado**: TanStack Query para gerenciamento de dados
-- **Porta**: 8080 (desenvolvimento)
+- **Frontend**: React + Vite servido via Nginx (porta 8080)
+- **Backend**: Next.js + Payload CMS (porta 3000)
 
-### Backend (PayloadCMS + Next.js)
-- **Localização**: `/backend/site-ndti/`
-- **CMS**: PayloadCMS 3.x
-- **Framework**: Next.js 15
-- **Banco de Dados**: SQLite (desenvolvimento) / PostgreSQL (produção)
-- **Porta**: 3000
+## 🔧 **Pré-requisitos**
 
-## 🚀 Funcionalidades
+### **Windows**
 
-### Frontend
-- ✅ **Página Inicial**: Hero section, carousel de notícias, sobre, projetos, equipe e contato
-- ✅ **Novidades**: Listagem e detalhes de notícias
-- ✅ **Projetos**: Showcase de projetos com detalhes
-- ✅ **Equipamentos**: Catálogo de equipamentos
-- ✅ **Equipe**: Apresentação da equipe
-- ✅ **Sobre NDTI**: Informações institucionais
-- ✅ **Design Responsivo**: Interface adaptável para todos os dispositivos
-- ✅ **Tema Escuro/Claro**: Toggle de tema
-- ✅ **Animações**: Intersection Observer para scroll animations
-
-### Backend (CMS)
-- ✅ **Gestão de Usuários**: Sistema de autenticação e autorização
-- ✅ **Gestão de Mídia**: Upload e organização de imagens/arquivos
-- ✅ **Gestão de Notícias**: CRUD completo de notícias
-- ✅ **Gestão de Projetos**: Administração de projetos
-- ✅ **Gestão de Equipe**: Cadastro de membros da equipe
-- ✅ **API REST/GraphQL**: Endpoints automáticos gerados pelo Payload
-- ✅ **Interface em Português**: Localização PT-BR
-
-## 🛠️ Stack Tecnológica
-
-### Frontend
-```json
-{
-  "framework": "React 18 + Vite",
-  "linguagem": "TypeScript",
-  "ui": "Tailwind CSS + shadcn/ui",
-  "icons": "Lucide React",
-  "forms": "React Hook Form + Zod",
-  "routing": "React Router DOM",
-  "data-fetching": "TanStack Query",
-  "animations": "Tailwind CSS + CSS Animations"
-}
-```
-
-### Backend
-```json
-{
-  "cms": "PayloadCMS 3.40.0",
-  "framework": "Next.js 15",
-  "linguagem": "TypeScript",
-  "database": "SQLite (dev) / PostgreSQL (prod)",
-  "editor": "Lexical Editor",
-  "auth": "Payload Auth",
-  "api": "REST + GraphQL"
-}
-```
-
-## 📦 Instalação e Configuração
-
-### Pré-requisitos
-- Node.js >= 18.20.2 ou >= 20.9.0
-- Bun ou npm/yarn/pnpm
-- Git
-
-### 1. Clone o repositório
 ```bash
-git clone <url-do-repositorio>
+# Opção 1: Docker Desktop (Recomendado)
+# 1. Baixar Docker Desktop: https://www.docker.com/products/docker-desktop
+# 2. Instalar e reiniciar o sistema
+# 3. Abrir Docker Desktop e aguardar inicialização
+
+# Opção 2: Via Chocolatey
+choco install docker-desktop
+
+# Verificar instalação
+docker --version
+docker-compose --version
+```
+
+### **macOS**
+
+```bash
+# Opção 1: Docker Desktop (Recomendado)
+# 1. Baixar Docker Desktop: https://www.docker.com/products/docker-desktop
+# 2. Arrastar para pasta Applications
+# 3. Abrir Docker Desktop
+
+# Opção 2: Via Homebrew
+brew install --cask docker
+
+# Verificar instalação
+docker --version
+docker-compose --version
+```
+
+### **Linux (Ubuntu/Debian)**
+
+```bash
+# Atualizar repositórios
+sudo apt update
+
+# Instalar dependências
+sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release
+
+# Adicionar chave GPG do Docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+# Adicionar repositório Docker
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Instalar Docker
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+# Adicionar usuário ao grupo docker (opcional)
+sudo usermod -aG docker $USER
+
+# Verificar instalação
+docker --version
+docker compose version
+```
+
+### **Linux (CentOS/RHEL/Fedora)**
+
+```bash
+# CentOS/RHEL
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+# Fedora
+sudo dnf -y install dnf-plugins-core
+sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+# Iniciar Docker
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Verificar instalação
+docker --version
+docker compose version
+```
+
+---
+
+## 🚀 **Executando a Aplicação**
+
+### **1. Clonando o Projeto**
+
+```bash
+# Clone o repositório
+git clone <URL_DO_REPOSITORIO>
+cd <NOME_DO_PROJETO>
+
+# Navegar para a pasta do Docker
 cd payload
 ```
 
-### 2. Configuração do Frontend
+### **2. Configuração (Primeira Execução)**
 
 ```bash
-# Instalar dependências
-bun install
+# Verificar se o Docker está rodando
+docker info
 
-# Iniciar servidor de desenvolvimento
-bun run dev
+# Se não estiver rodando:
+# Windows/Mac: Abrir Docker Desktop
+# Linux: sudo systemctl start docker
 ```
 
-O frontend estará disponível em: `http://localhost:8080`
+### **3. Executando a Aplicação**
 
-### 3. Configuração do Backend
+**🎯 Comando Recomendado (Build + Run + Background):**
 
 ```bash
-# Navegar para o diretório do backend
-cd backend/site-ndti
-
-# Instalar dependências
-npm install
-# ou
-pnpm install
-
-# Configurar variáveis de ambiente
-cp .env.example .env.local
+docker-compose up --build -d (macOS)
+docker compose up --build -d (linux)
 ```
 
-### 4. Configuração das Variáveis de Ambiente
-
-Crie um arquivo `.env.local` no diretório `backend/site-ndti/`:
-
-```env
-# Payload
-PAYLOAD_SECRET=sua-chave-secreta-aqui
-DATABASE_URL=file:./site-ndti.db
-
-# Para produção com PostgreSQL
-# DATABASE_URI=postgresql://usuario:senha@localhost:5432/ndti
-
-# Next.js
-NEXT_PUBLIC_PAYLOAD_URL=http://localhost:3000
-```
-
-### 5. Iniciar o Backend
+**🔄 Primeira Execução ou com Mudanças no Código:**
 
 ```bash
-# Desenvolvimento
-npm run dev
-
-# Produção
-npm run build
-npm start
+docker-compose up --build
 ```
 
-O backend estará disponível em: `http://localhost:3000`
-Admin Panel: `http://localhost:3000/admin`
+**⚡ Execução Rápida (sem rebuild):**
 
-## 🗄️ Estrutura do Banco de Dados
-
-### Collections (PayloadCMS)
-
-#### Users
-- Usuários administrativos do sistema
-- Campos: email, senha, roles
-
-#### Media
-- Gerenciamento de arquivos e imagens
-- Campos: filename, alt, sizes, url
-
-#### News
-- Sistema de notícias/blog
-- Campos: título, conteúdo, imagem, data, autor, status
-
-#### Projects
-- Portfolio de projetos
-- Campos: nome, descrição, tecnologias, imagens, status
-
-#### Team
-- Membros da equipe
-- Campos: nome, cargo, bio, foto, redes sociais
-
-## 🔧 Scripts Disponíveis
-
-### Frontend
 ```bash
-bun run dev          # Servidor de desenvolvimento (porta 8080)
-bun run build        # Build para produção
-bun run build:dev    # Build modo desenvolvimento
-bun run preview      # Preview do build
-bun run lint         # Verificar código
+docker-compose up
 ```
 
-### Backend
+**🔧 Execução em Background (Detached):**
+
 ```bash
-npm run dev          # Servidor de desenvolvimento (porta 3000)
-npm run build        # Build para produção
-npm run start        # Iniciar produção
-npm run generate:types  # Gerar tipos TypeScript
-npm run payload      # CLI do Payload
-```
-
-## 🚀 Deploy
-
-### Frontend (Vercel/Netlify)
-1. Build: `bun run build`
-2. Pasta de saída: `dist/`
-3. Configurar variável de ambiente: `VITE_API_URL=https://seu-backend.com`
-
-### Backend (Railway/Heroku/VPS)
-1. Configurar PostgreSQL
-2. Definir variáveis de ambiente
-3. Build: `npm run build`
-4. Start: `npm start`
-
-### Docker (Backend)
-```bash
-cd backend/site-ndti
 docker-compose up -d
 ```
 
-## 🤝 Contribuição
+**💡 Observação Importante:**
 
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/NovaFeature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
-4. Push para a branch (`git push origin feature/NovaFeature`)
-5. Abra um Pull Request
+- Use `docker-compose up --build -d` quando quiser reconstruir e executar em background
+- Se os containers já estiverem rodando, o comando `docker-compose up` apenas se anexará aos logs existentes
+- Isso pode parecer "lento" mas na verdade está apenas mostrando os logs em tempo real
+- Para verificar se está funcionando, acesse <http://localhost:8080> e <http://localhost:3000>
+- O `-d` (detached) executa em background, liberando o terminal para outros comandos
 
-## 📝 Convenções de Código
+### **4. Verificando se está Funcionando**
 
-- **Frontend**: ESLint + Prettier
-- **Backend**: ESLint + Prettier
-- **Commits**: Conventional Commits
-- **Branches**: GitFlow
+**✅ Verificar Status dos Containers:**
 
-## 🔒 Segurança
+```bash
+docker-compose ps
+```
 
-- Autenticação via PayloadCMS
-- CORS configurado para desenvolvimento
-- Sanitização de dados de entrada
-- Validação com Zod (frontend)
+**📋 Ver Logs dos Serviços:**
 
-## 📞 Suporte
+```bash
+# Todos os logs
+docker-compose logs
 
-Para dúvidas e suporte:
-- **Email**: contato@ndti.com
-- **Issues**: Use o sistema de issues do GitHub
+# Logs do frontend apenas
+docker-compose logs frontend
 
-## 📄 Licença
+# Logs do backend apenas
+docker-compose logs backend
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+# Logs em tempo real
+docker-compose logs -f
+```
+
+**🌐 Acessar a Aplicação:**
+
+- **Frontend (React):** <http://localhost:8080>
+- **Backend/Admin (Payload CMS):** <http://localhost:3000>
+
+### **5. Parando a Aplicação**
+
+**🛑 Parar Containers (mantém dados):**
+
+```bash
+docker-compose stop
+```
+
+**🗑️ Parar e Remover Containers:**
+
+```bash
+docker-compose down
+```
+
+**🧹 Limpeza Completa (remove volumes/dados):**
+
+```bash
+docker-compose down -v
+```
 
 ---
 
-## 🎯 Roadmap
+## 🔧 **Comandos Úteis para Desenvolvimento**
 
-- [ ] Sistema de autenticação no frontend
-- [ ] Dashboard administrativo personalizado
-- [ ] Sistema de comentários nas notícias
-- [ ] Newsletter/mailing list
-- [ ] Busca avançada
-- [ ] PWA (Progressive Web App)
-- [ ] Internacionalização (i18n)
-- [ ] Testes automatizados
-- [ ] CI/CD com GitHub Actions
+### **Rebuild Forçado:**
+
+```bash
+# Rebuild sem cache
+docker-compose build --no-cache
+
+# Up com rebuild forçado em background (recomendado)
+docker-compose up --build --force-recreate -d
+
+# Up com rebuild forçado (com logs visíveis)
+docker-compose up --build --force-recreate
+```
+
+### **Executar Comandos nos Containers:**
+
+```bash
+# Entrar no container do backend
+docker-compose exec backend sh
+
+# Entrar no container do frontend
+docker-compose exec frontend sh
+
+# Executar comando específico
+docker-compose exec backend npm install nova-dependencia
+```
+
+### **Logs Específicos:**
+
+```bash
+# Logs com timestamp
+docker-compose logs -t
+
+# Últimas 50 linhas
+docker-compose logs --tail=50
+
+# Logs de um serviço específico
+docker-compose logs frontend
+```
+
+### **Gerenciamento de Volumes:**
+
+```bash
+# Listar volumes
+docker volume ls
+
+# Inspecionar volume
+docker volume inspect payload_db_data
+```
 
 ---
 
-**Desenvolvido com ❤️ pela equipe NDTI**
+## 🐛 **Resolução de Problemas Comuns**
+
+### **Problema: "Cannot connect to Docker daemon"**
+
+```bash
+# Windows/Mac: Verificar se Docker Desktop está rodando
+# Linux: Iniciar serviço Docker
+sudo systemctl start docker
+```
+
+### **Problema: "Port already in use"**
+
+```bash
+# Verificar o que está usando a porta
+# Windows:
+netstat -ano | findstr :8080
+netstat -ano | findstr :3000
+
+# Mac/Linux:
+lsof -i :8080
+lsof -i :3000
+
+# Matar processo usando a porta
+# Windows: taskkill /PID <PID> /F
+# Mac/Linux: kill -9 <PID>
+```
+
+### **Problema: "No space left on device"**
+
+```bash
+# Limpar containers e imagens não utilizadas
+docker system prune -a
+
+# Limpar volumes não utilizados
+docker volume prune
+```
+
+### **Problema: Build muito lento**
+
+```bash
+# Usar cache do Docker
+docker-compose build
+
+# Verificar se o .dockerignore está configurado corretamente
+```
+
+---
+
+## 📝 **Estrutura do Projeto**
+
+```
+payload/
+├── Dockerfile                 # Frontend (React + Vite)
+├── docker-compose.yml         # Orquestração dos serviços
+├── backend/
+│   └── site-ndti/
+│       ├── Dockerfile          # Backend (Next.js + Payload)
+│       ├── package.json
+│       └── .env
+└── src/                       # Código fonte do frontend
+```
+
+---
+
+## 🎯 **Resumo dos Comandos Essenciais**
+
+```bash
+# 1. COMANDO RECOMENDADO (Build + Background)
+docker-compose up --build -d
+
+# 2. PRIMEIRA EXECUÇÃO OU MUDANÇAS (com logs visíveis)
+docker-compose up --build
+
+# 3. EXECUÇÕES SUBSEQUENTES  
+docker-compose up
+
+# 4. PARAR APLICAÇÃO
+docker-compose down
+
+# 5. VER STATUS
+docker-compose ps
+
+# 5. VER LOGS
+docker-compose logs
+
+# 6. LIMPEZA COMPLETA
+docker-compose down -v && docker system prune -a
+
+# 7. SEMEAR BANCO DE DADOS
+docker-compose exec -T postgres psql -U payload payload < seed.sql
+```
+
+---
+
+## 📊 **Logs de Sucesso Esperados**
+
+Quando a aplicação estiver funcionando corretamente, você verá:
+
+### Frontend
+
+```
+⚡ Frontend (Vite + React)
+- Local:        http://localhost:8080
+- Network:      http://0.0.0.0:80
+
+✓ Frontend ready and serving on port 80
+```
+
+### Backend
+
+```
+▲ Next.js 15.3.0
+- Local:        http://localhost:3000
+- Network:      http://172.18.0.3:3000
+
+✓ Ready in 680ms
+```
+
+---
+
+## 🤝 **Contribuindo**
+
+Para contribuir com o projeto:
+
+1. Faça as alterações necessárias
+2. Teste localmente com `docker-compose up --build -d`
+3. Verifique se ambos os serviços estão funcionando (`docker-compose ps`)
+4. Verifique os logs se necessário (`docker-compose logs`)
+5. Faça commit das alterações
+
+---
+
+## 📞 **Suporte**
+
+Se encontrar problemas:
+
+1. Verifique se o Docker está instalado e rodando
+2. Confirme que as portas 3000 e 8080 estão livres
+3. Execute `docker-compose logs` para ver os erros
+4. Tente a limpeza completa: `docker-compose down -v && docker system prune -a`
+
+---
+
+
+
+
+
+
+
+
+
+
+# Criar uma nova migration
+docker compose exec payload npm run payload migrate:create
+
+# Aplicar migrations pendentes
+docker compose exec payload npm run payload migrate
+
+# Ver status das migrations
+docker compose exec payload npm run payload migrate:status
+
+# Gerar schema do banco
+docker compose exec payload npm run payload generate:db-schema
+
+# Gerar tipos TypeScript
+docker compose exec payload npm run generate:types
+
+# Conectar ao PostgreSQL
+docker compose exec postgres psql -U payload -d payload
+
+# Ver tabelas
+\dt
+
+*Última atualização: 8 de julho de 2025*
