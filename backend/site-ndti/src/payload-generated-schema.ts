@@ -327,7 +327,11 @@ export const team = pgTable(
   {
     id: serial('id').primaryKey(),
     name: varchar('name').notNull(),
-    role: varchar('role').notNull(),
+    role: integer('role_id')
+      .notNull()
+      .references(() => role.id, {
+        onDelete: 'set null',
+      }),
     description: varchar('description'),
     image: integer('image_id')
       .notNull()
@@ -348,6 +352,7 @@ export const team = pgTable(
       .notNull(),
   },
   (columns) => ({
+    team_role_idx: index('team_role_idx').on(columns.role),
     team_image_idx: index('team_image_idx').on(columns.image),
     team_updated_at_idx: index('team_updated_at_idx').on(columns.updatedAt),
     team_created_at_idx: index('team_created_at_idx').on(columns.createdAt),
@@ -452,6 +457,26 @@ export const categoria_projeto = pgTable(
   }),
 )
 
+export const role = pgTable(
+  'role',
+  {
+    id: serial('id').primaryKey(),
+    nome: varchar('nome').notNull(),
+    descricao: varchar('descricao'),
+    ativo: boolean('ativo').default(true),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+  },
+  (columns) => ({
+    role_updated_at_idx: index('role_updated_at_idx').on(columns.updatedAt),
+    role_created_at_idx: index('role_created_at_idx').on(columns.createdAt),
+  }),
+)
+
 export const payload_locked_documents = pgTable(
   'payload_locked_documents',
   {
@@ -493,6 +518,7 @@ export const payload_locked_documents_rels = pgTable(
     'site-imagesID': integer('site_images_id'),
     'tipo-noticiaID': integer('tipo_noticia_id'),
     'categoria-projetoID': integer('categoria_projeto_id'),
+    roleID: integer('role_id'),
   },
   (columns) => ({
     order: index('payload_locked_documents_rels_order_idx').on(columns.order),
@@ -525,6 +551,9 @@ export const payload_locked_documents_rels = pgTable(
     payload_locked_documents_rels_categoria_projeto_id_idx: index(
       'payload_locked_documents_rels_categoria_projeto_id_idx',
     ).on(columns['categoria-projetoID']),
+    payload_locked_documents_rels_role_id_idx: index(
+      'payload_locked_documents_rels_role_id_idx',
+    ).on(columns.roleID),
     parentFk: foreignKey({
       columns: [columns['parent']],
       foreignColumns: [payload_locked_documents.id],
@@ -574,6 +603,11 @@ export const payload_locked_documents_rels = pgTable(
       columns: [columns['categoria-projetoID']],
       foreignColumns: [categoria_projeto.id],
       name: 'payload_locked_documents_rels_categoria_projeto_fk',
+    }).onDelete('cascade'),
+    roleIdFk: foreignKey({
+      columns: [columns['roleID']],
+      foreignColumns: [role.id],
+      name: 'payload_locked_documents_rels_role_fk',
     }).onDelete('cascade'),
   }),
 )
@@ -752,6 +786,11 @@ export const relations_team_skills = relations(team_skills, ({ one }) => ({
   }),
 }))
 export const relations_team = relations(team, ({ one, many }) => ({
+  role: one(role, {
+    fields: [team.role],
+    references: [role.id],
+    relationName: 'role',
+  }),
   image: one(media, {
     fields: [team.image],
     references: [media.id],
@@ -771,6 +810,7 @@ export const relations_site_images = relations(site_images, ({ one }) => ({
 }))
 export const relations_tipo_noticia = relations(tipo_noticia, () => ({}))
 export const relations_categoria_projeto = relations(categoria_projeto, () => ({}))
+export const relations_role = relations(role, () => ({}))
 export const relations_payload_locked_documents_rels = relations(
   payload_locked_documents_rels,
   ({ one }) => ({
@@ -824,6 +864,11 @@ export const relations_payload_locked_documents_rels = relations(
       references: [categoria_projeto.id],
       relationName: 'categoria-projeto',
     }),
+    roleID: one(role, {
+      fields: [payload_locked_documents_rels.roleID],
+      references: [role.id],
+      relationName: 'role',
+    }),
   }),
 )
 export const relations_payload_locked_documents = relations(
@@ -875,6 +920,7 @@ type DatabaseSchema = {
   site_images: typeof site_images
   tipo_noticia: typeof tipo_noticia
   categoria_projeto: typeof categoria_projeto
+  role: typeof role
   payload_locked_documents: typeof payload_locked_documents
   payload_locked_documents_rels: typeof payload_locked_documents_rels
   payload_preferences: typeof payload_preferences
@@ -896,6 +942,7 @@ type DatabaseSchema = {
   relations_site_images: typeof relations_site_images
   relations_tipo_noticia: typeof relations_tipo_noticia
   relations_categoria_projeto: typeof relations_categoria_projeto
+  relations_role: typeof relations_role
   relations_payload_locked_documents_rels: typeof relations_payload_locked_documents_rels
   relations_payload_locked_documents: typeof relations_payload_locked_documents
   relations_payload_preferences_rels: typeof relations_payload_preferences_rels

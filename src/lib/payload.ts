@@ -48,7 +48,12 @@ export interface Project {
 export interface TeamMember {
   id: string | number
   name: string
-  role: string
+  role: {
+    id: string | number
+    nome: string
+    descricao?: string
+    ativo: boolean
+  }
   description?: string
   image: {
     url: string
@@ -184,7 +189,7 @@ export async function getProjectById(id: string): Promise<Project | null> {
 
 export async function getTeamMembers(): Promise<TeamMember[]> {
   try {
-    const response = await fetch(`${PAYLOAD_API_URL}/team?sort=order`)
+    const response = await fetch(`${PAYLOAD_API_URL}/team?sort=order&depth=1`)
     const data = await response.json()
     
     // Transformar URLs relativas em absolutas e filtrar apenas membros ativos
@@ -211,7 +216,7 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
 
 export async function getTeamMemberById(id: string): Promise<TeamMember | null> {
   try {
-    const response = await fetch(`${PAYLOAD_API_URL}/team/${id}`)
+    const response = await fetch(`${PAYLOAD_API_URL}/team/${id}?depth=1`)
     if (!response.ok) return null
     
     const teamMember = await response.json()

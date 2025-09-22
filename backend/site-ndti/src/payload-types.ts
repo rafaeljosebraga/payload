@@ -76,6 +76,7 @@ export interface Config {
     'site-images': SiteImage;
     'tipo-noticia': TipoNoticia;
     'categoria-projeto': CategoriaProjeto;
+    role: Role;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -91,6 +92,7 @@ export interface Config {
     'site-images': SiteImagesSelect<false> | SiteImagesSelect<true>;
     'tipo-noticia': TipoNoticiaSelect<false> | TipoNoticiaSelect<true>;
     'categoria-projeto': CategoriaProjetoSelect<false> | CategoriaProjetoSelect<true>;
+    role: RoleSelect<false> | RoleSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -322,7 +324,7 @@ export interface CategoriaProjeto {
 export interface Team {
   id: number;
   name: string;
-  role: string;
+  role: number | Role;
   description?: string | null;
   image: number | Media;
   email?: string | null;
@@ -337,6 +339,29 @@ export interface Team {
     | null;
   isActive?: boolean | null;
   order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Gerencie os cargos e funções dos membros da equipe
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "role".
+ */
+export interface Role {
+  id: number;
+  /**
+   * Nome do cargo ou função (ex: Coordenador, Pesquisador, Desenvolvedor)
+   */
+  nome: string;
+  /**
+   * Descrição opcional do cargo ou função
+   */
+  descricao?: string | null;
+  /**
+   * Define se este cargo/função está ativo para uso
+   */
+  ativo?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -429,6 +454,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categoria-projeto';
         value: number | CategoriaProjeto;
+      } | null)
+    | ({
+        relationTo: 'role';
+        value: number | Role;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -669,6 +698,17 @@ export interface TipoNoticiaSelect<T extends boolean = true> {
  * via the `definition` "categoria-projeto_select".
  */
 export interface CategoriaProjetoSelect<T extends boolean = true> {
+  nome?: T;
+  descricao?: T;
+  ativo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "role_select".
+ */
+export interface RoleSelect<T extends boolean = true> {
   nome?: T;
   descricao?: T;
   ativo?: T;

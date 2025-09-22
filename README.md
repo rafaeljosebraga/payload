@@ -415,6 +415,12 @@ docker compose exec payload npm run payload migrate:create
 # Aplicar migrations pendentes
 docker compose exec payload npm run payload migrate
 
+# Resetar todas as migrações e criar novamente
+docker compose exec payload npm run payload migrate:fresh 
+
+# Refazer últimas migrations
+docker compose exec payload npm run payload migrate:refresh
+
 # Ver status das migrations
 docker compose exec payload npm run payload migrate:status
 

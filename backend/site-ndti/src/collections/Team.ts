@@ -29,9 +29,15 @@ export const Team: CollectionConfig = {
     },
     {
       name: 'role',
-      type: 'text',
-      required: true,
+      type: 'relationship',
+      relationTo: 'role',
       label: 'Cargo/Função',
+      required: true,
+      filterOptions: {
+        ativo: {
+          equals: true,
+        },
+      },
     },
     {
       name: 'description',

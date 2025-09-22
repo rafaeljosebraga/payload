@@ -99,7 +99,7 @@ const TeamSection: React.FC = () => {
               </div>
               <div className="p-5 sm:p-6">
                 <h3 className="text-xl font-semibold text-ndti-800 hover:text-gradient-green-yellow">{member.name}</h3>
-                <p className="text-ndti-600 mb-3 hover:text-gradient-green-yellow">{member.role}</p>
+                <p className="text-ndti-600 mb-3 hover:text-gradient-green-yellow">{member.role?.nome}</p>
                 
                 <Sheet>
                   <SheetTrigger className="text-sm text-ifnmg-green hover:text-ifnmg-blue transition-colors">
@@ -108,7 +108,7 @@ const TeamSection: React.FC = () => {
                   <SheetContent className="sm:max-w-md">
                     <SheetHeader>
                       <SheetTitle>{member.name}</SheetTitle>
-                      <SheetDescription>{member.role}</SheetDescription>
+                      <SheetDescription>{member.role?.nome}</SheetDescription>
                     </SheetHeader>
                     <div className="mt-6">
                       <img 

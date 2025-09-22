@@ -101,7 +101,7 @@ const EquipePage: React.FC = () => {
                 </div>
                 <div className="p-4 md:p-5 lg:p-6">
                   <h3 className="text-lg md:text-xl font-semibold text-ndti-800 hover:text-gradient-green-yellow">{member.name}</h3>
-                  <p className="text-ndti-600 mb-2 md:mb-3 hover:text-gradient-green-yellow text-sm md:text-base">{member.role}</p>
+                  <p className="text-ndti-600 mb-2 md:mb-3 hover:text-gradient-green-yellow text-sm md:text-base">{member.role?.nome}</p>
                   <p className="text-gray-600 text-xs md:text-sm mb-3 md:mb-4">{member.description}</p>
                   
                   {member.skills && member.skills.length > 0 && (
