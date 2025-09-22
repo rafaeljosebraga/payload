@@ -135,10 +135,12 @@ const ProjetoDetalhe: React.FC = () => {
                     <p className="text-sm text-gray-500">Início do Projeto</p>
                     <p className="text-gray-800">{formatDate(project.startDate)}</p>
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Status</p>
-                    <p className="text-gray-800">{project.status}</p>
-                  </div>
+                  {project.endDate && (
+                    <div>
+                      <p className="text-sm text-gray-500">Fim do Projeto</p>
+                      <p className="text-gray-800">{formatDate(project.endDate)}</p>
+                    </div>
+                  )}
                   <div>
                     <p className="text-sm text-gray-500">Tecnologias</p>
                     <div className="flex flex-wrap gap-2 mt-1">

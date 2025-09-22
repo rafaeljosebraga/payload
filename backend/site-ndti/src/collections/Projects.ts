@@ -7,7 +7,7 @@ export const Projects: CollectionConfig = {
     plural: 'Projetos',
   },
   admin: {
-    defaultColumns: ['title', 'category', 'status', 'startDate', 'updatedAt'],
+    defaultColumns: ['title', 'category', 'startDate', 'endDate', 'updatedAt'],
     description: 'Gerencie os projetos desenvolvidos pelo NDTI',
     useAsTitle: 'title',
     components: {
@@ -93,7 +93,7 @@ export const Projects: CollectionConfig = {
       name: 'startDate',
       type: 'date',
       required: true,
-      label: 'Data de Início ',
+      label: 'Data de Início',
       admin: {
         components: {
           Field: '/components/DateInputWithMask#DateInputWithMask',
@@ -101,10 +101,15 @@ export const Projects: CollectionConfig = {
       },
     },
     {
-      name: 'status',
-      type: 'text',
-      required: true,
-      label: 'Status',
+      name: 'endDate',
+      type: 'date',
+      required: false,
+      label: 'Data de Fim',
+      admin: {
+        components: {
+          Field: '/components/DateInputWithMask#DateInputWithMask',
+        },
+      },
     },
     {
       name: 'team',

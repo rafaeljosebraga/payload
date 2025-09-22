@@ -281,7 +281,7 @@ export interface Project {
       }[]
     | null;
   startDate: string;
-  status: string;
+  endDate?: string | null;
   team?:
     | {
         member?: string | null;
@@ -622,7 +622,7 @@ export interface ProjectsSelect<T extends boolean = true> {
         id?: T;
       };
   startDate?: T;
-  status?: T;
+  endDate?: T;
   team?:
     | T
     | {

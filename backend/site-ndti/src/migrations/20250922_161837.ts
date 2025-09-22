@@ -112,7 +112,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"image_id" integer NOT NULL,
   	"description" varchar NOT NULL,
   	"start_date" timestamp(3) with time zone NOT NULL,
-  	"status" varchar NOT NULL,
+  	"end_date" timestamp(3) with time zone,
   	"repository" varchar,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL

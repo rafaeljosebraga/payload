@@ -286,7 +286,7 @@ export const projects = pgTable(
       withTimezone: true,
       precision: 3,
     }).notNull(),
-    status: varchar('status').notNull(),
+    endDate: timestamp('end_date', { mode: 'string', withTimezone: true, precision: 3 }),
     repository: varchar('repository'),
     updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
       .defaultNow()

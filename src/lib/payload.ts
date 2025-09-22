@@ -40,7 +40,7 @@ export interface Project {
   longDescription?: Array<{ paragraph: string }>
   features?: Array<{ feature: string }>
   startDate: string
-  status: string
+  endDate?: string
   team?: Array<{ member: string }>
   repository?: string
 }

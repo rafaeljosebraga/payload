@@ -1,5 +1,5 @@
 {
-  "id": "042fc093-3e37-49a8-84e1-ea5a84ba0474",
+  "id": "1a6328be-8763-464c-a6d1-007a82202032",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -1107,11 +1107,11 @@
           "primaryKey": false,
           "notNull": true
         },
-        "status": {
-          "name": "status",
-          "type": "varchar",
+        "end_date": {
+          "name": "end_date",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "repository": {
           "name": "repository",

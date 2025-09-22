@@ -117,10 +117,13 @@ const Projetos: React.FC = () => {
                       <span className="text-xs font-semibold bg-ifnmg-blue text-white px-2 py-1 rounded-full">
                         {project.category.nome}
                       </span>
-                      <span className="text-xs text-gray-500 flex items-center">
+                      <div className="text-xs text-gray-500 flex items-center">
                         <Calendar className="h-3 w-3 mr-1" />
-                        {formatDate(project.startDate)}
-                      </span>
+                        <span>
+                          {formatDate(project.startDate)}
+                          {project.endDate && ` - ${formatDate(project.endDate)}`}
+                        </span>
+                      </div>
                     </div>
                     
                     <h3 className="text-xl font-bold text-ndti-800 mb-3">{project.title}</h3>
