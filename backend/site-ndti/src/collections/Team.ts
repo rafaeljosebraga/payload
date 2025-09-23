@@ -84,6 +84,28 @@ export const Team: CollectionConfig = {
       ]
     },
     {
+      name: 'startDate',
+      type: 'date',
+      required: true,
+      label: 'Data de Entrada na Equipe',
+      admin: {
+        components: {
+          Field: '/components/DateInputWithMask#DateInputWithMask',
+        },
+      },
+    },
+    {
+      name: 'endDate',
+      type: 'date',
+      required: false,
+      label: 'Data de Saída da Equipe',
+      admin: {
+        components: {
+          Field: '/components/DateInputWithMask#DateInputWithMask',
+        },
+      },
+    },
+    {
       name: 'isActive',
       type: 'checkbox',
       label: 'Ativo',

@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Linkedin, Github, Mail } from 'lucide-react';
+import { Linkedin, Github, Mail, Calendar } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { getTeamMembers, TeamMember } from '@/lib/payload';
+import { formatDate } from '@/lib/utils';
 
 const TeamSection: React.FC = () => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
@@ -120,7 +121,23 @@ const TeamSection: React.FC = () => {
                           img.src = '/placeholder.svg';
                         }}
                       />
-                      <p className="text-gray-600 mb-6">{member.description}</p>
+                      <p className="text-gray-600 mb-4">{member.description}</p>
+                      
+                      {/* Informações de período na equipe */}
+                      <div className="mb-6 p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center text-sm text-gray-600 mb-2">
+                          <Calendar className="h-4 w-4 mr-2" />
+                          <span className="font-medium">Período na equipe</span>
+                        </div>
+                        <div className="text-sm text-gray-700">
+                          <p>Início: {formatDate(member.startDate)}</p>
+                          {member.endDate ? (
+                            <p>Término: {formatDate(member.endDate)}</p>
+                          ) : (
+                            <p className="text-green-600 font-medium">Membro ativo</p>
+                          )}
+                        </div>
+                      </div>
                       
                       {member.skills && member.skills.length > 0 && (
                         <div className="mb-6">

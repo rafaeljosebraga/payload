@@ -335,6 +335,8 @@ export interface Team {
         id?: string | null;
       }[]
     | null;
+  startDate: string;
+  endDate?: string | null;
   isActive?: boolean | null;
   order?: number | null;
   updatedAt: string;
@@ -645,6 +647,8 @@ export interface TeamSelect<T extends boolean = true> {
         skill?: T;
         id?: T;
       };
+  startDate?: T;
+  endDate?: T;
   isActive?: T;
   order?: T;
   updatedAt?: T;

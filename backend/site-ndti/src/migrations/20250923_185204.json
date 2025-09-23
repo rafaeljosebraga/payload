@@ -1,5 +1,5 @@
 {
-  "id": "a309a0b2-dd1b-4558-9be0-ea4ea5dfadea",
+  "id": "21423a38-2a50-4931-963a-157c246f8b03",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -1416,6 +1416,18 @@
         "lattes": {
           "name": "lattes",
           "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "end_date": {
+          "name": "end_date",
+          "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": false
         },

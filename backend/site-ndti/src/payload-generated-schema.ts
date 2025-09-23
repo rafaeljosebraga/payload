@@ -350,6 +350,12 @@ export const team = pgTable(
     linkedin: varchar('linkedin'),
     github: varchar('github'),
     lattes: varchar('lattes'),
+    startDate: timestamp('start_date', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }).notNull(),
+    endDate: timestamp('end_date', { mode: 'string', withTimezone: true, precision: 3 }),
     isActive: boolean('is_active').default(true),
     order: numeric('order').default('0'),
     updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })

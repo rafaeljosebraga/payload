@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { Linkedin, Github, Mail, ArrowRight } from 'lucide-react';
+import { Linkedin, Github, Mail, ArrowRight, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { getTeamMembers, TeamMember } from '@/lib/payload';
+import { formatDate } from '@/lib/utils';
 
 const EquipePage: React.FC = () => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
@@ -103,6 +104,23 @@ const EquipePage: React.FC = () => {
                   <h3 className="text-lg md:text-xl font-semibold text-ndti-800 hover:text-gradient-green-yellow">{member.name}</h3>
                   <p className="text-ndti-600 mb-2 md:mb-3 hover:text-gradient-green-yellow text-sm md:text-base">{member.role?.nome}</p>
                   <p className="text-gray-600 text-xs md:text-sm mb-3 md:mb-4">{member.description}</p>
+                  
+                  {/* Informações de período na equipe */}
+                  <div className="mb-3 p-2 bg-gray-50 rounded-lg">
+                    <div className="flex items-center text-xs text-gray-600 mb-1">
+                      <Calendar className="h-3 w-3 mr-1" />
+                      <span className="font-medium">Período na equipe</span>
+                    </div>
+                    <div className="text-xs text-gray-700">
+                      <span>Desde {formatDate(member.startDate)}</span>
+                      {member.endDate && (
+                        <span> até {formatDate(member.endDate)}</span>
+                      )}
+                      {!member.endDate && member.isActive && (
+                        <span className="text-green-600 font-medium"> - Ativo</span>
+                      )}
+                    </div>
+                  </div>
                   
                   {member.skills && member.skills.length > 0 && (
                     <div className="mb-3">

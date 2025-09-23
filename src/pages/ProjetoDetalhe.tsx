@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Calendar } from 'lucide-react';
 import { getProjectById, Project } from '@/lib/payload';
 import { formatDate } from '@/lib/utils';
 
@@ -168,18 +168,31 @@ const ProjetoDetalhe: React.FC = () => {
               </div>
               
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="font-bold text-gray-800 mb-4">Equipe</h3>
-                <div className="space-y-3">
+                <h3 className="font-bold text-gray-800 mb-4">Equipe do Projeto</h3>
+                <div className="space-y-4">
                   {project.team?.map((member, index) => (
-                    <div key={index} className="flex items-center space-x-3">
-                      <img 
-                        src={member.image.url} 
-                        alt={member.image.alt || member.name}
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <div>
-                        <p className="text-gray-800 font-medium">{member.name}</p>
-                        <p className="text-sm text-gray-500">{member.role.nome}</p>
+                    <div key={index} className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-start space-x-3">
+                        <img 
+                          src={member.image.url} 
+                          alt={member.image.alt || member.name}
+                          className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                        />
+                        <div className="flex-grow">
+                          <h4 className="text-gray-800 font-medium">{member.name}</h4>
+                          <p className="text-sm text-gray-600 mb-2">{member.role.nome}</p>
+                          
+                          <div className="flex items-center text-xs text-gray-500">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            <span>Na equipe desde {formatDate(member.startDate)}</span>
+                            {member.endDate && (
+                              <span> até {formatDate(member.endDate)}</span>
+                            )}
+                            {!member.endDate && member.isActive && (
+                              <span className="ml-1 text-green-600">• Ativo</span>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   ))}

@@ -136,6 +136,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"linkedin" varchar,
   	"github" varchar,
   	"lattes" varchar,
+  	"start_date" timestamp(3) with time zone NOT NULL,
+  	"end_date" timestamp(3) with time zone,
   	"is_active" boolean DEFAULT true,
   	"order" numeric DEFAULT 0,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,

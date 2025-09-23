@@ -64,6 +64,8 @@ export interface TeamMember {
   github?: string
   lattes?: string
   skills?: Array<{ skill: string }>
+  startDate: string
+  endDate?: string
   isActive: boolean
   order: number
 }
