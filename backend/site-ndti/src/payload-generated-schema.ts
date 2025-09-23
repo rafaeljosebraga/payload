@@ -246,25 +246,6 @@ export const projects_features = pgTable(
   }),
 )
 
-export const projects_team = pgTable(
-  'projects_team',
-  {
-    _order: integer('_order').notNull(),
-    _parentID: integer('_parent_id').notNull(),
-    id: varchar('id').primaryKey(),
-    member: varchar('member'),
-  },
-  (columns) => ({
-    _orderIdx: index('projects_team_order_idx').on(columns._order),
-    _parentIDIdx: index('projects_team_parent_id_idx').on(columns._parentID),
-    _parentIDFk: foreignKey({
-      columns: [columns['_parentID']],
-      foreignColumns: [projects.id],
-      name: 'projects_team_parent_id_fk',
-    }).onDelete('cascade'),
-  }),
-)
-
 export const projects = pgTable(
   'projects',
   {
@@ -300,6 +281,33 @@ export const projects = pgTable(
     projects_image_idx: index('projects_image_idx').on(columns.image),
     projects_updated_at_idx: index('projects_updated_at_idx').on(columns.updatedAt),
     projects_created_at_idx: index('projects_created_at_idx').on(columns.createdAt),
+  }),
+)
+
+export const projects_rels = pgTable(
+  'projects_rels',
+  {
+    id: serial('id').primaryKey(),
+    order: integer('order'),
+    parent: integer('parent_id').notNull(),
+    path: varchar('path').notNull(),
+    teamID: integer('team_id'),
+  },
+  (columns) => ({
+    order: index('projects_rels_order_idx').on(columns.order),
+    parentIdx: index('projects_rels_parent_idx').on(columns.parent),
+    pathIdx: index('projects_rels_path_idx').on(columns.path),
+    projects_rels_team_id_idx: index('projects_rels_team_id_idx').on(columns.teamID),
+    parentFk: foreignKey({
+      columns: [columns['parent']],
+      foreignColumns: [projects.id],
+      name: 'projects_rels_parent_fk',
+    }).onDelete('cascade'),
+    teamIdFk: foreignKey({
+      columns: [columns['teamID']],
+      foreignColumns: [team.id],
+      name: 'projects_rels_team_fk',
+    }).onDelete('cascade'),
   }),
 )
 
@@ -747,10 +755,15 @@ export const relations_projects_features = relations(projects_features, ({ one }
     relationName: 'features',
   }),
 }))
-export const relations_projects_team = relations(projects_team, ({ one }) => ({
-  _parentID: one(projects, {
-    fields: [projects_team._parentID],
+export const relations_projects_rels = relations(projects_rels, ({ one }) => ({
+  parent: one(projects, {
+    fields: [projects_rels.parent],
     references: [projects.id],
+    relationName: '_rels',
+  }),
+  teamID: one(team, {
+    fields: [projects_rels.teamID],
+    references: [team.id],
     relationName: 'team',
   }),
 }))
@@ -774,8 +787,8 @@ export const relations_projects = relations(projects, ({ one, many }) => ({
   features: many(projects_features, {
     relationName: 'features',
   }),
-  team: many(projects_team, {
-    relationName: 'team',
+  _rels: many(projects_rels, {
+    relationName: '_rels',
   }),
 }))
 export const relations_team_skills = relations(team_skills, ({ one }) => ({
@@ -912,8 +925,8 @@ type DatabaseSchema = {
   projects_technologies: typeof projects_technologies
   projects_long_description: typeof projects_long_description
   projects_features: typeof projects_features
-  projects_team: typeof projects_team
   projects: typeof projects
+  projects_rels: typeof projects_rels
   team_skills: typeof team_skills
   team: typeof team
   equipment: typeof equipment
@@ -934,7 +947,7 @@ type DatabaseSchema = {
   relations_projects_technologies: typeof relations_projects_technologies
   relations_projects_long_description: typeof relations_projects_long_description
   relations_projects_features: typeof relations_projects_features
-  relations_projects_team: typeof relations_projects_team
+  relations_projects_rels: typeof relations_projects_rels
   relations_projects: typeof relations_projects
   relations_team_skills: typeof relations_team_skills
   relations_team: typeof relations_team

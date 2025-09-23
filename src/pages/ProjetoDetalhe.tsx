@@ -169,11 +169,21 @@ const ProjetoDetalhe: React.FC = () => {
               
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="font-bold text-gray-800 mb-4">Equipe</h3>
-                <ul className="space-y-2">
+                <div className="space-y-3">
                   {project.team?.map((member, index) => (
-                    <li key={index} className="text-gray-700">{member.member}</li>
+                    <div key={index} className="flex items-center space-x-3">
+                      <img 
+                        src={member.image.url} 
+                        alt={member.image.alt || member.name}
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                      <div>
+                        <p className="text-gray-800 font-medium">{member.name}</p>
+                        <p className="text-sm text-gray-500">{member.role.nome}</p>
+                      </div>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
             </div>
           </div>

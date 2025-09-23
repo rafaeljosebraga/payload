@@ -113,15 +113,18 @@ export const Projects: CollectionConfig = {
     },
     {
       name: 'team',
-      type: 'array',
-      label: 'Equipe',
-      fields: [
-        {
-          name: 'member',
-          type: 'text',
-          label: 'Membro',
-        }
-      ]
+      type: 'relationship',
+      relationTo: 'team',
+      hasMany: true,
+      label: 'Equipe do Projeto',
+      filterOptions: {
+        isActive: {
+          equals: true,
+        },
+      },
+      admin: {
+        description: 'Selecione os membros da equipe que participaram deste projeto',
+      },
     },
     {
       name: 'repository',

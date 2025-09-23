@@ -282,12 +282,10 @@ export interface Project {
     | null;
   startDate: string;
   endDate?: string | null;
-  team?:
-    | {
-        member?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * Selecione os membros da equipe que participaram deste projeto
+   */
+  team?: (number | Team)[] | null;
   repository?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -623,12 +621,7 @@ export interface ProjectsSelect<T extends boolean = true> {
       };
   startDate?: T;
   endDate?: T;
-  team?:
-    | T
-    | {
-        member?: T;
-        id?: T;
-      };
+  team?: T;
   repository?: T;
   updatedAt?: T;
   createdAt?: T;

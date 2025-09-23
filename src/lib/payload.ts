@@ -41,7 +41,7 @@ export interface Project {
   features?: Array<{ feature: string }>
   startDate: string
   endDate?: string
-  team?: Array<{ member: string }>
+  team?: TeamMember[]
   repository?: string
 }
 
@@ -147,7 +147,7 @@ export async function getCategoriasProjeto(): Promise<CategoriaProjeto[]> {
 
 export async function getProjects(): Promise<Project[]> {
   try {
-    const response = await fetch(`${PAYLOAD_API_URL}/projects?depth=1`)
+    const response = await fetch(`${PAYLOAD_API_URL}/projects?depth=2`)
     const data = await response.json()
     
     // Transformar URLs relativas em absolutas
@@ -158,7 +158,16 @@ export async function getProjects(): Promise<Project[]> {
         url: project.image?.url?.startsWith('/') 
           ? `http://localhost:3000${project.image.url}` 
           : project.image?.url
-      }
+      },
+      team: project.team?.map((member: any) => ({
+        ...member,
+        image: {
+          ...member.image,
+          url: member.image?.url?.startsWith('/') 
+            ? `http://localhost:3000${member.image.url}` 
+            : member.image?.url
+        }
+      })) || []
     })) || []
     
     return projects
@@ -170,7 +179,7 @@ export async function getProjects(): Promise<Project[]> {
 
 export async function getProjectById(id: string): Promise<Project | null> {
   try {
-    const response = await fetch(`${PAYLOAD_API_URL}/projects/${id}?depth=1`)
+    const response = await fetch(`${PAYLOAD_API_URL}/projects/${id}?depth=2`)
     if (!response.ok) return null
     
     const project = await response.json()
@@ -178,6 +187,19 @@ export async function getProjectById(id: string): Promise<Project | null> {
     // Transformar URL relativa em absoluta
     if (project.image?.url?.startsWith('/')) {
       project.image.url = `http://localhost:3000${project.image.url}`
+    }
+    
+    // Transformar URLs das imagens dos membros da equipe
+    if (project.team) {
+      project.team = project.team.map((member: any) => ({
+        ...member,
+        image: {
+          ...member.image,
+          url: member.image?.url?.startsWith('/') 
+            ? `http://localhost:3000${member.image.url}` 
+            : member.image?.url
+        }
+      }))
     }
     
     return project
