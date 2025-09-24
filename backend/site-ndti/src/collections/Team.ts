@@ -91,6 +91,10 @@ export const Team: CollectionConfig = {
       name: 'skills',
       type: 'array',
       label: 'Habilidades',
+      labels: {
+        singular: 'Habilidade',
+        plural: 'Habilidades',
+      },
       fields: [
         {
           name: 'skill',

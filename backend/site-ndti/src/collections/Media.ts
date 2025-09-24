@@ -39,13 +39,13 @@ export const Media: CollectionConfig = {
     staticDir: path.resolve(dirname, '../../media'),
     imageSizes: [
       {
-        name: 'thumbnail',
+        name: 'miniatura',
         width: 400,
         height: 300,
         position: 'centre',
       },
       {
-        name: 'card',
+        name: 'cartao',
         width: 768,
         height: 1024,
         position: 'centre',
@@ -57,7 +57,7 @@ export const Media: CollectionConfig = {
         position: 'centre',
       },
     ],
-    adminThumbnail: 'thumbnail',
+    adminThumbnail: 'miniatura',
     mimeTypes: ['image/*'],
   },
 }

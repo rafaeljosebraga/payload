@@ -1,5 +1,5 @@
 {
-  "id": "21423a38-2a50-4931-963a-157c246f8b03",
+  "id": "4fdc78f2-89a1-424a-8d7f-18c69524e5b5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -298,74 +298,74 @@
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_thumbnail_url": {
-          "name": "sizes_thumbnail_url",
+        "sizes_miniatura_url": {
+          "name": "sizes_miniatura_url",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_thumbnail_width": {
-          "name": "sizes_thumbnail_width",
+        "sizes_miniatura_width": {
+          "name": "sizes_miniatura_width",
           "type": "numeric",
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_thumbnail_height": {
-          "name": "sizes_thumbnail_height",
+        "sizes_miniatura_height": {
+          "name": "sizes_miniatura_height",
           "type": "numeric",
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_thumbnail_mime_type": {
-          "name": "sizes_thumbnail_mime_type",
+        "sizes_miniatura_mime_type": {
+          "name": "sizes_miniatura_mime_type",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_thumbnail_filesize": {
-          "name": "sizes_thumbnail_filesize",
+        "sizes_miniatura_filesize": {
+          "name": "sizes_miniatura_filesize",
           "type": "numeric",
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_thumbnail_filename": {
-          "name": "sizes_thumbnail_filename",
+        "sizes_miniatura_filename": {
+          "name": "sizes_miniatura_filename",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_card_url": {
-          "name": "sizes_card_url",
+        "sizes_cartao_url": {
+          "name": "sizes_cartao_url",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_card_width": {
-          "name": "sizes_card_width",
+        "sizes_cartao_width": {
+          "name": "sizes_cartao_width",
           "type": "numeric",
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_card_height": {
-          "name": "sizes_card_height",
+        "sizes_cartao_height": {
+          "name": "sizes_cartao_height",
           "type": "numeric",
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_card_mime_type": {
-          "name": "sizes_card_mime_type",
+        "sizes_cartao_mime_type": {
+          "name": "sizes_cartao_mime_type",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_card_filesize": {
-          "name": "sizes_card_filesize",
+        "sizes_cartao_filesize": {
+          "name": "sizes_cartao_filesize",
           "type": "numeric",
           "primaryKey": false,
           "notNull": false
         },
-        "sizes_card_filename": {
-          "name": "sizes_card_filename",
+        "sizes_cartao_filename": {
+          "name": "sizes_cartao_filename",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
@@ -453,11 +453,11 @@
           "method": "btree",
           "with": {}
         },
-        "media_sizes_thumbnail_sizes_thumbnail_filename_idx": {
-          "name": "media_sizes_thumbnail_sizes_thumbnail_filename_idx",
+        "media_sizes_miniatura_sizes_miniatura_filename_idx": {
+          "name": "media_sizes_miniatura_sizes_miniatura_filename_idx",
           "columns": [
             {
-              "expression": "sizes_thumbnail_filename",
+              "expression": "sizes_miniatura_filename",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -468,11 +468,11 @@
           "method": "btree",
           "with": {}
         },
-        "media_sizes_card_sizes_card_filename_idx": {
-          "name": "media_sizes_card_sizes_card_filename_idx",
+        "media_sizes_cartao_sizes_cartao_filename_idx": {
+          "name": "media_sizes_cartao_sizes_cartao_filename_idx",
           "columns": [
             {
-              "expression": "sizes_card_filename",
+              "expression": "sizes_cartao_filename",
               "isExpression": false,
               "asc": true,
               "nulls": "last"

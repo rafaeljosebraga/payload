@@ -39,18 +39,18 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"height" numeric,
   	"focal_x" numeric,
   	"focal_y" numeric,
-  	"sizes_thumbnail_url" varchar,
-  	"sizes_thumbnail_width" numeric,
-  	"sizes_thumbnail_height" numeric,
-  	"sizes_thumbnail_mime_type" varchar,
-  	"sizes_thumbnail_filesize" numeric,
-  	"sizes_thumbnail_filename" varchar,
-  	"sizes_card_url" varchar,
-  	"sizes_card_width" numeric,
-  	"sizes_card_height" numeric,
-  	"sizes_card_mime_type" varchar,
-  	"sizes_card_filesize" numeric,
-  	"sizes_card_filename" varchar,
+  	"sizes_miniatura_url" varchar,
+  	"sizes_miniatura_width" numeric,
+  	"sizes_miniatura_height" numeric,
+  	"sizes_miniatura_mime_type" varchar,
+  	"sizes_miniatura_filesize" numeric,
+  	"sizes_miniatura_filename" varchar,
+  	"sizes_cartao_url" varchar,
+  	"sizes_cartao_width" numeric,
+  	"sizes_cartao_height" numeric,
+  	"sizes_cartao_mime_type" varchar,
+  	"sizes_cartao_filesize" numeric,
+  	"sizes_cartao_filename" varchar,
   	"sizes_tablet_url" varchar,
   	"sizes_tablet_width" numeric,
   	"sizes_tablet_height" numeric,
@@ -276,8 +276,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "media_updated_at_idx" ON "media" USING btree ("updated_at");
   CREATE INDEX "media_created_at_idx" ON "media" USING btree ("created_at");
   CREATE UNIQUE INDEX "media_filename_idx" ON "media" USING btree ("filename");
-  CREATE INDEX "media_sizes_thumbnail_sizes_thumbnail_filename_idx" ON "media" USING btree ("sizes_thumbnail_filename");
-  CREATE INDEX "media_sizes_card_sizes_card_filename_idx" ON "media" USING btree ("sizes_card_filename");
+  CREATE INDEX "media_sizes_miniatura_sizes_miniatura_filename_idx" ON "media" USING btree ("sizes_miniatura_filename");
+  CREATE INDEX "media_sizes_cartao_sizes_cartao_filename_idx" ON "media" USING btree ("sizes_cartao_filename");
   CREATE INDEX "media_sizes_tablet_sizes_tablet_filename_idx" ON "media" USING btree ("sizes_tablet_filename");
   CREATE INDEX "news_content_order_idx" ON "news_content" USING btree ("_order");
   CREATE INDEX "news_content_parent_id_idx" ON "news_content" USING btree ("_parent_id");

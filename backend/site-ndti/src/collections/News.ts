@@ -49,6 +49,10 @@ export const News: CollectionConfig = {
       name: 'content',
       type: 'array',
       label: 'Conteúdo',
+      labels: {
+        singular: 'Parágrafo',
+        plural: 'Parágrafos',
+      },
       fields: [
         {
           name: 'paragraph',

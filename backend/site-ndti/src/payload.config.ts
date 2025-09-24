@@ -28,6 +28,7 @@ export default buildConfig({
   },
   i18n: {
     supportedLanguages: { pt },
+    fallbackLanguage: 'pt',
   },
   collections: [Users, Media, News, Projects, Team, Equipment, SiteImages, TipoNoticia, CategoriaProjeto, Role],
   editor: lexicalEditor(),

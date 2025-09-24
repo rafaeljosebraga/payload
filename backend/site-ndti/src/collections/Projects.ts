@@ -73,6 +73,10 @@ export const Projects: CollectionConfig = {
       name: 'technologies',
       type: 'array',
       label: 'Tecnologias',
+      labels: {
+        singular: 'Tecnologia',
+        plural: 'Tecnologias',
+      },
       fields: [
         {
           name: 'technology',
@@ -85,6 +89,10 @@ export const Projects: CollectionConfig = {
       name: 'longDescription',
       type: 'array',
       label: 'Descrição Longa',
+      labels: {
+        singular: 'Parágrafo',
+        plural: 'Parágrafos',
+      },
       fields: [
         {
           name: 'paragraph',
@@ -97,6 +105,10 @@ export const Projects: CollectionConfig = {
       name: 'features',
       type: 'array',
       label: 'Características',
+      labels: {
+        singular: 'Característica',
+        plural: 'Características',
+      },
       fields: [
         {
           name: 'feature',
@@ -145,7 +157,7 @@ export const Projects: CollectionConfig = {
     {
       name: 'repository',
       type: 'text',
-      label: 'Repositório',
+      label: 'Link para o Repositório GitHub',
     },
   ],
 }
