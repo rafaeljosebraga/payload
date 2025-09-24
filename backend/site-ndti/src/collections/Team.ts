@@ -20,6 +20,22 @@ export const Team: CollectionConfig = {
       }
     }
   },
+  hooks: {
+    beforeValidate: [
+      ({ data }) => {
+        // Validação: Data de saída não pode ser anterior à data de entrada
+        if (data && data.startDate && data.endDate) {
+          const startDate = new Date(data.startDate);
+          const endDate = new Date(data.endDate);
+          
+          if (endDate < startDate) {
+            throw new Error('A data de saída do membro não pode ser anterior à data de entrada na equipe.');
+          }
+        }
+        return data;
+      }
+    ]
+  },
   fields: [
     {
       name: 'name',

@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import { useField, FieldLabel } from '@payloadcms/ui'
+import { useField, FieldLabel, useForm } from '@payloadcms/ui'
 import type { DateFieldClientComponent } from 'payload'
 
 // Componente de ícone SVG do calendário
@@ -947,6 +947,126 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
   // Detecta se é o campo acquisitionYear para comportamento especial
   const isYearOnlyField = path === 'acquisitionYear'
   
+  // Hook para acessar outros campos do formulário (se aplicável)
+  const getOtherFieldValue = useCallback((fieldPath: string) => {
+    try {
+      const { value: otherValue } = useField({ path: fieldPath })
+      return otherValue
+    } catch {
+      return null
+    }
+  }, [])
+  
+  // Função para validar se endDate não é anterior a startDate
+  const validateDateRange = useCallback((newDate: string | null) => {
+    if (!newDate) return true // Se não há data, não há erro
+    
+    let otherFieldValue = null
+    let errorMessage = ''
+    
+    // Verifica se é um campo endDate e busca startDate
+    if (path === 'endDate') {
+      const startDateInput = document.querySelector('input[name*="startDate"]') as HTMLInputElement
+      if (startDateInput && startDateInput.value) {
+        const startDateValue = startDateInput.value
+        if (startDateValue.includes('/')) {
+          const [day, month, year] = startDateValue.split('/')
+          otherFieldValue = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        } else {
+          otherFieldValue = startDateValue
+        }
+        errorMessage = 'A data de fim não pode ser anterior à data de início.'
+      }
+    }
+    // Verifica se é um campo startDate e busca endDate
+    else if (path === 'startDate') {
+      const endDateInput = document.querySelector('input[name*="endDate"]') as HTMLInputElement
+      if (endDateInput && endDateInput.value) {
+        const endDateValue = endDateInput.value
+        if (endDateValue.includes('/')) {
+          const [day, month, year] = endDateValue.split('/')
+          otherFieldValue = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        } else {
+          otherFieldValue = endDateValue
+        }
+        
+        if (otherFieldValue) {
+          const startDate = new Date(newDate)
+          const endDate = new Date(otherFieldValue)
+          
+          if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate < startDate) {
+            errorMessage = 'A data de início não pode ser posterior à data de fim.'
+            
+            // Mostra erro no campo endDate também
+            setTimeout(() => {
+              let endErrorElement = document.querySelector('[data-path="endDate"] .error-message') as HTMLElement
+              if (endErrorElement) {
+                endErrorElement.textContent = 'A data de fim não pode ser anterior à data de início.'
+              } else {
+                const endFieldElement = document.querySelector('[data-path="endDate"]')
+                if (endFieldElement) {
+                  const errorDiv = document.createElement('div')
+                  errorDiv.className = 'error-message'
+                  errorDiv.style.color = '#DA4B48'
+                  errorDiv.style.fontSize = '12px'
+                  errorDiv.style.marginTop = '4px'
+                  errorDiv.textContent = 'A data de fim não pode ser anterior à data de início.'
+                  endFieldElement.appendChild(errorDiv)
+                }
+              }
+            }, 100)
+          } else {
+            // Remove erro do campo endDate se a validação passou
+            setTimeout(() => {
+              const endErrorElement = document.querySelector('[data-path="endDate"] .error-message')
+              if (endErrorElement) {
+                endErrorElement.remove()
+              }
+            }, 100)
+          }
+        }
+      }
+    }
+    
+    if (otherFieldValue && errorMessage) {
+      const date1 = new Date(path === 'endDate' ? otherFieldValue : newDate)
+      const date2 = new Date(path === 'endDate' ? newDate : otherFieldValue)
+      
+      if (!isNaN(date1.getTime()) && !isNaN(date2.getTime()) && date2 < date1) {
+        // Mostra erro customizado
+        setTimeout(() => {
+          let errorElement = document.querySelector(`[data-path="${path}"] .error-message`) as HTMLElement
+          if (errorElement) {
+            errorElement.textContent = errorMessage
+          } else {
+            // Cria elemento de erro se não existir
+            const fieldElement = document.querySelector(`[data-path="${path}"]`)
+            if (fieldElement) {
+              const errorDiv = document.createElement('div')
+              errorDiv.className = 'error-message'
+              errorDiv.style.color = '#DA4B48'
+              errorDiv.style.fontSize = '12px'
+              errorDiv.style.marginTop = '4px'
+              errorDiv.textContent = errorMessage
+              fieldElement.appendChild(errorDiv)
+            }
+          }
+        }, 100)
+        return false
+      }
+    }
+    
+    // Remove mensagem de erro se a validação passou
+    setTimeout(() => {
+      const errorElement = document.querySelector(`[data-path="${path}"] .error-message`)
+      if (errorElement) {
+        errorElement.remove()
+      }
+    }, 100)
+    
+    return true
+  }, [path])
+  
   const [inputValue, setInputValue] = useState(
     value ? (isYearOnlyField ? convertFromISOYear(value as string) : convertFromISODate(value as string)) : ''
   )
@@ -1150,9 +1270,15 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
       const isoDate = `${year}-${month}-${day}`
       const formattedDate = `${day}/${month}/${year}`
       
-      setInputValue(formattedDate)
-      setValue(isoDate)
-      setShowCalendar(false)
+      // Valida a data antes de definir
+      if (validateDateRange(isoDate)) {
+        setInputValue(formattedDate)
+        setValue(isoDate)
+        setShowCalendar(false)
+      } else {
+        // Mantém o calendário aberto se a data for inválida
+        setInputValue(formattedDate)
+      }
     }
   }
   useEffect(() => {
@@ -1286,13 +1412,17 @@ export const DateInputWithMask: DateFieldClientComponent = (props) => {
       // Se a data estiver completa e válida, atualiza o valor do campo
       if (isValidDateFormat(maskedValue)) {
         const isoDate = convertToISODate(maskedValue)
-        setValue(isoDate)
         
-        // Atualiza o calendário para refletir a data digitada
-        const newDate = new Date(isoDate)
-        if (!isNaN(newDate.getTime())) {
-          setSelectedDate(newDate)
-          setCurrentMonth(new Date(newDate.getFullYear(), newDate.getMonth(), 1))
+        // Valida a data antes de definir
+        if (validateDateRange(isoDate)) {
+          setValue(isoDate)
+          
+          // Atualiza o calendário para refletir a data digitada
+          const newDate = new Date(isoDate)
+          if (!isNaN(newDate.getTime())) {
+            setSelectedDate(newDate)
+            setCurrentMonth(new Date(newDate.getFullYear(), newDate.getMonth(), 1))
+          }
         }
       } else if (maskedValue === '') {
         // Se o campo estiver vazio, limpa o valor e volta para o mês atual

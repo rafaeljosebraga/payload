@@ -21,6 +21,22 @@ export const Projects: CollectionConfig = {
   access: {
     read: () => true,
   },
+  hooks: {
+    beforeValidate: [
+      ({ data }) => {
+        // Validação: Data de fim não pode ser anterior à data de início
+        if (data && data.startDate && data.endDate) {
+          const startDate = new Date(data.startDate);
+          const endDate = new Date(data.endDate);
+          
+          if (endDate < startDate) {
+            throw new Error('A data de fim do projeto não pode ser anterior à data de início.');
+          }
+        }
+        return data;
+      }
+    ]
+  },
   fields: [
     {
       name: 'title',
