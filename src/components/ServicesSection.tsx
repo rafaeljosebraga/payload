@@ -46,36 +46,36 @@ const ServicesSection: React.FC = () => {
   ];
 
   return (
-    <section id="servicos" className="py-16 sm:py-20" ref={sectionRef}>
-      <div className="container mx-auto px-4 sm:px-6">
+    <section id="servicos" className="py-proportional-xl" ref={sectionRef}>
+      <div className="proportional-container">
         {/* Cabeçalho da seção */}
-        <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-ifnmg-blue/10 text-ifnmg-blue mb-4">
+        <div className="max-w-3xl mx-auto text-center mb-proportional-xl">
+          <div className="inline-flex items-center px-proportional-sm py-proportional-xs rounded-full bg-ifnmg-blue/10 text-ifnmg-blue mb-proportional-sm">
             <Zap className="w-4 h-4 mr-2 pulse-glow" />
-            <span>Nossos Serviços</span>
+            <span className="text-proportional-sm">Nossos Serviços</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-ndti-900 mb-4">
+          <h2 className="section-heading font-bold text-ndti-900">
             Soluções tecnológicas para transformar seu projeto
           </h2>
-          <p className="text-gray-600">
+          <p className="text-proportional-base text-gray-600">
             Desenvolvemos soluções inovadoras para atender às necessidades específicas da comunidade acadêmica
           </p>
         </div>
         
         {/* Grade de cartões de serviços */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid-proportional">
           {services.map((service, index) => (
             <div 
               key={index} 
               className={cn(
-                "bg-white p-6 sm:p-8 rounded-lg shadow-md border border-gray-100 hover:border-ndti-300 group transition-all duration-500 hover:-translate-y-2 hover:shadow-xl",
+                "card-proportional bg-white shadow-md border border-gray-100 hover:border-ndti-300 group transition-all duration-500 hover:-translate-y-2 hover:shadow-xl",
                 sectionInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
               )}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
               <div className="flex justify-center">{service.icon}</div>
-              <h3 className="text-xl font-semibold mt-4 mb-3 text-center text-ndti-800 group-hover:text-ifnmg-blue transition-colors">{service.title}</h3>
-              <p className="text-gray-600 text-center">{service.description}</p>
+              <h3 className="content-heading font-semibold text-center text-ndti-800 group-hover:text-ifnmg-blue transition-colors">{service.title}</h3>
+              <p className="text-proportional-sm text-gray-600 text-center">{service.description}</p>
               <div className="mt-6 flex justify-center">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-100 flex items-center justify-center transform opacity-0 group-hover:opacity-100 transition-all duration-300 scale-50 group-hover:scale-100">
                   {/* ArrowRight foi removido daqui junto com o import */}
