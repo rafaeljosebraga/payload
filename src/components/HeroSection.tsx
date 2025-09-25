@@ -27,11 +27,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ imgSrc }) => {
               <span className="text-proportional-sm">Transformando ideias em inovação</span>
             </div>
 
-            <div className="flex flex-col items-start px-proportional-sm">
-              <h1 className="hero-title font-bold text-white leading-tight text-left">
+            <div className="flex flex-col items-start px-proportional-sm max-w-2xl">
+              <h1 className="hero-title font-bold text-white leading-tight text-left w-[80%]">
                 Núcleo de <span className="text-transparent bg-clip-text bg-gradient-to-r from-ndti-300 to-ifnmg-blue">Desenvolvimento</span> Tecnológico e Inovação
               </h1>
-              <p className="hero-subtitle text-gray-200 leading-relaxed text-justify max-w-full">
+      
+              <p className="hero-subtitle text-gray-200 leading-relaxed text-justify w-[80%]">
                 Transformando ideias em soluções tecnológicas inovadoras para o IFNMG Campus Montes Claros e toda comunidade.
               </p>
             </div>
