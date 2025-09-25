@@ -1,11 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
-import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { getProjects, Project } from '@/lib/payload';
 
 const ProjectsSection: React.FC = () => {
-  const [activeProject, setActiveProject] = useState(0);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -14,8 +12,8 @@ const ProjectsSection: React.FC = () => {
     const fetchProjects = async () => {
       try {
         const projectsData = await getProjects();
-        // Pegar apenas os primeiros 4 projetos para exibir
-        setProjects(projectsData.slice(0, 4));
+        // Exibir todos os projetos
+        setProjects(projectsData);
       } catch (error) {
         console.error('Erro ao carregar projetos:', error);
       } finally {
@@ -25,6 +23,10 @@ const ProjectsSection: React.FC = () => {
 
     fetchProjects();
   }, []);
+
+  const handleProjectClick = (projectId: string | number) => {
+    navigate(`/projetos/${projectId}`);
+  };
 
   if (loading) {
     return (
@@ -46,12 +48,6 @@ const ProjectsSection: React.FC = () => {
           <h2 className="section-heading mb-16">Nossos Projetos</h2>
           <div className="text-center py-12">
             <p className="text-gray-600 text-lg">Nenhum projeto encontrado.</p>
-            <button 
-              onClick={() => navigate('/projetos')}
-              className="mt-4 px-6 py-2 bg-ifnmg-blue text-white rounded-md hover:bg-blue-700 transition-colors"
-            >
-              Ir para Projetos
-            </button>
           </div>
         </div>
       </section>
@@ -59,87 +55,38 @@ const ProjectsSection: React.FC = () => {
   }
 
   return (
-    <section id="projetos" className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <h2 className="section-heading mb-16">Nossos Projetos</h2>
-        
-        <div className="flex flex-col lg:flex-row">
-          <div className="lg:w-1/2 mb-8 lg:mb-0 lg:pr-8">
-            <div className="relative">
-              <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-ndti-700 to-ifnmg-blue opacity-75 blur"></div>
-              <div className="relative">
-                <img 
-                  src={projects[activeProject].image.url} 
-                  alt={projects[activeProject].image.alt || projects[activeProject].title} 
-                  className="rounded-lg w-full h-80 object-cover shadow-lg"
-                />
-              </div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md mt-8">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold text-ndti-800">{projects[activeProject].title}</h3>
-                <span className="px-3 py-1 bg-ndti-100 text-ndti-800 rounded-full text-sm">
-                  {projects[activeProject].category.nome}
-                </span>
-              </div>
-              <p className="text-gray-700 mb-6">{projects[activeProject].description}</p>
-              <div className="mb-4">
-                <h4 className="text-sm font-semibold text-gray-500 mb-2">Tecnologias utilizadas:</h4>
-                <div className="flex flex-wrap gap-2">
-                  {projects[activeProject].technologies?.map((tech, index) => (
-                    <span key={index} className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">
-                      {tech.technology}
-                    </span>
-                  ))}
-                  {(!projects[activeProject].technologies || projects[activeProject].technologies.length === 0) && (
-                    <span className="text-gray-500 text-sm">Nenhuma tecnologia especificada</span>
-                  )}
+    <section id="projetos" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="section-heading mb-12 sm:mb-16">Nossos Projetos</h2>
+
+        {/* Grid de projetos - responsivo para todas as telas */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
+          {projects.map((project) => (
+            <div
+              key={project.id}
+              className="group cursor-pointer transform transition-all duration-300 hover:scale-105"
+              onClick={() => handleProjectClick(project.id)}
+            >
+              {/* Container da imagem com efeito gradient */}
+              <div className="relative mb-3 sm:mb-4">
+                <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-ndti-700 to-ifnmg-blue opacity-75 blur group-hover:opacity-100 transition-opacity"></div>
+                {/* Contêiner da imagem com proporção fixa e centralização */}
+                <div className="relative aspect-video rounded-lg bg-gray-100 shadow-lg group-hover:shadow-xl transition-shadow overflow-hidden flex items-center justify-center">
+                  <img 
+                    src={project.image.url} 
+                    alt={project.image.alt || project.title} 
+                    className="max-h-full max-w-full rounded-lg object-contain"
+                  />
                 </div>
               </div>
-              <button 
-                onClick={() => navigate(`/projetos/${projects[activeProject].id}`)}
-                className="text-ifnmg-blue hover:text-ndti-700 font-medium flex items-center"
-              >
-                Ver detalhes
-                <ArrowRight className="ml-1 h-4 w-4" />
-              </button>
+
+
+              {/* Nome do projeto */}
+              <h3 className="text-lg sm:text-xl font-bold text-ndti-800 text-center group-hover:text-ndti-700 transition-colors px-2">
+                {project.title}
+              </h3>
             </div>
-          </div>
-          
-          <div className="lg:w-1/2">
-            <div className="bg-white rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold p-6 border-b">Projetos Destacados</h3>
-              <div>
-                {projects.map((project, index) => (
-                  <div 
-                    key={project.id}
-                    className={`p-6 border-b last:border-0 cursor-pointer transition-colors ${activeProject === index ? 'bg-ndti-50' : 'hover:bg-gray-50'}`}
-                    onClick={() => setActiveProject(index)}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h4 className={`font-semibold ${activeProject === index ? 'text-ndti-800' : 'text-gray-800'}`}>
-                          {project.title}
-                        </h4>
-                        <p className="text-sm text-gray-500 mt-1">{project.category.nome}</p>
-                      </div>
-                      <div className={`h-3 w-3 rounded-full ${activeProject === index ? 'bg-ndti-700' : 'bg-gray-200'}`}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div className="mt-8 text-center">
-              <button 
-                onClick={() => navigate('/projetos')}
-                className="px-8 py-3 border border-ifnmg-blue text-ifnmg-blue rounded-md hover:bg-gray-50 transition-colors"
-              >
-                Ver Todos os Projetos
-              </button>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

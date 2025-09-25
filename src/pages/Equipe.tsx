@@ -13,7 +13,7 @@ const Equipe: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
-      <div className="pt-14 md:pt-16 lg:pt-20"> {/* Added padding top to account for navbar */}
+      <div className="pt-24 sm:pt-28 md:pt-32 lg:pt-36"> {/* Added padding top to account for navbar */}
         <EquipePage />
       </div>
       <Footer />

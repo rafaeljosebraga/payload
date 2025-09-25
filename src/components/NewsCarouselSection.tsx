@@ -67,8 +67,8 @@ const NewsCarouselSection: React.FC = () => {
 
   if (loading) {
     return (
-      <section className="py-8 bg-gradient-to-b from-ndti-50 to-white">
-        <div className="container mx-auto px-4">
+      <section className="py-6 sm:py-8 md:py-10 lg:py-12 bg-gradient-to-b from-ndti-50 to-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center items-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-ifnmg-blue"></div>
           </div>
@@ -79,8 +79,8 @@ const NewsCarouselSection: React.FC = () => {
 
   if (newsItems.length === 0) {
     return (
-      <section className="py-8 bg-gradient-to-b from-ndti-50 to-white">
-        <div className="container mx-auto px-4">
+      <section className="py-6 sm:py-8 md:py-10 lg:py-12 bg-gradient-to-b from-ndti-50 to-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl md:text-3xl font-bold text-ndti-800">
               <span className="text-gradient">Novidades</span>
@@ -102,7 +102,7 @@ const NewsCarouselSection: React.FC = () => {
   }
 
   return (
-    <section className="py-8 bg-gradient-to-b from-ndti-50 to-white">
+    <section className="py-6 sm:py-8 md:py-10 lg:py-12 bg-gradient-to-b from-ndti-50 to-white">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-ndti-800">

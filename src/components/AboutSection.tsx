@@ -57,13 +57,13 @@ const AboutSection: React.FC<AboutSectionProps> = ({ imgSrc }) => {
               textInView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
             )}>
               <h3 className="text-2xl font-semibold mb-4 text-ndti-800">Quem Somos</h3>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-600 mb-4 text-xl leading-relaxed text-justify">
                 O Núcleo de Desenvolvimento Tecnológico e Inovação (NDTI) do IFNMG Campus Montes Claros é um centro dedicado à pesquisa, desenvolvimento e implementação de soluções tecnológicas inovadoras.
               </p>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-600 mb-4 text-xl leading-relaxed text-justify">
                 Nossa equipe multidisciplinar é composta por professores, técnicos e estudantes apaixonados por tecnologia e inovação, trabalhando juntos para criar soluções que atendam às necessidades da instituição e da comunidade.
               </p>
-              <p className="text-gray-700">
+              <p className="text-gray-600 text-xl leading-relaxed text-justify">
                 Atuamos como um laboratório de inovação, incubadora de ideias e centro de desenvolvimento tecnológico, conectando o conhecimento acadêmico às demandas reais da sociedade.
               </p>
             </div>
@@ -87,7 +87,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ imgSrc }) => {
         </div>
 
         <div ref={valuesRef}>
-          <h3 className="text-2xl font-semibold text-center mb-8 sm:mb-12 text-ndti-800">Nossos Valores</h3>
+          <h2 className="section-heading mb-12 sm:mb-16">Nossos Valores</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {values.map((value, index) => (
               <div 
@@ -100,7 +100,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ imgSrc }) => {
               >
                 <div className="flex justify-center mb-4 icon-interactive">{value.icon}</div>
                 <h4 className="text-xl font-semibold mb-2 text-ndti-800">{value.title}</h4>
-                <p className="text-gray-600">{value.description}</p>
+                <p className="text-gray-600 text-base leading-relaxed">{value.description}</p>
               </div>
             ))}
           </div>

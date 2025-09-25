@@ -60,8 +60,8 @@ const NoticiaDetalhe: React.FC = () => {
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
-      <main className="flex-grow pt-24 pb-16">
-        <div className="container mx-auto px-4">
+      <main className="flex-grow pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-12 sm:pb-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
             <Link to="/novidades" className="inline-flex items-center text-ifnmg-blue hover:text-ndti-700 font-medium mb-8">
               <ArrowLeft className="mr-1 h-4 w-4" />

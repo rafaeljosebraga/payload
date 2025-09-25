@@ -5,7 +5,7 @@ import { Facebook, Instagram, Youtube, Twitter, Mail } from 'lucide-react';
 const Footer: React.FC = () => {
   return (
     <footer className="bg-ndti-950 text-white">
-      <div className="container mx-auto px-4 py-8 md:py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {/* Seção de informações do NDTI */}
           <div className="mb-6 sm:mb-0">

@@ -58,8 +58,8 @@ const Novidades: React.FC = () => {
       <div className="progress-indicator" style={{ width: `0%` }}></div>
       <NavBar />
 
-      <main className="flex-grow pt-24 pb-16">
-        <div className="container mx-auto px-4">
+      <main className="flex-grow pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-12 sm:pb-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <header className="mb-10">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-ndti-800 mb-4">
               Novidades e Comunicados

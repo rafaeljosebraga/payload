@@ -27,22 +27,24 @@ const HeroSection: React.FC<HeroSectionProps> = ({ imgSrc }) => {
               <span>Transformando ideias em inovação</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-white leading-tight">
-              Núcleo de <span className="text-transparent bg-clip-text bg-gradient-to-r from-ndti-300 to-ifnmg-blue">Desenvolvimento</span> Tecnológico e Inovação
-            </h1>
-            <p className="text-md sm:text-lg md:text-xl text-gray-200 mb-6 md:mb-8 leading-relaxed max-w-lg">
-              Transformando ideias em soluções tecnológicas inovadoras para o IFNMG Campus Montes Claros e toda comunidade.
-            </p>
+            <div className="flex flex-col items-start px-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold mb-4 sm:mb-5 text-white leading-tight text-left">
+                Núcleo de <span className="text-transparent bg-clip-text bg-gradient-to-r from-ndti-300 to-ifnmg-blue">Desenvolvimento</span> Tecnológico e Inovação
+              </h1>
+              <p className="text-md sm:text-lg md:text-xl text-gray-200 mb-6 md:mb-8 leading-relaxed text-justify max-w-full sm:max-w-[550px]">
+                Transformando ideias em soluções tecnológicas inovadoras para o IFNMG Campus Montes Claros e toda comunidade.
+              </p>
+            </div>
             <div className="flex flex-wrap gap-4">
-              <a 
-                href="#servicos" 
+              <a
+                href="#servicos"
                 className="px-5 sm:px-6 py-2.5 sm:py-3 bg-ifnmg-blue text-white rounded-md hover:bg-ndti-700 hover:shadow-lg hover:shadow-ndti-700/30 transition-all duration-300 flex items-center group"
               >
                 Nossos Serviços
                 <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
               </a>
-              <a 
-                href="#contato" 
+              <a
+                href="#contato"
                 className="px-5 sm:px-6 py-2.5 sm:py-3 border border-white/30 text-white rounded-md hover:bg-white/10 hover:border-white/50 backdrop-blur-sm transition-all duration-300 flex items-center group"
               >
                 Entre em Contato
@@ -51,13 +53,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ imgSrc }) => {
             </div>
           </div>
           <div className="w-full md:w-1/2 flex justify-center animate-fade-in-right">
-            <div className="relative w-full max-w-md transform transition-all duration-500 hover:scale-105 hover:-rotate-1">
+            <div className="relative w-full sm:max-w-md md:max-w-lg lg:max-w-xl transform transition-all duration-500 hover:scale-105 hover:-rotate-1">
+
               <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-ifnmg-blue via-ndti-500 to-ndti-700 opacity-75 blur-lg animate-[pulse_4s_ease-in-out_infinite]"></div>
               <div className="relative bg-ndti-900/50 backdrop-blur-sm p-2 sm:p-4 rounded-lg shadow-2xl border border-white/10">
-                <AspectRatio ratio={16/10} className="overflow-hidden rounded-lg">
-                  <img 
+                <AspectRatio ratio={16 / 10} className="overflow-hidden rounded-lg">
+                  <img
                     src={imgSrc}
-                    alt="Inovação Tecnológica" 
+                    alt="Inovação Tecnológica"
                     className="rounded-lg w-full h-full object-cover transform transition-transform hover:scale-105 duration-500 ease-in-out"
                     loading="lazy"
                   />
@@ -71,7 +74,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ imgSrc }) => {
           </div>
         </div>
       </div>
-      
+
       {/* Onda inferior - agora posicionada mais abaixo */}
       <div className="absolute bottom-0 left-0 right-0">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full">

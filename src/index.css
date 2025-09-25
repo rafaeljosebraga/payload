@@ -67,23 +67,61 @@
 
 html {
   scroll-behavior: smooth;
+  /* Melhora a renderização em diferentes DPIs */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Tamanho de fonte padrão - será sobrescrito apenas se necessário */
+  font-size: 14px;
+}
+
+/* Força reset quando não há ajuste DPI */
+html:not(.high-dpi-adjusted) {
+  font-size: 14px !important;
+}
+
+body:not(.high-dpi-adjusted) {
+  font-size: 1rem !important;
+}
+
+/* Reset adicional para elementos específicos quando não há ajuste DPI */
+body:not(.high-dpi-adjusted) .section-heading {
+  font-size: revert !important;
 }
 
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  /* Garante que o body use toda a largura disponível */
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  /* Reduz o tamanho base para telas grandes */
+  font-size: 0.9rem;
 }
 
 @layer base {
   * {
     @apply border-border;
+    /* Melhora o box-sizing para todos os elementos */
+    box-sizing: border-box;
   }
   body {
     @apply bg-background text-foreground;
+    /* Responsividade melhorada */
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  
+  /* Container responsivo global */
+  .container {
+    max-width: min(1400px, 95vw);
+    margin: 0 auto;
+    padding: 0 max(1rem, env(safe-area-inset-left, 1rem));
   }
   
   /* Custom section heading style */
   .section-heading {
-    @apply text-2xl md:text-3xl lg:text-4xl font-bold text-center text-ndti-800 relative pb-3 md:pb-4 mb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-16 md:after:w-20 after:h-1 after:bg-gradient-to-r after:from-ifnmg-green after:to-ndti-500 after:rounded-full after:transition-all after:duration-300 hover:after:w-20 md:hover:after:w-24 hover:after:bg-ndti-600;
+    @apply text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-center text-ndti-800 relative pb-3 md:pb-4 mb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-16 md:after:w-20 after:h-1 after:bg-gradient-to-r after:from-ifnmg-green after:to-ndti-500 after:rounded-full after:transition-all after:duration-300 hover:after:w-20 md:hover:after:w-24 hover:after:bg-ndti-600;
   }
   
   .dark .section-heading {
@@ -275,11 +313,11 @@ img.lazy-loaded {
 /* Responsive text adjustments */
 @media (max-width: 640px) {
   .section-heading {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
   
   .content-heading {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 }
 

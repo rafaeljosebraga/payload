@@ -43,8 +43,8 @@ const TeamSection: React.FC = () => {
 
   if (loading) {
     return (
-      <section id="equipe" className="py-16 bg-white" ref={ref}>
-        <div className="container mx-auto px-4">
+      <section id="equipe" className="py-12 sm:py-16 lg:py-20 bg-white" ref={ref}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-ifnmg-green mx-auto"></div>
             <p className="mt-4 text-gray-600">Carregando equipe...</p>
@@ -56,8 +56,8 @@ const TeamSection: React.FC = () => {
 
   if (error) {
     return (
-      <section id="equipe" className="py-16 bg-white" ref={ref}>
-        <div className="container mx-auto px-4">
+      <section id="equipe" className="py-12 sm:py-16 lg:py-20 bg-white" ref={ref}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <p className="text-red-600">{error}</p>
           </div>
@@ -67,10 +67,20 @@ const TeamSection: React.FC = () => {
   }
 
   return (
-    <section id="equipe" className="py-16 bg-white" ref={ref}>
-      <div className="container mx-auto px-4">
-        <h2 className="section-heading mb-8">Nossa Equipe</h2>
-        <p className="text-gray-600 max-w-2xl mx-auto text-center mb-12">
+    // <section id="equipe" className="py-12 sm:py-16 lg:py-20 bg-white" ref={ref}>
+    //   <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    //     <h2 className="section-heading mb-8 sm:mb-12">Nossa Equipe</h2>
+    //     <p className="text-gray-600 max-w-2xl mx-auto text-center mb-12">
+    //       Conheça os profissionais que compõem o NDTI, uma equipe multidisciplinar comprometida com 
+    //       a inovação tecnológica e o desenvolvimento de soluções para o IFNMG Campus Montes Claros.
+    //     </p>
+        
+    //     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+    //       {teamMembers.map((member, index) => (
+    <section id="equipe" className="py-12 sm:py-16 lg:py-20 bg-white" ref={ref}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="section-heading mb-8 sm:mb-12">Nossa Equipe</h2>
+        <p className="text-gray-600 max-w-4xl mx-auto mb-12 text-xl leading-relaxed text-justify">
           Conheça os profissionais que compõem o NDTI, uma equipe multidisciplinar comprometida com 
           a inovação tecnológica e o desenvolvimento de soluções para o IFNMG Campus Montes Claros.
         </p>

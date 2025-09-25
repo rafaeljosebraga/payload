@@ -11,7 +11,7 @@ const Equipamentos: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
-      <div className="pt-14 md:pt-16 lg:pt-20">
+      <div className="pt-24 sm:pt-28 md:pt-32 lg:pt-36">
         <EquipamentosPage />
       </div>
       <Footer />

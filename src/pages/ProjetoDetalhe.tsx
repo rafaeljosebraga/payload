@@ -59,8 +59,8 @@ const ProjetoDetalhe: React.FC = () => {
     return (
       <div className="min-h-screen flex flex-col">
         <NavBar />
-        <main className="flex-grow pt-24">
-          <div className="container mx-auto px-4 py-12">
+        <main className="flex-grow pt-24 sm:pt-28 md:pt-32 lg:pt-36">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
             <h1 className="text-2xl font-bold">Projeto não encontrado</h1>
             <button 
               onClick={() => navigate('/projetos')}
@@ -79,8 +79,8 @@ const ProjetoDetalhe: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
-      <main className="flex-grow pt-24">
-        <div className="container mx-auto px-4 py-12">
+      <main className="flex-grow pt-24 sm:pt-28 md:pt-32 lg:pt-36">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
           <button 
             onClick={() => navigate('/projetos')}
             className="mb-6 flex items-center text-ifnmg-blue hover:underline"
