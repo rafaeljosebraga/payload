@@ -55,7 +55,7 @@ const EquipamentosPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-10">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <header className="mb-10">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-ndti-800 mb-4">
           Equipamentos

@@ -46,7 +46,7 @@ const Projetos: React.FC = () => {
     return (
       <div className="min-h-screen flex flex-col">
         <NavBar />
-        <main className="flex-grow pt-24 pb-16 flex items-center justify-center">
+        <main className="flex-grow pt-20 pb-16 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-ifnmg-blue mx-auto mb-4"></div>
             <p className="text-gray-600">Carregando projetos...</p>
@@ -61,7 +61,7 @@ const Projetos: React.FC = () => {
     <div className="min-h-screen flex flex-col">
       <NavBar />
 
-      <main className="flex-grow pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-12 sm:pb-16">
+      <main className="flex-grow pt-20 pb-12 sm:pb-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <header className="mb-10">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-ndti-800 mb-4">

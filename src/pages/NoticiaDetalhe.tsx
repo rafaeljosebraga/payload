@@ -41,7 +41,7 @@ const NoticiaDetalhe: React.FC = () => {
     return (
       <div className="min-h-screen flex flex-col">
         <NavBar />
-        <main className="flex-grow pt-24 pb-16 flex items-center justify-center">
+        <main className="flex-grow pt-20 pb-16 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-ifnmg-blue mx-auto mb-4"></div>
             <p className="text-gray-600">Carregando notícia...</p>
@@ -60,7 +60,7 @@ const NoticiaDetalhe: React.FC = () => {
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
-      <main className="flex-grow pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-12 sm:pb-16">
+      <main className="flex-grow pt-20 pb-12 sm:pb-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
             <Link to="/novidades" className="inline-flex items-center text-ifnmg-blue hover:text-ndti-700 font-medium mb-8">

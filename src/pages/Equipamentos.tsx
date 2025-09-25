@@ -11,9 +11,9 @@ const Equipamentos: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
-      <div className="pt-24 sm:pt-28 md:pt-32 lg:pt-36">
+      <main className="flex-grow pt-20">
         <EquipamentosPage />
-      </div>
+      </main>
       <Footer />
     </div>
   )

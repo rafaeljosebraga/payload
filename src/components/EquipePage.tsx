@@ -41,7 +41,7 @@ const EquipePage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex flex-col">
-        <main className="flex-grow pt-16 md:pt-20 lg:pt-24 pb-12 md:pb-16">
+        <main className="flex-grow pb-12 md:pb-16">
           <section className="container mx-auto px-4 sm:px-6">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-ifnmg-green mx-auto"></div>
@@ -56,7 +56,7 @@ const EquipePage: React.FC = () => {
   if (error) {
     return (
       <div className="flex flex-col">
-        <main className="flex-grow pt-16 md:pt-20 lg:pt-24 pb-12 md:pb-16">
+        <main className="flex-grow pb-12 md:pb-16">
           <section className="container mx-auto px-4 sm:px-6">
             <div className="text-center">
               <p className="text-red-600">{error}</p>
@@ -69,7 +69,7 @@ const EquipePage: React.FC = () => {
 
   return (
     <div className="flex flex-col">
-      <main className="flex-grow pt-16 md:pt-20 lg:pt-24 pb-12 md:pb-16">
+      <main className="flex-grow pb-12 md:pb-16">
         <section className="container mx-auto px-4 sm:px-6" ref={ref}>
           <h1 className="text-3xl md:text-4xl font-bold text-ndti-800 mb-3 md:mb-4">Nossa Equipe</h1>
           <p className="text-base md:text-lg text-gray-600 mb-8 md:mb-12 max-w-3xl">

@@ -8,7 +8,7 @@ const SobreNDTI: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
-      <main className="flex-grow pt-24 sm:pt-28 md:pt-32 lg:pt-36">
+      <main className="flex-grow pt-20">
         <section className="py-10 sm:py-12 md:py-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl font-bold text-ndti-800 mb-2">Sobre o NDTI</h1>

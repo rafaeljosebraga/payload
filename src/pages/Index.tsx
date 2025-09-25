@@ -111,7 +111,7 @@ const Index = () => {
       ></div>
       
       <NavBar />
-      <main>
+      <main className="flex-grow">
         <div ref={heroRef}>
           {carregado && ( 
           <HeroSection imgSrc = {headerImage?.url}/>
