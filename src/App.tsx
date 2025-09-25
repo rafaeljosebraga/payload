@@ -5,7 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
-import { setupProportionalScaling } from "@/utils/zoom-detection";
+import { setupSmartDPI } from "@/utils/smart-dpi";
 import Index from "./pages/Index";
 import Novidades from "./pages/Novidades";
 import NoticiaDetalhe from "./pages/NoticiaDetalhe";
@@ -21,8 +21,8 @@ const queryClient = new QueryClient();
 
 const App = () => {
   useEffect(() => {
-    // Setup do sistema de proporções consistentes
-    const cleanup = setupProportionalScaling();
+    // Sistema inteligente de detecção de DPI
+    const cleanup = setupSmartDPI();
     
     return cleanup;
   }, []);

@@ -15,19 +15,30 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '1rem',
+			padding: {
+				DEFAULT: '1rem',
+				sm: '1.5rem',
+				lg: '2rem',
+				xl: '2.5rem',
+				'2xl': '3rem',
+				'3xl': '4rem',
+			},
 			screens: {
 				'xs': '475px',
 				'sm': '640px',
 				'md': '768px',
 				'lg': '1024px',
 				'xl': '1280px',
-				'2xl': '1400px'
+				'2xl': '1400px',
+				'3xl': '1600px',
+				'4xl': '1800px'
 			}
 		},
 		extend: {
 			screens: {
 				'xs': '475px',
+				'3xl': '1600px',
+				'4xl': '1800px',
 			},
 			colors: {
 				border: 'hsl(var(--border))',
