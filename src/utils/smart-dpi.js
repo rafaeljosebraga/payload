@@ -16,25 +16,29 @@ export function setupSmartDPI() {
     const physicalHeight = screenHeight / dpr;
     const diagonalInches = Math.sqrt(physicalWidth**2 + physicalHeight**2) / 96;
     
-    // CATEGORIA 1: Laptops pequenos (11-14")
-    if (diagonalInches < 15 && width < 1400) {
-      autoScale = 1.2; // Conteúdo 20% maior
+    // CATEGORIA ESPECÍFICA: Notebook do usuário (1536x864 com scaling)
+    if (screenWidth === 1536 && screenHeight === 864) {
+      autoScale = 0.86;
     }
-    // CATEGORIA 2: Laptops médios (15-16")
-    else if (diagonalInches >= 15 && diagonalInches < 17 && width < 1600) {
-      autoScale = 1.1; // Conteúdo 10% maior
+    // CATEGORIA 1: Laptops pequenos (11-14")
+    else if (diagonalInches < 15 && width < 1400) {
+      autoScale = 0.86;
+    }
+    // CATEGORIA 2: Laptops médios (15-17")
+    else if (diagonalInches >= 15 && diagonalInches < 18 && width < 1600) {
+      autoScale = 0.9;
     }
     // CATEGORIA 3: Monitores padrão (17-24")
     else if (diagonalInches >= 17 && diagonalInches < 25) {
-      autoScale = 1.0; // Tamanho padrão
+      autoScale = 1.0;
     }
     // CATEGORIA 4: Monitores grandes (25-32") - INCLUINDO iMac 27"
     else if (diagonalInches >= 25 && diagonalInches < 33) {
-      autoScale = 1.0; // Mantém padrão, layout resolve espaçamento
+      autoScale = 1.0;
     }
     // CATEGORIA 5: Monitores ultrawide/grandes (32"+)
     else if (diagonalInches >= 33) {
-      autoScale = 0.95; // Ligeiramente menor
+      autoScale = 0.95;
     }
     
     // AJUSTES POR SCALING DO SISTEMA OPERACIONAL
