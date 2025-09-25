@@ -45,12 +45,12 @@ export function setupProportionalScaling() {
     root.style.setProperty('--text-3xl', `${constrainedScale * 1.875}rem`);
     root.style.setProperty('--text-4xl', `${constrainedScale * 2.25}rem`);
     
-    // Container responsivo expandido
-    const containerMaxWidth = Math.min(currentWidth * 0.92, 1200 * constrainedScale);
+    // Container responsivo expandido - alinhado com Tailwind
+    const containerMaxWidth = Math.min(currentWidth * 0.95, 1400); // Alinhado com tailwind.config.ts
     root.style.setProperty('--container-max-width', `${containerMaxWidth}px`);
     
-    // Padding responsivo baseado na tela (expandido)
-    const responsivePadding = Math.max(8, Math.min(80, currentWidth * 0.035));
+    // Padding responsivo baseado na tela - alinhado com Tailwind
+    const responsivePadding = Math.max(16, Math.min(24, currentWidth * 0.02));
     root.style.setProperty('--container-padding', `${responsivePadding}px`);
     
     // Adiciona classe para identificar o tipo de tela (expandido)
