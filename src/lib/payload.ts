@@ -82,7 +82,6 @@ export type Equipment = {
   updatedAt: string
 }
 
-
 export async function getNews(): Promise<NewsItem[]> {
   try {
     const response = await fetch(`${PAYLOAD_API_URL}/news?populate=type`)
@@ -273,7 +272,6 @@ export async function getEquipments(): Promise<Equipment[]> {
 
 export async function getSiteImage(slug: string): Promise<{ url: string; alt: string } | null> {
   try {
-    console.log("Buscando site image com slug:", slug)
     const response = await fetch(`${PAYLOAD_API_URL}/site-images?where[slug][equals]=${slug}`)
     if (!response.ok) return null
 

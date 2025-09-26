@@ -22,7 +22,6 @@ const Projetos: React.FC = () => {
           getProjects(),
           getCategoriasProjeto()
         ]);
-        console.log('Dados dos projetos recebidos:', projectsData);
         setProjects(projectsData);
         setCategorias(categoriasData);
       } catch (error) {
@@ -38,9 +37,6 @@ const Projetos: React.FC = () => {
   const filteredProjects = activeFilter === "todos" 
     ? projects 
     : projects.filter(project => project.category.id.toString() === activeFilter);
-
-  console.log('Projetos filtrados:', filteredProjects);
-  console.log('Filtro ativo:', activeFilter);
 
   if (loading) {
     return (
