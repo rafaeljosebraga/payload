@@ -8,13 +8,14 @@ const SobreNDTI: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
-      <main className="flex-grow pt-20">
-        <section className="py-10 sm:py-12 md:py-16">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold text-ndti-800 mb-2">Sobre o NDTI</h1>
-            <p className="text-lg text-gray-600 mb-8">
+      <main className="flex-grow pt-20 pb-12 sm:pb-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <header className="mb-10">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-ndti-800 mb-4">Sobre o NDTI</h1>
+            <p className="text-gray-600 max-w-3xl">
               Núcleo de Desenvolvimento de Tecnologia da Informação do IFNMG Campus Montes Claros
             </p>
+          </header>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
@@ -129,8 +130,7 @@ const SobreNDTI: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+        </div>
       </main>
       <Footer />
     </div>
