@@ -5,8 +5,15 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "::",
+    host: "0.0.0.0", // Permite conexões externas
     port: 8080,
+    watch: {
+      usePolling: true,
+      interval: 300, // Intervalo de polling em ms
+    },
+    hmr: {
+      port: 8080,
+    },
   },
   plugins: [
     react(),

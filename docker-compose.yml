@@ -30,6 +30,9 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - VITE_HMR_PORT=8080
     command: npm run dev
     stdin_open: true
     tty: true
