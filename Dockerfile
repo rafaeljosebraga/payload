@@ -1,8 +1,13 @@
 # Dockerfile para desenvolvimento com hot reload
-FROM node:22-alpine
+FROM node:22-slim
 
 # Instalar dependências do sistema
-RUN apk add --no-cache git
+RUN apt-get update && apt-get install -y \
+    git \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
 
 # Definir diretório de trabalho
 WORKDIR /app
